@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">HandControl</string>
+    <string name="name">HandControl</string>
+    <string name="bluetooth">Bluetooth-подключение</string>
+    <string name="grpc">Интернет-подключение</string>
+    <string name="author">Университет ИТМО</string>
+    <string name="title_activity_navigation">MainActivity</string>
+    <string name="title_settings">Настройки</string>
+    <string name="title_redactor">Редактор жестов</string>
+    <string name="title_execution">Исполнение</string>
+    <string name="title_choise">Выбор протеза</string>
 </resources>
