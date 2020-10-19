@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_choise"
+        android:icon="@drawable/ic_choise"
+        android:title="@string/title_choise"
+        />
+
+    <item
+        android:id="@+id/navigation_redactor"
+        android:icon="@drawable/ic_redactor"
+        android:title="@string/title_redactor" />
+
+    <item
+        android:id="@+id/navigation_execution"
+        android:icon="@drawable/ic_execution"
+        android:title="@string/title_execution" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/title_settings" />
+
+
+
+
+</menu>
