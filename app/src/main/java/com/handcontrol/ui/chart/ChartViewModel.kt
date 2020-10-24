@@ -1,5 +1,6 @@
 package com.handcontrol.ui.chart
 
+import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,7 @@ class ChartViewModel : ViewModel() {
         val dataSet = LineDataSet(mutableListOf(), "telemetry")
         dataSet.setDrawCircles(false)
         dataSet.setDrawValues(false)
+        dataSet.color = Color.RED
         lineData = MutableLiveData(LineData(dataSet))
     }
 
