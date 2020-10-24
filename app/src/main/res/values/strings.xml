@@ -9,4 +9,7 @@
     <string name="title_redactor">Редактор жестов</string>
     <string name="title_execution">Исполнение</string>
     <string name="title_choise">Выбор протеза</string>
+    <string name="chart">График</string>
+    <string name="start">Старт</string>
+    <string name="stop">Стоп</string>
 </resources>

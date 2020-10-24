@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_execution">
+    app:startDestination="@id/navigation_execution">
 
     <fragment
         android:id="@+id/navigation_settings"
@@ -28,4 +28,10 @@
         android:name="com.handcontrol.ui.choise.ChoiseFragment"
         android:label="@string/title_choise"
         tools:layout="@layout/fragment_choise" />
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.handcontrol.ui.chart.ChartFragment"
+        android:label="@string/chart"
+        tools:layout="@layout/fragment_chart" />
 </navigation>
