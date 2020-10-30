@@ -1,16 +1,12 @@
 package com.handcontrol.ui.setting
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.onNavDestinationSelected
 import com.handcontrol.R
 
 class SettingsFragment : Fragment() {
@@ -27,10 +23,20 @@ class SettingsFragment : Fragment() {
             ViewModelProvider(this).get(SettingViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_settings, container, false)
         val textView: TextView = root.findViewById(R.id.text_setting)
-        settingViewModel.text.observe(viewLifecycleOwner, Observer {
+        settingViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
+        setHasOptionsMenu(true)
         return root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.settings_app_bar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val navController = findNavController()
+        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
     }
 
     //  Вставьте фрагмент кода, когда пользователь захочет сохранить график
