@@ -1,4 +1,4 @@
-package com.handcontrol.ui.chart
+package com.handcontrol.ui.main.chart
 
 import android.os.Bundle
 import android.view.LayoutInflater

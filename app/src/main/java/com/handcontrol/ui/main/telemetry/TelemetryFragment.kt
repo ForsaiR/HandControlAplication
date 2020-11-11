@@ -1,4 +1,4 @@
-package com.handcontrol.ui.redactor
+package com.handcontrol.ui.main.telemetry
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.handcontrol.R
 
-class RedactorFragment : Fragment() {
+class TelemetryFragment : Fragment() {
 
-    private lateinit var redactorViewModel: RedactorViewModel
+    private lateinit var telemetryViewModel: TelemetryViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        redactorViewModel =
-            ViewModelProvider(this).get(RedactorViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_redactor, container, false)
-        val textView: TextView = root.findViewById(R.id.text_redactor)
-        redactorViewModel.text.observe(viewLifecycleOwner, Observer {
+        telemetryViewModel =
+            ViewModelProvider(this).get(TelemetryViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_telemetry, container, false)
+        val textView: TextView = root.findViewById(R.id.text_choise)
+        telemetryViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

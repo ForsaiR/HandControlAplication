@@ -2,27 +2,25 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_choise"
-        android:icon="@drawable/ic_choise"
-        android:title="@string/title_choise"
+        android:id="@+id/navigation_telemetry"
+        android:icon="@drawable/ic_telemetry"
+        android:title="@string/title_telemetry"
         />
 
     <item
-        android:id="@+id/navigation_redactor"
-        android:icon="@drawable/ic_redactor"
-        android:title="@string/title_redactor" />
-
-    <item
-        android:id="@+id/navigation_execution"
-        android:icon="@drawable/ic_execution"
-        android:title="@string/title_execution" />
+        android:id="@+id/navigation_gestures"
+        android:icon="@drawable/ic_gestures"
+        android:title="@string/title_gestures" />
 
     <item
         android:id="@+id/navigation_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/title_settings" />
 
-
-
+    <item
+        android:id="@+id/speech_recognition"
+        android:icon="@drawable/ic_mic"
+        android:title="@string/title_execution"
+        android:enabled="false" />
 
 </menu>

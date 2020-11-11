@@ -1,4 +1,4 @@
-package com.handcontrol
+package com.handcontrol.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.handcontrol.R
 
 
 class Navigation : AppCompatActivity() {
@@ -23,10 +24,9 @@ class Navigation : AppCompatActivity() {
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_choise,
-                R.id.navigation_settings,
-                R.id.navigation_redactor,
-                R.id.navigation_execution
+                R.id.navigation_telemetry,
+                R.id.navigation_gestures,
+                R.id.navigation_settings
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

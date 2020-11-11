@@ -1,4 +1,4 @@
-package com.handcontrol.ui.setting
+package com.handcontrol.ui.main.setting
 
 import android.os.Bundle
 import android.view.*

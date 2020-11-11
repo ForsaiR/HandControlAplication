@@ -1,4 +1,4 @@
-package com.handcontrol.ui.setting
+package com.handcontrol.ui.main.setting
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

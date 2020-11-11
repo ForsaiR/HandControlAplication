@@ -1,4 +1,4 @@
-package com.handcontrol.ui.execution
+package com.handcontrol.ui.main.gestures
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.handcontrol.R
 
-class ExecutionFragment : Fragment() {
+class GesturesFragment : Fragment() {
 
-    private lateinit var executionViewModel: ExecutionViewModel
+    private lateinit var gesturesViewModel: GesturesViewModel
 //    private val PERMISSIONS_RECORD_AUDIO = 200
 
     override fun onCreateView(
@@ -20,11 +20,11 @@ class ExecutionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        executionViewModel =
-            ViewModelProvider(this).get(ExecutionViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_execution, container, false)
+        gesturesViewModel =
+            ViewModelProvider(this).get(GesturesViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_gestures, container, false)
         val textView: TextView = root.findViewById(R.id.text_execution)
-        executionViewModel.text.observe(viewLifecycleOwner, Observer {
+        gesturesViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root

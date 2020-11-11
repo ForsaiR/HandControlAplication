@@ -3,35 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_execution">
+    app:startDestination="@id/navigation_telemetry">
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.handcontrol.ui.setting.SettingsFragment"
+        android:name="com.handcontrol.ui.main.setting.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
-        android:id="@+id/navigation_redactor"
-        android:name="com.handcontrol.ui.redactor.RedactorFragment"
-        android:label="@string/title_redactor"
-        tools:layout="@layout/fragment_redactor" />
+        android:id="@+id/navigation_gestures"
+        android:name="com.handcontrol.ui.main.gestures.GesturesFragment"
+        android:label="@string/title_gestures"
+        tools:layout="@layout/fragment_gestures" />
 
     <fragment
-        android:id="@+id/navigation_execution"
-        android:name="com.handcontrol.ui.execution.ExecutionFragment"
-        android:label="@string/title_execution"
-        tools:layout="@layout/fragment_execution" />
-
-    <fragment
-        android:id="@+id/navigation_choise"
-        android:name="com.handcontrol.ui.choise.ChoiseFragment"
-        android:label="@string/title_choise"
-        tools:layout="@layout/fragment_choise" />
+        android:id="@+id/navigation_telemetry"
+        android:name="com.handcontrol.ui.main.telemetry.TelemetryFragment"
+        android:label="@string/title_telemetry"
+        tools:layout="@layout/fragment_telemetry" />
 
     <fragment
         android:id="@+id/navigation_chart"
-        android:name="com.handcontrol.ui.chart.ChartFragment"
+        android:name="com.handcontrol.ui.main.chart.ChartFragment"
         android:label="@string/chart"
         tools:layout="@layout/fragment_chart" />
 </navigation>
