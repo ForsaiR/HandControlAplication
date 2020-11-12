@@ -55,6 +55,7 @@ class ChartFragment : Fragment() {
         chart.apply {
             setTouchEnabled(false)
             description.isEnabled = false
+            legend.isEnabled = false
             setDrawBorders(true)
             axisLeft.axisMinimum = 0f
             axisRight.isEnabled = false

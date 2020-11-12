@@ -3,4 +3,7 @@
     <color name="colorPrimary">#673AB7</color>
     <color name="colorPrimaryDark">#512DA8</color>
     <color name="colorAccent">#B0E6BC</color>
+
+    <color name="bgPlayPauseColor">#D1C4E9</color>
+    <color name="bgPlayPausePressedColor">#C1B4E9</color>
 </resources>
