@@ -2,6 +2,7 @@ package com.handcontrol.ui.main.chart
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import com.handcontrol.R
 import com.handcontrol.databinding.FragmentChartBinding
 
 class ChartFragment : Fragment() {
+    private var hideMenuItem = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +31,24 @@ class ChartFragment : Fragment() {
         val chart = binding.chart
         initChart(chart)
         binding.viewModel = viewModel
+        setHasOptionsMenu(true)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        hideMenuItem = true
+        activity?.invalidateOptionsMenu()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        hideMenuItem = false
+        activity?.invalidateOptionsMenu()
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        val item = menu.findItem(R.id.navigation_chart)
+        item?.isEnabled = !hideMenuItem
     }
 
     private fun initChart(chart: LineChart) {
