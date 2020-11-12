@@ -11,6 +11,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.handcontrol.R
 import com.handcontrol.databinding.FragmentChartBinding
+import kotlinx.android.synthetic.main.fragment_chart.*
 
 class ChartFragment : Fragment() {
     private var hideMenuItem = true
@@ -79,6 +80,11 @@ class ChartFragment : Fragment() {
         activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
+        chart?.let {
+            scrollView?.post {
+                scrollView?.scrollTo(0, it.top)
+            }
+        }
     }
 
     private fun exitFullScreen() {

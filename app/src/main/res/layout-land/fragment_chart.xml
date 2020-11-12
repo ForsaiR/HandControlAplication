@@ -7,12 +7,10 @@
         <variable
             name="viewModel"
             type="com.handcontrol.ui.main.chart.ChartViewModel" />
-        <variable
-            name="interval"
-            type="int" />
     </data>
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -56,7 +54,7 @@
                 app:layout_constraintTop_toBottomOf="@id/gestureCaption"
                 app:layout_constraintDimensionRatio="H,16:9"
                 app:data="@{viewModel.lineData}"
-                app:interval="@{interval}" />
+                app:interval="@{viewModel.interval}" />
 
             <SeekBar
                 android:id="@+id/seekBar"
@@ -66,7 +64,7 @@
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:max="60"
-                android:progress="@={interval}"
+                android:progress="@={viewModel.interval}"
                 app:layout_constraintTop_toBottomOf="@id/chart" />
 
             <TextView
@@ -74,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
-                android:text="@{Integer.toString(interval)}"
+                android:text="@{Integer.toString(viewModel.interval)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/seekBar"
                 app:layout_constraintEnd_toEndOf="parent" />

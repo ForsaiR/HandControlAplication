@@ -19,6 +19,7 @@ class ChartViewModel : ViewModel() {
     private var started = false
     private var background: Job? = null
 
+    val interval = MutableLiveData(0)
     val lineData: MutableLiveData<LineData>
     val currentGesture = MutableLiveData<String>()
 
