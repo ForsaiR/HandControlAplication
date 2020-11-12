@@ -1,14 +1,14 @@
 package com.handcontrol.ui.main.chart
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.handcontrol.R
 import com.handcontrol.databinding.FragmentChartBinding
 
@@ -32,6 +32,18 @@ class ChartFragment : Fragment() {
         initChart(chart)
         binding.viewModel = viewModel
         setHasOptionsMenu(true)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            enterFullScreen()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            exitFullScreen()
     }
 
     override fun onStart() {
@@ -61,5 +73,17 @@ class ChartFragment : Fragment() {
             axisRight.isEnabled = false
             xAxis.position = XAxis.XAxisPosition.BOTTOM
         }
+    }
+
+    private fun enterFullScreen() {
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        (activity as AppCompatActivity?)?.supportActionBar?.hide()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
+    }
+
+    private fun exitFullScreen() {
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        (activity as AppCompatActivity?)?.supportActionBar?.show()
+        activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
 }
