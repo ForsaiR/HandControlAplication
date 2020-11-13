@@ -5,10 +5,10 @@
     <string name="author">Университет ИТМО</string>
     <string name="title_activity_navigation">MainActivity</string>
     <string name="title_settings">Настройки</string>
-    <string name="title_redactor">Редактор жестов</string>
-    <string name="title_execution">Исполнение</string>
-    <string name="title_choise">Выбор протеза</string>
-    <string name="chart">График</string>
+    <string name="title_execution">Выполнить жест</string>
+    <string name="title_gestures">Жесты</string>
+    <string name="title_telemetry">Телеметрия</string>
+    <string name="chart">Показания миоэлектроники</string>
     <string name="start">Старт</string>
     <string name="stop">Стоп</string>
     <string name="title_connection">Тип подключения</string>
@@ -19,4 +19,7 @@
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
     <string name="name">Имя</string>
+    <string name="change_prothesis">Смена протеза</string>
+    <string name="change_mode">Смена режима</string>
+    <string name="logout">Выход</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.handcontrol.ui.chart
+package com.handcontrol.ui.main.chart
 
 import android.graphics.Color
 import androidx.lifecycle.MutableLiveData
