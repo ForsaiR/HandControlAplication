@@ -22,7 +22,6 @@
             android:layout_marginEnd="@dimen/default_margin"
             android:text="@string/currentGesture"
             android:textSize="18sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/gesture" />
@@ -34,6 +33,7 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="@{viewModel.currentGesture}"
             android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/gestureCaption"
             app:layout_constraintBottom_toBottomOf="@id/gestureCaption"
