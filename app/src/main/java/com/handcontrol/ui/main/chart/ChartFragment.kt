@@ -2,7 +2,10 @@ package com.handcontrol.ui.main.chart
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -35,28 +38,20 @@ class ChartFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            enterFullScreen()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            exitFullScreen()
-    }
-
     override fun onStart() {
         super.onStart()
         hideMenuItem = true
         activity?.invalidateOptionsMenu()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            enterFullScreen()
     }
 
     override fun onStop() {
         super.onStop()
         hideMenuItem = false
         activity?.invalidateOptionsMenu()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            exitFullScreen()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -77,7 +72,11 @@ class ChartFragment : Fragment() {
     }
 
     private fun enterFullScreen() {
-        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        activity?.window?.decorView?.systemUiVisibility = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                or View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION)
         (activity as AppCompatActivity?)?.supportActionBar?.hide()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.GONE
         chart?.let {
@@ -88,7 +87,7 @@ class ChartFragment : Fragment() {
     }
 
     private fun exitFullScreen() {
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
         (activity as AppCompatActivity?)?.supportActionBar?.show()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
     }
