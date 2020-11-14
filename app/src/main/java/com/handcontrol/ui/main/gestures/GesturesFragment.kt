@@ -37,7 +37,9 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                     }
 
                     override fun onPlay(item: ExecutableItem) {
-                        //TODO("Not yet implemented")
+                        item.isExecuted = !item.isExecuted
+                        viewModel.performGesture(item.id)
+                        gestureRecycler.adapter?.notifyDataSetChanged()
                     }
 
                 }

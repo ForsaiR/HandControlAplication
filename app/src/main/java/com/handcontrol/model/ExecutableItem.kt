@@ -5,5 +5,5 @@ import java.io.Serializable
 open class ExecutableItem(
     open val id: Int,
     open val name: String,
-    open val isExecuted: Boolean
+    open var isExecuted: Boolean
 ) : Serializable
