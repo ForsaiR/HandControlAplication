@@ -4,10 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
+import com.handcontrol.base.BaseRecyclerAdapter
 import com.handcontrol.databinding.FragmentGestureDetailsBinding
+import com.handcontrol.model.Action
+import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
+import com.handcontrol.ui.main.gestures.ExecutableItemListener
+import kotlinx.android.synthetic.main.fragment_gesture_details.*
 
 class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, GestureDetailsViewModel>(
     GestureDetailsViewModel::class.java,
@@ -27,33 +33,29 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        with(gestureRecycler) {
-//            adapter = BaseRecyclerAdapter<Gesture, ExecutableItemListener>(
-//                R.layout.list_item_executable,
-//                viewModel.listData.value!!,
-//                object : ExecutableItemListener {
-//                    override fun onClick(item: Gesture) {
-//                        val navController =
-//                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-//                        navController.navigate(R.id.navigation_gesture_details, Bundle().apply {
-//                            putSerializable(ARG_GESTURE_KEY, item)
-//                        })
-//                    }
-//
-//                    override fun onPlay(item: Gesture) {
-//                        //TODO("Not yet implemented")
-//                    }
-//
-//                }
-//            )
-//
-//            layoutManager = LinearLayoutManager(context).apply {
-//                orientation = LinearLayoutManager.VERTICAL
-//            }
-//        }
-//    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        with(actionsRecycler) {
+            adapter = BaseRecyclerAdapter<Action, ExecutableItemListener>(
+                R.layout.list_item_executable,
+                viewModel.actions,
+                object : ExecutableItemListener {
+                    override fun onClick(item: ExecutableItem) {
+                        //TODO("Not yet implemented")
+                    }
+
+                    override fun onPlay(item: ExecutableItem) {
+                        //TODO("Not yet implemented")
+                    }
+
+                }
+            )
+
+            layoutManager = LinearLayoutManager(context).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
+        }
+    }
 
 
     companion object {

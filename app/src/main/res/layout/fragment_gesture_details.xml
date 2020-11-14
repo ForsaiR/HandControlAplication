@@ -15,48 +15,61 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/repeatCountTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
             android:layout_marginVertical="@dimen/paragraph"
             android:text="@string/text_repeat_count"
 
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/repeatCount"
             infinity="@{viewModel.infinity}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
             android:layout_marginVertical="@dimen/paragraph"
             android:text="@{viewModel.repeatCount}"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toEndOf="@+id/repeatCountTitle"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="666" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/actionsTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
             android:layout_marginVertical="@dimen/paragraph"
             android:text="@string/text_actions"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/repeatCountTitle" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/default_margin"
+
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/actionsTitle" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/actionsRecycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            tools:listitem="@layout/list_item_executable" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

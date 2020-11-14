@@ -1,4 +1,12 @@
 package com.handcontrol.model
 
-class Action {
-}
+data class Action(
+    override val id: Int,
+    override val name: String,
+    override val isExecuted: Boolean,
+    val thumbFinger: Int,
+    val pointerFinger: Int,
+    val middleFinger: Int,
+    val ringFinger: Int,
+    val littleFinger: Int
+) : ExecutableItem(id, name, isExecuted)
