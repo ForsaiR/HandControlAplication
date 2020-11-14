@@ -1,12 +1,10 @@
 package com.handcontrol.model
 
-import java.io.Serializable
-
 data class Gesture(
-    val id: Int,
-    val name: String,
-    val isExecuted: Boolean,
+    override val id: Int,
+    override val name: String,
+    override val isExecuted: Boolean,
     val isInfinityRepeat: Boolean,
-    val repeatCount: Int,
+    val repeatCount: Int?,
     val actions: MutableList<Action>
-) : Serializable
+) : ExecutableItem(id, name, isExecuted)

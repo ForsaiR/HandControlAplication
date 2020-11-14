@@ -22,4 +22,7 @@
     <string name="change_prothesis">Смена протеза</string>
     <string name="change_mode">Смена режима</string>
     <string name="logout">Выход</string>
+
+    <string name="text_repeat_count">Количество повторов:</string>
+    <string name="text_actions">Действия</string>
 </resources>

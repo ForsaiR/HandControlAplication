@@ -5,11 +5,11 @@
 
         <variable
             name="item"
-            type="com.handcontrol.model.Gesture" />
+            type="com.handcontrol.model.ExecutableItem" />
 
         <variable
             name="listener"
-            type="com.handcontrol.ui.main.gestures.GestureListener" />
+            type="com.handcontrol.ui.main.gestures.ExecutableItemListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

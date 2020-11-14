@@ -9,6 +9,7 @@ class GestureDetailsViewModel(item: Gesture) : ViewModel() {
     val name = item.name
     val repeatCount = item.repeatCount
     val actions = item.actions
+    val isInfinity = item.isInfinityRepeat
 
 }
 

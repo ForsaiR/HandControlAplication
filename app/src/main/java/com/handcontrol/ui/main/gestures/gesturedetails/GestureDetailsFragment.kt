@@ -27,9 +27,40 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        with(gestureRecycler) {
+//            adapter = BaseRecyclerAdapter<Gesture, ExecutableItemListener>(
+//                R.layout.list_item_executable,
+//                viewModel.listData.value!!,
+//                object : ExecutableItemListener {
+//                    override fun onClick(item: Gesture) {
+//                        val navController =
+//                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+//                        navController.navigate(R.id.navigation_gesture_details, Bundle().apply {
+//                            putSerializable(ARG_GESTURE_KEY, item)
+//                        })
+//                    }
+//
+//                    override fun onPlay(item: Gesture) {
+//                        //TODO("Not yet implemented")
+//                    }
+//
+//                }
+//            )
+//
+//            layoutManager = LinearLayoutManager(context).apply {
+//                orientation = LinearLayoutManager.VERTICAL
+//            }
+//        }
+//    }
+
+
     companion object {
         val ARG_GESTURE_KEY = "gesture"
     }
+
+
     //  Вставьте фрагмент кода, когда пользователь захочет сохранить график
 //    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 //    == PackageManager.PERMISSION_DENIED
