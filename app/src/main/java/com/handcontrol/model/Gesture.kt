@@ -1,5 +1,7 @@
 package com.handcontrol.model
 
+import java.io.Serializable
+
 data class Gesture(
     val id: Int,
     val name: String,
@@ -7,4 +9,4 @@ data class Gesture(
     val isInfinityRepeat: Boolean,
     val repeatCount: Int,
     val actions: MutableList<Action>
-)
+) : Serializable

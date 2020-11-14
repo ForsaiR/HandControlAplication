@@ -8,10 +8,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.handcontrol.BR
 
-class BaseRecyclerAdapter<D, T : BaseRecyclerAdapter.BaseAdapterListener>(
+class BaseRecyclerAdapter<D, T : BaseAdapterListener>(
     @LayoutRes val layout: Int,
     private val dataSet: MutableList<D>,
-    listener: T
+    val listener: T
 ) : RecyclerView.Adapter<BaseViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
@@ -26,14 +26,16 @@ class BaseRecyclerAdapter<D, T : BaseRecyclerAdapter.BaseAdapterListener>(
 
     override fun onBindViewHolder(viewHolder: BaseViewHolder, position: Int) {
         viewHolder.binding.setVariable(BR.item, getItem(position))
+        viewHolder.binding.setVariable(BR.listener, listener)
     }
 
     override fun getItemCount() = dataSet.size
 
     fun getItem(position: Int): D = dataSet[position]
 
-    interface BaseAdapterListener
 
 }
+
+interface BaseAdapterListener
 
 class BaseViewHolder(val binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)

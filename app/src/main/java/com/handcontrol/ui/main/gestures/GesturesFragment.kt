@@ -2,12 +2,14 @@ package com.handcontrol.ui.main.gestures
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
 import com.handcontrol.base.BaseRecyclerAdapter
 import com.handcontrol.databinding.FragmentGesturesBinding
 import com.handcontrol.model.Gesture
+import com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsFragment
 import kotlinx.android.synthetic.main.fragment_gestures.*
 
 class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel>(
@@ -26,7 +28,11 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                 viewModel.listData.value!!,
                 object : GestureListener {
                     override fun onClick(item: Gesture) {
-                        //TODO("Not yet implemented")
+                        val navController =
+                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                        navController.navigate(R.id.navigation_gesture_details, Bundle().apply {
+                            putSerializable(GestureDetailsFragment.ARG_GESTURE_KEY, item)
+                        })
                     }
 
                     override fun onPlay(item: Gesture) {

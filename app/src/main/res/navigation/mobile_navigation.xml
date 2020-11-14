@@ -15,7 +15,11 @@
         android:id="@+id/navigation_gestures"
         android:name="com.handcontrol.ui.main.gestures.GesturesFragment"
         android:label="@string/title_gestures"
-        tools:layout="@layout/fragment_gestures" />
+        tools:layout="@layout/fragment_gestures">
+        <action
+            android:id="@+id/action_navigation_gestures_to_navigation_gesture_details"
+            app:destination="@id/navigation_gesture_details" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_telemetry"
@@ -28,4 +32,16 @@
         android:name="com.handcontrol.ui.main.chart.ChartFragment"
         android:label="@string/chart"
         tools:layout="@layout/fragment_chart" />
+
+    <fragment
+        android:id="@+id/navigation_gesture_details"
+        android:name="com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsFragment"
+        android:label="@string/title_gestures"
+        tools:layout="@layout/fragment_gesture_details">
+        <argument
+            android:name="gesture"
+            android:defaultValue="@null"
+            app:argType="com.handcontrol.model.Gesture" />
+    </fragment>
+
 </navigation>
