@@ -22,4 +22,5 @@
     <string name="change_prothesis">Смена протеза</string>
     <string name="change_mode">Смена режима</string>
     <string name="logout">Выход</string>
+    <string name="currentGesture">Жест на исполнении</string>
 </resources>
