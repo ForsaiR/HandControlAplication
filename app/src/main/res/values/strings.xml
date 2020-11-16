@@ -23,6 +23,9 @@
     <string name="change_mode">Смена режима</string>
     <string name="logout">Выход</string>
 
-    <string name="text_repeat_count">Количество повторов:</string>
+    <string name="text_repeat_count">Количество повторов</string>
+    <string name="switch_infinity_repeat">Бесконечный повтор</string>
+    <string name="edit_name">Название жеста</string>
+    <string name="title_new_gesture">Новый жест</string>
     <string name="text_actions">Действия</string>
 </resources>

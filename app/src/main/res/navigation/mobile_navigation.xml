@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_navigation_gestures_to_navigation_gesture_details"
             app:destination="@id/navigation_gesture_details" />
+        <action
+            android:id="@+id/action_navigation_gestures_to_navigation_gesture_details_editor"
+            app:destination="@id/navigation_gesture_details_editor" />
     </fragment>
 
     <fragment
@@ -38,6 +41,17 @@
         android:name="com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsFragment"
         android:label="@string/title_gestures"
         tools:layout="@layout/fragment_gesture_details">
+        <argument
+            android:name="gesture"
+            android:defaultValue="@null"
+            app:argType="com.handcontrol.model.Gesture" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_gesture_details_editor"
+        android:name="com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsEditorFragment"
+        android:label="@string/title_gestures"
+        tools:layout="@layout/fragment_gesture_details_editor">
         <argument
             android:name="gesture"
             android:defaultValue="@null"

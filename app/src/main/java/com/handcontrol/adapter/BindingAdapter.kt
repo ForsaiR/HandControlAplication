@@ -29,3 +29,11 @@ fun TextView.setIntText(intText: Int, isInfinity: Boolean?) {
     text = if (isInfinity == true) "∞"
     else intText.toString()
 }
+//
+//@BindingAdapter("android:enable")
+//fun View.setValueEnable( isEnabled: Boolean?) {
+//    isEnabled?.let { setEnabled(isEnabled)}
+//}
+//
+//@InverseBindingAdapter(attribute = "android:enable")
+//fun View.getValueEnable(): Boolean = isEnabled

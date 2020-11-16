@@ -23,6 +23,12 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        floatingActionButton.setOnClickListener {
+            val navController =
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigate(R.id.navigation_gesture_details_editor)
+        }
+
         with(gestureRecycler) {
             adapter = BaseRecyclerAdapter<Gesture, ExecutableItemListener>(
                 R.layout.list_item_executable,
