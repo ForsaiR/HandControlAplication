@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
@@ -41,7 +42,9 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
                 viewModel.actions.value!!,
                 object : ExecutableItemListener {
                     override fun onClick(item: ExecutableItem) {
-                        //TODO("Not yet implemented")
+                        val navController =
+                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                        navController.navigate(R.id.navigation_action_details)
                     }
 
                     override fun onPlay(item: ExecutableItem) {

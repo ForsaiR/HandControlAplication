@@ -7,6 +7,7 @@
     <string name="title_settings">Настройки</string>
     <string name="title_execution">Выполнить жест</string>
     <string name="title_gestures">Жесты</string>
+    <string name="title_action">Действие</string>
     <string name="title_telemetry">Телеметрия</string>
     <string name="chart">Показания миоэлектроники</string>
     <string name="start">Старт</string>
@@ -28,4 +29,11 @@
     <string name="edit_name">Название жеста</string>
     <string name="title_new_gesture">Новый жест</string>
     <string name="text_actions">Действия</string>
+
+    <string name="finger_thumb">Большой палец</string>
+    <string name="finger_little">Мизинец</string>
+    <string name="finger_middle">Средний палец</string>
+    <string name="finger_pointer">Указательный палец</string>
+    <string name="finger_ring">Безыменный палец</string>
+
 </resources>

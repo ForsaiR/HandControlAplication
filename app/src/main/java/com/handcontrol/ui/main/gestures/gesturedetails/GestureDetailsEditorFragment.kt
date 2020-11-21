@@ -4,11 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
+import com.handcontrol.base.BaseRecyclerAdapter
 import com.handcontrol.databinding.FragmentGestureDetailsEditorBinding
+import com.handcontrol.model.Action
+import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
+import com.handcontrol.ui.main.gestures.ExecutableItemListener
 import com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsFragment.Companion.ARG_GESTURE_KEY
+import kotlinx.android.synthetic.main.fragment_gesture_details_editor.*
 
 class GestureDetailsEditorFragment
     : BaseFragment<FragmentGestureDetailsEditorBinding, GestureDetailsViewModel>(
@@ -31,26 +38,31 @@ class GestureDetailsEditorFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        with(editableActionsRecycler) {
-//            adapter = BaseRecyclerAdapter<Action, ExecutableItemListener>(
-//                R.layout.list_item_executable,
-//                viewModel.actions.value!!,
-//                object : ExecutableItemListener {
-//                    override fun onClick(item: ExecutableItem) {
-//                        //TODO("Not yet implemented")
-//                    }
-//
-//                    override fun onPlay(item: ExecutableItem) {
-//                        //TODO("Not yet implemented")
-//                    }
-//
-//                }
-//            )
-//
-//            layoutManager = LinearLayoutManager(context).apply {
-//                orientation = LinearLayoutManager.VERTICAL
-//            }
-//        }
+        floatingAddActionButton.setOnClickListener {
+            val navController =
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+            navController.navigate(R.id.navigation_action_details_editor)
+        }
+        with(editableActionsRecycler) {
+            adapter = BaseRecyclerAdapter<Action, ExecutableItemListener>(
+                R.layout.list_item_executable,
+                viewModel.actions.value!!,
+                object : ExecutableItemListener {
+                    override fun onClick(item: ExecutableItem) {
+                        //TODO("Not yet implemented")
+                    }
+
+                    override fun onPlay(item: ExecutableItem) {
+                        //TODO("Not yet implemented")
+                    }
+
+                }
+            )
+
+            layoutManager = LinearLayoutManager(context).apply {
+                orientation = LinearLayoutManager.VERTICAL
+            }
+        }
     }
 
     //  Вставьте фрагмент кода, когда пользователь захочет сохранить график
