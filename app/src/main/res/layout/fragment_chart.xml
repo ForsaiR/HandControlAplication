@@ -21,10 +21,10 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginEnd="@dimen/default_margin"
             android:text="@string/currentGesture"
-            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/gesture" />
+            app:layout_constraintEnd_toStartOf="@id/gesture"
+            style="@style/defaultCaptionText" />
 
         <TextView
             android:id="@+id/gesture"
@@ -32,11 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:text="@{viewModel.currentGesture}"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-light"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/gestureCaption"
             app:layout_constraintBottom_toBottomOf="@id/gestureCaption"
+            style="@style/defaultValueText"
             tools:text="Gesture1" />
 
         <com.github.mikephil.charting.charts.LineChart
