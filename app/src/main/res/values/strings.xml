@@ -23,4 +23,16 @@
     <string name="change_mode">Смена режима</string>
     <string name="logout">Выход</string>
     <string name="currentGesture">Жест на исполнении</string>
+    <string name="chargeLevel">Уровень заряда</string>
+    <string name="activeGesture">Активный жест</string>
+    <string name="telemetryFrequency">Частота телеметрии</string>
+    <string name="finger1">Большой палец</string>
+    <string name="finger2">Указательный палец</string>
+    <string name="finger3">Средний палец</string>
+    <string name="finger4">Безымянный палец</string>
+    <string name="finger5">Мизинец</string>
+    <string name="display">Дисплей</string>
+    <string name="emg">Миоэлектроника</string>
+    <string name="motorDriver">Драйвер моторов</string>
+    <string name="gyroscopeAccelerometer">Гироскоп и акселерометр</string>
 </resources>

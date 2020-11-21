@@ -4,28 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.handcontrol.R
+import com.handcontrol.databinding.FragmentTelemetryBinding
 
 class TelemetryFragment : Fragment() {
-
-    private lateinit var telemetryViewModel: TelemetryViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        telemetryViewModel =
-            ViewModelProvider(this).get(TelemetryViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_telemetry, container, false)
-        val textView: TextView = root.findViewById(R.id.text_choise)
-        telemetryViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+        return inflater.inflate(R.layout.fragment_telemetry, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentTelemetryBinding.bind(view)
+        binding.lifecycleOwner = this
+        val viewModel: TelemetryViewModel by viewModels()
+        binding.viewModel = viewModel
     }
 }
