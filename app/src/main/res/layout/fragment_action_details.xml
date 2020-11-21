@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="action"
-            type="com.handcontrol.model.Action" />
+            name="viewModel"
+            type="com.handcontrol.ui.main.action.ActionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +28,7 @@
 
         <TextView
             android:id="@+id/textView6"
-            intText="@{action.thumbFinger}"
+            intText="@{viewModel.thumbFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
@@ -51,7 +51,7 @@
 
         <TextView
             android:id="@+id/textView8"
-            intText="@{action.pointerFinger}"
+            intText="@{viewModel.pointerFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
@@ -72,7 +72,7 @@
 
         <TextView
             android:id="@+id/textView10"
-            intText="@{action.middleFinger}"
+            intText="@{viewModel.middleFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
@@ -103,7 +103,7 @@
 
         <TextView
             android:id="@+id/textView13"
-            intText="@{action.ringFinger}"
+            intText="@{viewModel.ringFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
@@ -114,7 +114,7 @@
 
         <TextView
             android:id="@+id/textView14"
-            intText="@{action.littleFinger}"
+            intText="@{viewModel.littleFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"

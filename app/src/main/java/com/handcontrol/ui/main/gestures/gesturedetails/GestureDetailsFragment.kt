@@ -13,6 +13,7 @@ import com.handcontrol.databinding.FragmentGestureDetailsBinding
 import com.handcontrol.model.Action
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
+import com.handcontrol.ui.main.action.ActionFragment.Companion.ARG_ACTION_KEY
 import com.handcontrol.ui.main.gestures.ExecutableItemListener
 import kotlinx.android.synthetic.main.fragment_gesture_details.*
 
@@ -29,7 +30,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
         savedInstanceState: Bundle?
     ): View? {
         viewModelFactory = GestureDetailsViewModelFactory(
-            arguments?.getSerializable(ARG_GESTURE_KEY) as Gesture
+            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
         )
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -44,7 +45,9 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
                     override fun onClick(item: ExecutableItem) {
                         val navController =
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-                        navController.navigate(R.id.navigation_action_details)
+                        navController.navigate(R.id.navigation_action_details, Bundle().apply {
+                            putSerializable(ARG_ACTION_KEY, item)
+                        })
                     }
 
                     override fun onPlay(item: ExecutableItem) {
@@ -62,7 +65,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
 
 
     companion object {
-        val ARG_GESTURE_KEY = "gesture"
+        const val ARG_GESTURE_KEY = "gesture"
     }
 
 
