@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsViewModel" />
+            type="com.handcontrol.ui.main.gesturedetails.GestureDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,7 +42,7 @@
             android:ems="2"
             android:enabled="@{!viewModel.isInfinity}"
             android:inputType="numberDecimal"
-            android:text="@{viewModel.repeatCount}"
+            android:text="@={viewModel.repeatCount}"
             app:layout_constraintStart_toStartOf="@+id/switch1"
             app:layout_constraintTop_toBottomOf="@+id/switch1" />
 

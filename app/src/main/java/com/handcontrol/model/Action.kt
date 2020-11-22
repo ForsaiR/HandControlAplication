@@ -1,8 +1,8 @@
 package com.handcontrol.model
 
 data class Action(
-    override val id: Int,
-    override val name: String,
+    override val id: Int?,
+    override val name: String?,
     override var isExecuted: Boolean,
     var thumbFinger: Int,
     var pointerFinger: Int,

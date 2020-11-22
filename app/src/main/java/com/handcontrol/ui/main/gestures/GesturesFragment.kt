@@ -10,7 +10,7 @@ import com.handcontrol.base.BaseRecyclerAdapter
 import com.handcontrol.databinding.FragmentGesturesBinding
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
-import com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsFragment
+import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment
 import kotlinx.android.synthetic.main.fragment_gestures.*
 
 class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel>(
@@ -44,7 +44,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
 
                     override fun onPlay(item: ExecutableItem) {
                         item.isExecuted = !item.isExecuted
-                        viewModel.performGesture(item.id)
+                        viewModel.performGesture(item.id!!)
                         gestureRecycler.adapter?.notifyDataSetChanged()
                     }
 

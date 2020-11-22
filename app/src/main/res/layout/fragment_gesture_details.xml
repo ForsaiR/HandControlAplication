@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsViewModel" />
+            type="com.handcontrol.ui.main.gesturedetails.GestureDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +32,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
-            android:text="@{viewModel.repeatCount}"
+            android:text="@={viewModel.repeatCount}"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/repeatCountTitle"
             app:layout_constraintEnd_toEndOf="parent"

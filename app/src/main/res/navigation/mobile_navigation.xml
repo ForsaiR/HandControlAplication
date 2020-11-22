@@ -38,7 +38,7 @@
 
     <fragment
         android:id="@+id/navigation_gesture_details"
-        android:name="com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsFragment"
+        android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment"
         android:label="@string/title_gestures"
         tools:layout="@layout/fragment_gesture_details">
         <argument
@@ -52,7 +52,7 @@
 
     <fragment
         android:id="@+id/navigation_gesture_details_editor"
-        android:name="com.handcontrol.ui.main.gestures.gesturedetails.GestureDetailsEditorFragment"
+        android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsEditorFragment"
         android:label="@string/title_gestures"
         tools:layout="@layout/fragment_gesture_details_editor">
         <argument

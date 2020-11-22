@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.handcontrol.model.Action
 
 class ActionViewModel(action: Action?) : ViewModel() {
-    var thumbFinger = MutableLiveData(action?.thumbFinger ?: 0)
-    var pointerFinger = MutableLiveData(action?.pointerFinger ?: 0)
-    var middleFinger = MutableLiveData(action?.middleFinger ?: 0)
-    var ringFinger = MutableLiveData(action?.ringFinger ?: 0)
-    var littleFinger = MutableLiveData(action?.littleFinger ?: 0)
+    val isCreationMode = action == null
+    val id = action?.id
+    val name = action?.name
+    val thumbFinger = MutableLiveData(action?.thumbFinger?.toString() ?: "0")
+    val pointerFinger = MutableLiveData(action?.pointerFinger?.toString() ?: "0")
+    val middleFinger = MutableLiveData(action?.middleFinger?.toString() ?: "0")
+    val ringFinger = MutableLiveData(action?.ringFinger?.toString() ?: "0")
+    val littleFinger = MutableLiveData(action?.littleFinger?.toString() ?: "0")
 }
 
 class ActionViewModelFactory(private val action: Action?) :

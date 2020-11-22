@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.gestures.gesturedetails
+package com.handcontrol.ui.main.gesturedetails
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,8 +7,9 @@ import com.handcontrol.model.Gesture
 
 
 class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
+    val id = item?.id
     val name = MutableLiveData(item?.name ?: "")
-    val repeatCount = MutableLiveData(item?.repeatCount ?: 0)
+    val repeatCount = MutableLiveData(item?.repeatCount?.toString() ?: "")
     val actions = MutableLiveData(item?.actions ?: mutableListOf())
     val isInfinity = MutableLiveData<Boolean>(item?.isInfinityRepeat ?: false)
 

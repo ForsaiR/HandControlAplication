@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="action"
-            type="com.handcontrol.model.Action" />
+            name="viewModel"
+            type="com.handcontrol.ui.main.action.ActionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,8 +32,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
             android:ems="2"
+            android:gravity="end"
             android:inputType="numberDecimal"
-            android:text="@{action.thumbFinger}"
+            android:text="@={viewModel.thumbFinger}"
             app:layout_constraintBottom_toBottomOf="@+id/textView4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView4" />
@@ -43,7 +44,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
-
             android:text="@string/finger_pointer"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/textView4"
@@ -54,8 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
+            android:gravity="end"
             android:inputType="numberDecimal"
-            android:text="@{action.pointerFinger}"
+            android:text="@={viewModel.pointerFinger}"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
             app:layout_constraintEnd_toEndOf="@+id/textView6"
@@ -77,8 +78,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
+            android:gravity="end"
             android:inputType="numberDecimal"
-            android:text="@{action.middleFinger}"
+            android:text="@={viewModel.middleFinger}"
             app:layout_constraintBottom_toBottomOf="@+id/textView9"
             app:layout_constraintEnd_toEndOf="@+id/textView8"
             app:layout_constraintTop_toTopOf="@+id/textView9"
@@ -109,8 +111,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
+            android:gravity="end"
             android:inputType="numberDecimal"
-            android:text="@{action.ringFinger}"
+            android:text="@={viewModel.ringFinger}"
             app:layout_constraintBottom_toBottomOf="@+id/textView12"
             app:layout_constraintEnd_toEndOf="@+id/textView10"
             app:layout_constraintTop_toTopOf="@+id/textView12"
@@ -121,8 +124,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="2"
+            android:gravity="end"
             android:inputType="numberDecimal"
-            android:text="@{action.littleFinger}"
+            android:text="@={viewModel.littleFinger}"
             app:layout_constraintEnd_toEndOf="@+id/textView13"
             app:layout_constraintTop_toTopOf="@+id/textView11"
             tools:text="100" />
