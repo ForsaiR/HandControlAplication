@@ -2,6 +2,7 @@ package com.handcontrol.ui.main.gestures
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
@@ -20,6 +21,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
 
 //    private val PERMISSIONS_RECORD_AUDIO = 200
 
+    override val viewModel: GesturesViewModel by lazy { ViewModelProvider(this).get(viewModelClass) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

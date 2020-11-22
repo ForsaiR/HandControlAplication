@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_gestures">
         <action
             android:id="@+id/action_navigation_gestures_to_navigation_gesture_details"
-            app:destination="@id/navigation_gesture_details" />
+            app:destination="@id/nav_graph_gesture" />
         <action
             android:id="@+id/action_navigation_gestures_to_navigation_gesture_details_editor"
-            app:destination="@id/navigation_gesture_details_editor" />
+            app:destination="@id/nav_graph_gesture" />
     </fragment>
 
     <fragment
@@ -36,54 +36,71 @@
         android:label="@string/chart"
         tools:layout="@layout/fragment_chart" />
 
-    <fragment
-        android:id="@+id/navigation_gesture_details"
-        android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment"
-        android:label="@string/title_gestures"
-        tools:layout="@layout/fragment_gesture_details">
-        <argument
-            android:name="gesture"
-            android:defaultValue="@null"
-            app:argType="com.handcontrol.model.Gesture" />
+    <navigation
+        android:id="@+id/nav_graph_gesture"
+        app:startDestination="@id/navigation_gesture_details_editor">
+        <fragment
+            android:id="@+id/navigation_gesture_details"
+            android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment"
+            android:label="@string/title_gestures"
+            tools:layout="@layout/fragment_gesture_details">
+            <argument
+                android:name="gesture"
+                android:defaultValue="@null"
+                app:argType="com.handcontrol.model.Gesture" />
+            <action
+                android:id="@+id/action_navigation_gesture_details_to_navigation_action_details"
+                app:destination="@id/nav_graph_action" />
+        </fragment>
+        <fragment
+            android:id="@+id/navigation_gesture_details_editor"
+            android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsEditorFragment"
+            android:label="@string/title_gestures"
+            tools:layout="@layout/fragment_gesture_details_editor">
+            <argument
+                android:name="gesture"
+                android:defaultValue="@null"
+                app:argType="com.handcontrol.model.Gesture" />
+            <action
+                android:id="@+id/action_navigation_gesture_details_editor_to_navigation_action_details_editor"
+                app:destination="@id/nav_graph_action" />
+        </fragment>
         <action
-            android:id="@+id/action_navigation_gesture_details_to_navigation_action_details"
+            android:id="@+id/action_global_navigation_gesture_details"
+            app:destination="@id/navigation_gesture_details" />
+        <action
+            android:id="@+id/action_global_navigation_gesture_details_editor"
+            app:destination="@id/navigation_gesture_details_editor" />
+    </navigation>
+    <navigation
+        android:id="@+id/nav_graph_action"
+        app:startDestination="@id/navigation_action_details_editor">
+        <fragment
+            android:id="@+id/navigation_action_details"
+            android:name="com.handcontrol.ui.main.action.ActionFragment"
+            android:label="@string/title_action"
+            tools:layout="@layout/fragment_action_details">
+            <argument
+                android:name="action"
+                android:defaultValue="@null"
+                app:argType="com.handcontrol.model.Action" />
+        </fragment>
+        <fragment
+            android:id="@+id/navigation_action_details_editor"
+            android:name="com.handcontrol.ui.main.action.ActionEditorFragment"
+            android:label="@string/title_action"
+            tools:layout="@layout/fragment_action_details_editor">
+            <argument
+                android:name="action"
+                android:defaultValue="@null"
+                app:argType="com.handcontrol.model.Action" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_navigation_action_details"
             app:destination="@id/navigation_action_details" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_gesture_details_editor"
-        android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsEditorFragment"
-        android:label="@string/title_gestures"
-        tools:layout="@layout/fragment_gesture_details_editor">
-        <argument
-            android:name="gesture"
-            android:defaultValue="@null"
-            app:argType="com.handcontrol.model.Gesture" />
         <action
-            android:id="@+id/action_navigation_gesture_details_editor_to_navigation_action_details_editor"
+            android:id="@+id/action_global_navigation_action_details_editor"
             app:destination="@id/navigation_action_details_editor" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_action_details_editor"
-        android:name="com.handcontrol.ui.main.action.ActionEditorFragment"
-        android:label="@string/title_action"
-        tools:layout="@layout/fragment_action_details_editor">
-        <argument
-            android:name="action"
-            android:defaultValue="@null"
-            app:argType="com.handcontrol.model.Action" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/navigation_action_details"
-        android:name="com.handcontrol.ui.main.action.ActionFragment"
-        android:label="@string/title_action"
-        tools:layout="@layout/fragment_action_details">
-        <argument
-            android:name="action"
-            android:defaultValue="@null"
-            app:argType="com.handcontrol.model.Action" />
-    </fragment>
+    </navigation>
 
 </navigation>

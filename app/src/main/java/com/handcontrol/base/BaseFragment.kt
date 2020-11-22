@@ -12,12 +12,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
 abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(
-    private val viewModelClass: Class<VM>,
+    protected val viewModelClass: Class<VM>,
     private val layoutRes: Int
 ) : Fragment() {
 
     lateinit var binding: DB
-    protected lateinit var viewModel: VM
+    abstract val viewModel: VM
     open var viewModelFactory: ViewModelProvider.Factory? = null
 
 
@@ -26,9 +26,9 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : ViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = if (viewModelFactory == null)
-            ViewModelProvider(this).get(viewModelClass)
-        else ViewModelProvider(this, viewModelFactory!!).get(viewModelClass)
+//        viewModel = if (viewModelFactory == null)
+//            ViewModelProvider(this).get(viewModelClass)
+//        else ViewModelProvider(this, viewModelFactory!!).get(viewModelClass)
         binding = DataBindingUtil.inflate(inflater, layoutRes, container, false)
         binding.let {
             it.setVariable(BR.viewModel, viewModel)

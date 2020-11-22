@@ -3,6 +3,7 @@ package com.handcontrol.ui.main.action
 import android.os.Bundle
 import android.view.*
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.onNavDestinationSelected
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
@@ -15,14 +16,20 @@ class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, Ac
     R.layout.fragment_action_details_editor
 ) {
 
+    override val viewModel: ActionViewModel by navGraphViewModels(R.id.nav_graph_action) {
+        ActionViewModelFactory(
+            arguments?.getSerializable(ARG_ACTION_KEY) as? Action
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModelFactory = ActionViewModelFactory(
-            arguments?.getSerializable(ARG_ACTION_KEY) as? Action
-        )
+//        viewModelFactory = ActionViewModelFactory(
+//            arguments?.getSerializable(ARG_ACTION_KEY) as? Action
+//        )
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }

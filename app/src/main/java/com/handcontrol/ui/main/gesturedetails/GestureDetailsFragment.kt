@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
@@ -13,7 +14,6 @@ import com.handcontrol.databinding.FragmentGestureDetailsBinding
 import com.handcontrol.model.Action
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
-import com.handcontrol.ui.main.action.ActionFragment.Companion.ARG_ACTION_KEY
 import com.handcontrol.ui.main.gestures.ExecutableItemListener
 import kotlinx.android.synthetic.main.fragment_gesture_details.*
 
@@ -24,14 +24,20 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
 
 //    private val PERMISSIONS_RECORD_AUDIO = 200
 
+    override val viewModel: GestureDetailsViewModel by navGraphViewModels(R.id.nav_graph_gesture) {
+        GestureDetailsViewModelFactory(
+            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModelFactory = GestureDetailsViewModelFactory(
-            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
-        )
+//        viewModelFactory = GestureDetailsViewModelFactory(
+//            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
+//        )
         setHasOptionsMenu(true)
         activity?.actionBar?.title = viewModel.name.value ?: NEW_GESTURE_NAME
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -48,7 +54,6 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
                         val navController =
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                         navController.navigate(R.id.navigation_action_details, Bundle().apply {
-                            putSerializable(ARG_ACTION_KEY, item)
                         })
                     }
 
