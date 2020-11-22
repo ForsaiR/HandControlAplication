@@ -1,13 +1,19 @@
 package com.handcontrol.ui.main.setting
 
-import androidx.lifecycle.LiveData
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class SettingViewModel : ViewModel() {
+    val mode = MutableLiveData("Auto")
+    val frequency = MutableLiveData("450")
+    val display = MutableLiveData(false)
+    val emg = MutableLiveData(false)
+    val motor = MutableLiveData(false)
+    val gyroscope = MutableLiveData(true)
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is setting Fragment"
+    fun apply(view: View) {
+        Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show()
     }
-    val text: LiveData<String> = _text
 }

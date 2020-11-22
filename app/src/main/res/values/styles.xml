@@ -18,4 +18,8 @@
         <item name="android:textColor">@color/colorBlack</item>
     </style>
 
+    <style name="fabTheme" parent="AppTheme">
+        <item name="colorAccent">@color/bgPlayPauseColor</item>
+    </style>
+
 </resources>

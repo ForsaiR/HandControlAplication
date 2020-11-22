@@ -35,4 +35,8 @@
     <string name="emg">Миоэлектроника</string>
     <string name="motor_driver">Драйвер моторов</string>
     <string name="gyroscope_accelerometer">Гироскоп и акселерометр</string>
+    <string name="apply">Применить</string>
+    <string name="working_mode">Режим работы</string>
+    <string name="sending_telemetry_frequency">Частота отправки телеметрии</string>
+    <string name="hertz">Гц</string>
 </resources>
