@@ -1,6 +1,5 @@
 package com.handcontrol.adapter
 
-import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.LineData
@@ -23,17 +22,6 @@ fun addChartData(chart: LineChart, lineData: LineData, interval: Int) {
     }
     chart.invalidate()
 }
-
-@BindingAdapter("infinity")
-fun TextView.setInfinitySymbolOrIntText(isInfinity: Boolean?) {
-    if (isInfinity == true) {
-        text = "∞"
-        isEnabled = false
-    } else isEnabled = true
-}
-
-
-
 
 //
 //@BindingAdapter("android:enable")

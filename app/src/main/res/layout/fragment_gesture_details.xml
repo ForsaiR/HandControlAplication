@@ -28,7 +28,6 @@
 
         <TextView
             android:id="@+id/repeatCount"
-            infinity="@{viewModel.infinity}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"

@@ -33,6 +33,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
             arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
         )
         setHasOptionsMenu(true)
+        activity?.actionBar?.title = viewModel.name.value ?: NEW_GESTURE_NAME
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -79,7 +80,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
                             viewModel.name.value!!,
                             false,
                             viewModel.isInfinity.value!!,
-                            viewModel.repeatCount.value?.toInt(),
+                            viewModel.repeatCount.value?.toIntOrNull(),
                             viewModel.actions.value!!
                         )
                     )
@@ -92,6 +93,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
 
     companion object {
         const val ARG_GESTURE_KEY = "gesture"
+        const val NEW_GESTURE_NAME = "Новый жест"
     }
 
 

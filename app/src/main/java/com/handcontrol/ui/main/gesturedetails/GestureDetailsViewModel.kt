@@ -9,7 +9,10 @@ import com.handcontrol.model.Gesture
 class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
     val id = item?.id
     val name = MutableLiveData(item?.name ?: "")
-    val repeatCount = MutableLiveData(item?.repeatCount?.toString() ?: "")
+    val repeatCount = MutableLiveData(
+        if (item?.isInfinityRepeat == true) "∞"
+        else item?.repeatCount?.toString() ?: ""
+    )
     val actions = MutableLiveData(item?.actions ?: mutableListOf())
     val isInfinity = MutableLiveData<Boolean>(item?.isInfinityRepeat ?: false)
 
