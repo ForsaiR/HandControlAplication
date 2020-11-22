@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/login_navigation"
+    app:startDestination="@id/connectionFragment">
+
+    <fragment
+        android:id="@+id/connectionFragment"
+        android:name="com.handcontrol.ui.start.connection.ConnectionFragment"
+        android:label="@string/title_connection">
+        <action
+            android:id="@+id/action_connectionFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.handcontrol.ui.start.login.LoginFragment"
+        android:label="@string/title_login">
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragment"
+            app:destination="@id/registrationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragment"
+        android:name="com.handcontrol.ui.start.registration.RegistrationFragment"
+        android:label="@string/title_registration" />
+    <activity
+        android:id="@+id/navigation"
+        android:name="com.handcontrol.ui.main.Navigation"
+        android:label="Navigation" />
+    <action
+        android:id="@+id/action_global_navigation"
+        app:destination="@id/navigation" />
+</navigation>

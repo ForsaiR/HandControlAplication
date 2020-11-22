@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.main.telemetry.TelemetryFragment">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.handcontrol.ui.main.telemetry.TelemetryViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/halfScreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.6" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="charge, gesture, frequency" />
+
+            <TextView
+                android:id="@+id/chargeCaption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/charge_level"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/barrier1"
+                app:layout_constraintBottom_toTopOf="@id/chargeBarrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/charge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.charge}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/chargeBarrier"
+                style="@style/defaultValueText"
+                tools:text="99%" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/chargeBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="chargeCaption, charge" />
+
+            <TextView
+                android:id="@+id/gestureCaption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/active_gesture"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chargeBarrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier1"
+                app:layout_constraintBottom_toTopOf="@id/gestureBarrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/gesture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.gesture}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/chargeBarrier"
+                app:layout_constraintBottom_toTopOf="@id/gestureBarrier"
+                style="@style/defaultValueText"
+                tools:text="Gesture1" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/gestureBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="gestureCaption, gesture" />
+
+            <TextView
+                android:id="@+id/frequencyCaption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/telemetry_frequency"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gestureBarrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier1"
+                app:layout_constraintBottom_toTopOf="@id/frequencyBarrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/frequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.frequency}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gestureBarrier"
+                app:layout_constraintBottom_toTopOf="@id/frequencyBarrier"
+                style="@style/defaultValueText"
+                tools:text="666 Hz" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/frequencyBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="frequencyCaption, frequency" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="finger1, finger2, finger3, finger4, finger5" />
+
+            <TextView
+                android:id="@+id/finger1Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/finger1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/frequencyBarrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier2"
+                app:layout_constraintBottom_toTopOf="@id/finger1Barrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/finger1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.finger1}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/frequencyBarrier"
+                app:layout_constraintBottom_toTopOf="@id/finger1Barrier"
+                style="@style/defaultValueText"
+                tools:text="100" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/finger1Barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="finger1Caption, finger1" />
+
+            <TextView
+                android:id="@+id/finger2Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/finger2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger1Barrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier2"
+                app:layout_constraintBottom_toTopOf="@id/finger2Barrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/finger2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.finger2}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger1Barrier"
+                app:layout_constraintBottom_toTopOf="@id/finger2Barrier"
+                style="@style/defaultValueText"
+                tools:text="100" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/finger2Barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="finger2Caption, finger2" />
+
+            <TextView
+                android:id="@+id/finger3Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/finger3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger2Barrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier2"
+                app:layout_constraintBottom_toTopOf="@id/finger3Barrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/finger3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.finger3}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger2Barrier"
+                app:layout_constraintBottom_toTopOf="@id/finger3Barrier"
+                style="@style/defaultValueText"
+                tools:text="100" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/finger3Barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="finger3Caption, finger3" />
+
+            <TextView
+                android:id="@+id/finger4Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/finger4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger3Barrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier2"
+                app:layout_constraintBottom_toTopOf="@id/finger4Barrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/finger4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.finger4}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger3Barrier"
+                app:layout_constraintBottom_toTopOf="@id/finger4Barrier"
+                style="@style/defaultValueText"
+                tools:text="100" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/finger4Barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="finger4Caption, finger4" />
+
+            <TextView
+                android:id="@+id/finger5Caption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/finger5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger4Barrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier2"
+                app:layout_constraintBottom_toTopOf="@id/finger5Barrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/finger5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.finger5}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger4Barrier"
+                app:layout_constraintBottom_toTopOf="@id/finger5Barrier"
+                style="@style/defaultValueText"
+                tools:text="100" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/finger5Barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="finger5Caption, finger5" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="display, emg, motor, gyroscope" />
+
+            <TextView
+                android:id="@+id/displayCaption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/display"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger5Barrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier3"
+                app:layout_constraintBottom_toTopOf="@id/displayBarrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.display}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/finger5Barrier"
+                app:layout_constraintBottom_toTopOf="@id/displayBarrier"
+                style="@style/defaultValueText"
+                tools:text="ON" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/displayBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="displayCaption, display" />
+
+            <TextView
+                android:id="@+id/emgCaption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/emg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/displayBarrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier3"
+                app:layout_constraintBottom_toTopOf="@id/emgBarrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/emg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.emg}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/displayBarrier"
+                app:layout_constraintBottom_toTopOf="@id/emgBarrier"
+                style="@style/defaultValueText"
+                tools:text="ON" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/emgBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="emgCaption, emg" />
+
+            <TextView
+                android:id="@+id/motorCaption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:text="@string/motor_driver"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emgBarrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier3"
+                app:layout_constraintBottom_toTopOf="@id/motorBarrier"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/motor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@{viewModel.motor}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/emgBarrier"
+                app:layout_constraintBottom_toTopOf="@id/motorBarrier"
+                style="@style/defaultValueText"
+                tools:text="ON" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/motorBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="motorCaption, motor" />
+
+            <TextView
+                android:id="@+id/gyroscopeCaption"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@string/gyroscope_accelerometer"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/motorBarrier"
+                app:layout_constraintEnd_toStartOf="@id/barrier3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/defaultCaptionText" />
+
+            <TextView
+                android:id="@+id/gyroscope"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:text="@{viewModel.gyroscope}"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/halfScreen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/motorBarrier"
+                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/defaultValueText"
+                tools:text="ON" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>
