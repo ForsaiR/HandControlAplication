@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
@@ -26,9 +27,11 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         floatingActionButton.setOnClickListener {
-            val navController =
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-            navController.navigate(R.id.navigation_gesture_details_editor)
+            val navController = findNavController()
+            navController.navigate(R.id.nav_graph_gesture,
+                Bundle().apply {
+                    putBoolean(GestureDetailsFragment.ARG_MODE_CREATE_KEY, true)
+                })
         }
 
         with(gestureRecycler) {
@@ -39,7 +42,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                     override fun onClick(item: ExecutableItem) {
                         val navController =
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-                        navController.navigate(R.id.navigation_gesture_details, Bundle().apply {
+                        navController.navigate(R.id.nav_graph_gesture, Bundle().apply {
                             putSerializable(GestureDetailsFragment.ARG_GESTURE_KEY, item)
                         })
                     }

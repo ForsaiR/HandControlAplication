@@ -27,9 +27,6 @@ class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, Ac
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        viewModelFactory = ActionViewModelFactory(
-//            arguments?.getSerializable(ARG_ACTION_KEY) as? Action
-//        )
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -42,21 +39,7 @@ class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, Ac
         val navController = findNavController()
         return when (item.itemId) {
             R.id.app_bar_save -> {
-                navController.navigate(R.id.navigation_action_details, Bundle().apply {
-                    putSerializable(
-                        ARG_ACTION_KEY, Action(
-                            viewModel.id,
-                            viewModel.name,
-                            false,
-                            viewModel.thumbFinger.value?.toInt() ?: 0,
-                            viewModel.pointerFinger.value?.toInt() ?: 0,
-                            viewModel.middleFinger.value?.toInt() ?: 0,
-                            viewModel.ringFinger.value?.toInt() ?: 0,
-                            viewModel.littleFinger.value?.toInt() ?: 0
-                        )
-                    )
-                })
-//                navController.popBackStack(R.id.navigation_action_details_editor, true)
+                navController.popBackStack()
                 true
             }
             else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.handcontrol.model.Action
 
 class ActionViewModel(action: Action?) : ViewModel() {
-    val isCreationMode = action == null
     val id = action?.id
     val name = action?.name
     val thumbFinger = MutableLiveData(action?.thumbFinger?.toString() ?: "0")

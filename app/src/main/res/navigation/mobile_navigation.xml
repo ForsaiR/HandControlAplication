@@ -38,7 +38,7 @@
 
     <navigation
         android:id="@+id/nav_graph_gesture"
-        app:startDestination="@id/navigation_gesture_details_editor">
+        app:startDestination="@id/navigation_gesture_details">
         <fragment
             android:id="@+id/navigation_gesture_details"
             android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment"
@@ -65,16 +65,10 @@
                 android:id="@+id/action_navigation_gesture_details_editor_to_navigation_action_details_editor"
                 app:destination="@id/nav_graph_action" />
         </fragment>
-        <action
-            android:id="@+id/action_global_navigation_gesture_details"
-            app:destination="@id/navigation_gesture_details" />
-        <action
-            android:id="@+id/action_global_navigation_gesture_details_editor"
-            app:destination="@id/navigation_gesture_details_editor" />
     </navigation>
     <navigation
         android:id="@+id/nav_graph_action"
-        app:startDestination="@id/navigation_action_details_editor">
+        app:startDestination="@id/navigation_action_details">
         <fragment
             android:id="@+id/navigation_action_details"
             android:name="com.handcontrol.ui.main.action.ActionFragment"
@@ -95,12 +89,6 @@
                 android:defaultValue="@null"
                 app:argType="com.handcontrol.model.Action" />
         </fragment>
-        <action
-            android:id="@+id/action_global_navigation_action_details"
-            app:destination="@id/navigation_action_details" />
-        <action
-            android:id="@+id/action_global_navigation_action_details_editor"
-            app:destination="@id/navigation_action_details_editor" />
     </navigation>
 
 </navigation>

@@ -26,9 +26,11 @@ class ActionFragment : BaseFragment<FragmentActionDetailsBinding, ActionViewMode
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModelFactory = ActionViewModelFactory(
-            arguments?.getSerializable(ARG_ACTION_KEY) as? Action
-        )
+        (arguments?.getSerializable(ARG_ACTION_KEY) as? Action).let {
+            if (it == null) {
+                findNavController().navigate(R.id.navigation_action_details_editor)
+            }
+        }
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -41,20 +43,23 @@ class ActionFragment : BaseFragment<FragmentActionDetailsBinding, ActionViewMode
         val navController = findNavController()
         return when (item.itemId) {
             R.id.app_bar_edit -> {
-                navController.navigate(R.id.navigation_action_details_editor, Bundle().apply {
-                    putSerializable(
-                        ARG_ACTION_KEY, Action(
-                            viewModel.id,
-                            viewModel.name,
-                            false,
-                            viewModel.thumbFinger.value?.toInt() ?: 0,
-                            viewModel.pointerFinger.value?.toInt() ?: 0,
-                            viewModel.middleFinger.value?.toInt() ?: 0,
-                            viewModel.ringFinger.value?.toInt() ?: 0,
-                            viewModel.littleFinger.value?.toInt() ?: 0
-                        )
-                    )
-                })
+                navController.navigate(
+                    R.id.navigation_action_details_editor,
+//                    Bundle().apply {
+//                    putSerializable(
+//                        ARG_ACTION_KEY, Action(
+//                            viewModel.id,
+//                            viewModel.name,
+//                            false,
+//                            viewModel.thumbFinger.value?.toInt() ?: 0,
+//                            viewModel.pointerFinger.value?.toInt() ?: 0,
+//                            viewModel.middleFinger.value?.toInt() ?: 0,
+//                            viewModel.ringFinger.value?.toInt() ?: 0,
+//                            viewModel.littleFinger.value?.toInt() ?: 0
+//                        )
+//                    )
+//                }
+                )
                 true
             }
             else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
@@ -63,6 +68,7 @@ class ActionFragment : BaseFragment<FragmentActionDetailsBinding, ActionViewMode
 
     companion object {
         const val ARG_ACTION_KEY = "action"
+        const val ARG_MODE_CREATE_KEY = "create_mode"
     }
 
 }

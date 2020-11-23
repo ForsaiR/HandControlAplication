@@ -14,6 +14,7 @@ import com.handcontrol.databinding.FragmentGestureDetailsEditorBinding
 import com.handcontrol.model.Action
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
+import com.handcontrol.ui.main.action.ActionFragment
 import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment.Companion.ARG_GESTURE_KEY
 import com.handcontrol.ui.main.gestures.ExecutableItemListener
 import kotlinx.android.synthetic.main.fragment_gesture_details_editor.*
@@ -28,7 +29,8 @@ class GestureDetailsEditorFragment
 
     override val viewModel: GestureDetailsViewModel by navGraphViewModels(R.id.nav_graph_gesture) {
         GestureDetailsViewModelFactory(
-            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
+            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture,
+            arguments?.getBoolean(GestureDetailsFragment.ARG_MODE_CREATE_KEY)!!
         )
     }
 
@@ -37,9 +39,6 @@ class GestureDetailsEditorFragment
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        viewModelFactory = GestureDetailsViewModelFactory(
-//            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
-//        )
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
@@ -47,10 +46,8 @@ class GestureDetailsEditorFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         floatingAddActionButton.setOnClickListener {
-            val navController =
-                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-            //navController.navigate(R.id.navigation_action_details_editor)
-            navController.popBackStack()
+            val navController = findNavController()
+            navController.navigate(R.id.nav_graph_action)
         }
         with(editableActionsRecycler) {
             adapter = BaseRecyclerAdapter<Action, ExecutableItemListener>(
@@ -58,7 +55,11 @@ class GestureDetailsEditorFragment
                 viewModel.actions.value!!,
                 object : ExecutableItemListener {
                     override fun onClick(item: ExecutableItem) {
-                        //TODO("Not yet implemented")
+                        val navController =
+                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                        navController.navigate(R.id.nav_graph_action, Bundle().apply {
+                            putSerializable(ActionFragment.ARG_ACTION_KEY, item)
+                        })
                     }
 
                     override fun onPlay(item: ExecutableItem) {
@@ -82,23 +83,14 @@ class GestureDetailsEditorFragment
         val navController = findNavController()
         return when (item.itemId) {
             R.id.app_bar_save -> {
-                navController.navigate(R.id.navigation_gesture_details, Bundle().apply {
-                    putSerializable(
-                        ARG_GESTURE_KEY, Gesture(
-                            viewModel.id,
-                            viewModel.name.value!!,
-                            false,
-                            viewModel.isInfinity.value!!,
-                            viewModel.repeatCount.value?.toIntOrNull(),
-                            viewModel.actions.value!!
-                        )
-                    )
-                })
+                viewModel.saveGesture()
+                navController.popBackStack()
                 true
             }
             else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
         }
     }
+
 
     //  Вставьте фрагмент кода, когда пользователь захочет сохранить график
 //    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
