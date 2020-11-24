@@ -8,23 +8,9 @@
         android:name="com.handcontrol.ui.start.connection.ConnectionFragment"
         android:label="@string/title_connection">
         <action
-            android:id="@+id/action_connectionFragment_to_choiseFragment"
-            app:destination="@+id/choiseFragment"/>
-        <action
             android:id="@+id/action_connectionFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
-
     </fragment>
-
-    <fragment
-        android:id="@+id/choiseFragment"
-    android:name="com.handcontrol.ui.start.prothesis.ChoiseFragment"
-    android:label="@string/change_prothesis">
-        <action
-            android:id="@+id/action_choiseFragment_to_navigation"
-            app:destination="@id/navigation" />
-    </fragment>
-
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.handcontrol.ui.start.login.LoginFragment"
@@ -32,20 +18,11 @@
         <action
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_navigation"
-            app:destination="@id/navigation" />
     </fragment>
-
     <fragment
         android:id="@+id/registrationFragment"
         android:name="com.handcontrol.ui.start.registration.RegistrationFragment"
-        android:label="@string/title_registration" >
-        <action
-            android:id="@+id/action_registrationFragment_to_navigation"
-            app:destination="@id/navigation" />
-    </fragment>
-
+        android:label="@string/title_registration" />
     <activity
         android:id="@+id/navigation"
         android:name="com.handcontrol.ui.main.Navigation"
@@ -53,5 +30,4 @@
     <action
         android:id="@+id/action_global_navigation"
         app:destination="@id/navigation" />
-
 </navigation>
