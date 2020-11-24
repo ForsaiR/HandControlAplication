@@ -48,6 +48,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                     }
 
                     override fun onPlay(item: ExecutableItem, position: Int) {
+                        //todo get gesture state from api
                         item.isExecuted = !item.isExecuted
                         viewModel.performGesture(item.id!!)
                         gestureRecycler.adapter?.notifyDataSetChanged()

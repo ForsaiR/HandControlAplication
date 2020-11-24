@@ -18,7 +18,7 @@ class ActionFragment : BaseFragment<FragmentActionDetailsBinding, ActionViewMode
     override val viewModel: ActionViewModel by navGraphViewModels(R.id.nav_graph_action) {
         ActionViewModelFactory(
             arguments?.getSerializable(ARG_ACTION_KEY) as? Action,
-            arguments?.getInt(ARG_ACTION_POSITION)
+            arguments?.getSerializable(ARG_ACTION_POSITION) as? Int?
         )
     }
 

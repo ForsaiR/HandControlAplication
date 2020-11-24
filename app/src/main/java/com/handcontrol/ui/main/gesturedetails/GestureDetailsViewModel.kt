@@ -16,12 +16,21 @@ class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
     val actions = MutableLiveData(item?.actions ?: mutableListOf())
     val isInfinity = MutableLiveData(item?.isInfinityRepeat ?: false)
     var playedPosition: Int? = null
+    var repeatCountInt = item?.repeatCount ?: 0
 
     private val infinityObserver =
-        Observer<Boolean> { v -> if (v) repeatCount.value = "∞" else repeatCount.value = "" }
+        Observer<Boolean> { v ->
+            if (v) repeatCount.value = "∞" else repeatCount.value = repeatCountInt.toString()
+        }
+
+    private val repeatObserver =
+        Observer<String> { v ->
+            if (isInfinity.value != true) repeatCountInt = v.toIntOrNull() ?: 0
+        }
 
     init {
         isInfinity.observeForever(infinityObserver)
+        repeatCount.observeForever(repeatObserver)
         GestureRepository.initGesture(item)
     }
 
@@ -40,6 +49,7 @@ class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
 
     override fun onCleared() {
         isInfinity.removeObserver(infinityObserver)
+        repeatCount.removeObserver(repeatObserver)
         super.onCleared()
     }
 }

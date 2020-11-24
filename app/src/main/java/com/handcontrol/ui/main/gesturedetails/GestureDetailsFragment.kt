@@ -46,11 +46,6 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        if(viewModel.isCreationMode) {
-//            findNavController().let{
-//                it.navigate(R.id.navigation_gesture_details_editor)
-//            }
-//        }
         with(actionsRecycler) {
             adapter = BaseRecyclerAdapter<Action, ExecutableItemListener>(
                 R.layout.list_item_executable,
@@ -66,15 +61,18 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
                     }
 
                     override fun onPlay(item: ExecutableItem, position: Int) {
-                        adapter?.notifyItemChanged(position)
-                        item.isExecuted = !item.isExecuted
-                        SetPositions().invoke(item as Action)
                         if (viewModel.playedPosition != null) {
                             (adapter as BaseRecyclerAdapter<Action, ExecutableItemListener>).getItem(
-                                position
+                                viewModel.playedPosition!!
                             ).isExecuted = false
+                            adapter?.notifyItemChanged(viewModel.playedPosition!!)
+
                         }
+
+                        SetPositions().invoke(item as Action)
+                        item.isExecuted = !item.isExecuted
                         viewModel.playedPosition = position
+                        adapter?.notifyItemChanged(position)
                     }
 
                 }

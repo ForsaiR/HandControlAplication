@@ -58,6 +58,7 @@ class GestureDetailsEditorFragment
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                         navController.navigate(R.id.nav_graph_action, Bundle().apply {
                             putSerializable(ActionFragment.ARG_ACTION_KEY, item)
+                            putSerializable(ActionFragment.ARG_ACTION_POSITION, position)
                         })
                     }
 

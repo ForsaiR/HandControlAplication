@@ -17,8 +17,9 @@ class ActionViewModel(action: Action?, private val position: Int? = null) : View
 
     fun saveAction() {
         GestureRepository.saveAction(
+            //todo generating name
             Action(
-                id, name, false,
+                id, name ?: hashCode().toString(), false,
                 thumbFinger.value?.toInt() ?: 0,
                 pointerFinger.value?.toInt() ?: 0,
                 middleFinger.value?.toInt() ?: 0,
