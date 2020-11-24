@@ -1,51 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <EditText
-        android:id="@+id/login"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/default_margin"
-        android:hint="@string/login"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/password"
-        app:layout_constraintVertical_chainStyle="packed" />
+        android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/default_margin"
-        android:hint="@string/password"
-        app:layout_constraintTop_toBottomOf="@id/login"
-        app:layout_constraintBottom_toTopOf="@id/loginButton" />
+        <Button
+            android:id="@+id/loginButton"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_input"
+            android:text="@string/button_login"
+            android:layout_marginTop="393dp"
+            android:textAppearance="@style/text1" />
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/default_margin"
-        android:text="@string/button_login"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password"
-        app:layout_constraintBottom_toTopOf="@id/registrationButton" />
+        <Button
+            android:id="@+id/registrationButton"
+            android:layout_width="300dp"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_input"
+            android:elevation="4dp"
+            android:layout_marginTop="464dp"
+            android:text="@string/button_registration"
+            android:textAppearance="@style/text1" />
 
-    <Button
-        android:id="@+id/registrationButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/default_margin"
-        android:text="@string/button_registration"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginButton"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        <EditText
+            android:id="@+id/login"
+            android:layout_width="248dp"
+            android:layout_height="40dp"
 
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/input"
+            android:hint="@string/login"
+            android:layout_marginTop="222dp"
+            android:textAppearance="@style/text2" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="245dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="279dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/input"
+            android:hint="@string/password"
+            android:textAppearance="@style/text2" />
+
+        <TextView
+            android:id="@+id/entrance"
+            android:layout_width="97dp"
+            android:layout_height="44dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="131dp"
+            android:text="@string/title_login"
+            android:textAlignment="center"
+            android:textAppearance="@style/h1"
+            tools:ignore="MissingConstraints,RtlCompat" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
