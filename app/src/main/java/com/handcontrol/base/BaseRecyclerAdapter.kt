@@ -27,6 +27,7 @@ class BaseRecyclerAdapter<D, T : BaseAdapterListener>(
     override fun onBindViewHolder(viewHolder: BaseViewHolder, position: Int) {
         viewHolder.binding.setVariable(BR.item, getItem(position))
         viewHolder.binding.setVariable(BR.listener, listener)
+        viewHolder.binding.setVariable(BR.position, position)
     }
 
     override fun getItemCount() = dataSet.size

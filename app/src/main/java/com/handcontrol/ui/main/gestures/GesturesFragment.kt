@@ -39,7 +39,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                 R.layout.list_item_executable,
                 viewModel.listData.value!!,
                 object : ExecutableItemListener {
-                    override fun onClick(item: ExecutableItem) {
+                    override fun onClick(item: ExecutableItem, position: Int) {
                         val navController =
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                         navController.navigate(R.id.nav_graph_gesture, Bundle().apply {
@@ -47,7 +47,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                         })
                     }
 
-                    override fun onPlay(item: ExecutableItem) {
+                    override fun onPlay(item: ExecutableItem, position: Int) {
                         item.isExecuted = !item.isExecuted
                         viewModel.performGesture(item.id!!)
                         gestureRecycler.adapter?.notifyDataSetChanged()

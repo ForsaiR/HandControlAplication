@@ -8,6 +8,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
+import com.handcontrol.api.SetPositions
 import com.handcontrol.base.BaseFragment
 import com.handcontrol.base.BaseRecyclerAdapter
 import com.handcontrol.databinding.FragmentGestureDetailsBinding
@@ -15,6 +16,7 @@ import com.handcontrol.model.Action
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
 import com.handcontrol.ui.main.action.ActionFragment
+import com.handcontrol.ui.main.action.ActionFragment.Companion.ARG_ACTION_POSITION
 import com.handcontrol.ui.main.gestures.ExecutableItemListener
 import kotlinx.android.synthetic.main.fragment_gesture_details.*
 
@@ -27,8 +29,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
 
     override val viewModel: GestureDetailsViewModel by navGraphViewModels(R.id.nav_graph_gesture) {
         GestureDetailsViewModelFactory(
-            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture,
-            arguments?.getBoolean(ARG_MODE_CREATE_KEY)!!
+            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
         )
     }
 
@@ -55,16 +56,25 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
                 R.layout.list_item_executable,
                 viewModel.actions.value!!,
                 object : ExecutableItemListener {
-                    override fun onClick(item: ExecutableItem) {
+                    override fun onClick(item: ExecutableItem, position: Int) {
                         val navController =
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                         navController.navigate(R.id.nav_graph_action, Bundle().apply {
                             putSerializable(ActionFragment.ARG_ACTION_KEY, item)
+                            putSerializable(ARG_ACTION_POSITION, position)
                         })
                     }
 
-                    override fun onPlay(item: ExecutableItem) {
-                        //TODO("Not yet implemented")
+                    override fun onPlay(item: ExecutableItem, position: Int) {
+                        adapter?.notifyItemChanged(position)
+                        item.isExecuted = !item.isExecuted
+                        SetPositions().invoke(item as Action)
+                        if (viewModel.playedPosition != null) {
+                            (adapter as BaseRecyclerAdapter<Action, ExecutableItemListener>).getItem(
+                                position
+                            ).isExecuted = false
+                        }
+                        viewModel.playedPosition = position
                     }
 
                 }

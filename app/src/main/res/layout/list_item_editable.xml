@@ -42,12 +42,10 @@
             android:layout_height="40dp"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
             android:layout_marginVertical="@dimen/default_margin"
-            android:onClick="@{()->listener.onPlay(item, position)}"
-            android:tint="@{item.executed?@color/colorPlayButton:@color/colorSecondary}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_play" />
+            app:srcCompat="@drawable/ic_create" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

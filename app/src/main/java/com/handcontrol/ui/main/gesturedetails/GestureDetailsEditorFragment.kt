@@ -29,8 +29,7 @@ class GestureDetailsEditorFragment
 
     override val viewModel: GestureDetailsViewModel by navGraphViewModels(R.id.nav_graph_gesture) {
         GestureDetailsViewModelFactory(
-            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture,
-            arguments?.getBoolean(GestureDetailsFragment.ARG_MODE_CREATE_KEY)!!
+            arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
         )
     }
 
@@ -51,10 +50,10 @@ class GestureDetailsEditorFragment
         }
         with(editableActionsRecycler) {
             adapter = BaseRecyclerAdapter<Action, ExecutableItemListener>(
-                R.layout.list_item_executable,
+                R.layout.list_item_editable,
                 viewModel.actions.value!!,
                 object : ExecutableItemListener {
-                    override fun onClick(item: ExecutableItem) {
+                    override fun onClick(item: ExecutableItem, position: Int) {
                         val navController =
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                         navController.navigate(R.id.nav_graph_action, Bundle().apply {
@@ -62,9 +61,7 @@ class GestureDetailsEditorFragment
                         })
                     }
 
-                    override fun onPlay(item: ExecutableItem) {
-                        //TODO("Not yet implemented")
-                    }
+                    override fun onPlay(item: ExecutableItem, position: Int) {}
 
                 }
             )

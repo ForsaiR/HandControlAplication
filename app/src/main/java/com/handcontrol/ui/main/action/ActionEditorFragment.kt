@@ -18,7 +18,8 @@ class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, Ac
 
     override val viewModel: ActionViewModel by navGraphViewModels(R.id.nav_graph_action) {
         ActionViewModelFactory(
-            arguments?.getSerializable(ARG_ACTION_KEY) as? Action
+            arguments?.getSerializable(ARG_ACTION_KEY) as? Action,
+            arguments?.getInt(ActionFragment.ARG_ACTION_POSITION)
         )
     }
 
@@ -39,6 +40,7 @@ class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, Ac
         val navController = findNavController()
         return when (item.itemId) {
             R.id.app_bar_save -> {
+                viewModel.saveAction()
                 navController.popBackStack()
                 true
             }
