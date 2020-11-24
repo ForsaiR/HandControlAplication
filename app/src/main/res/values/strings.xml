@@ -36,4 +36,21 @@
     <string name="finger_pointer">Указательный палец</string>
     <string name="finger_ring">Безыменный палец</string>
 
+    <string name="current_gesture">Жест на исполнении</string>
+    <string name="charge_level">Уровень заряда</string>
+    <string name="active_gesture">Активный жест</string>
+    <string name="telemetry_frequency">Частота телеметрии</string>
+    <string name="finger1">Большой палец</string>
+    <string name="finger2">Указательный палец</string>
+    <string name="finger3">Средний палец</string>
+    <string name="finger4">Безымянный палец</string>
+    <string name="finger5">Мизинец</string>
+    <string name="display">Дисплей</string>
+    <string name="emg">Миоэлектроника</string>
+    <string name="motor_driver">Драйвер моторов</string>
+    <string name="gyroscope_accelerometer">Гироскоп и акселерометр</string>
+    <string name="apply">Применить</string>
+    <string name="working_mode">Режим работы</string>
+    <string name="sending_telemetry_frequency">Частота отправки телеметрии</string>
+    <string name="hertz">Гц</string>
 </resources>

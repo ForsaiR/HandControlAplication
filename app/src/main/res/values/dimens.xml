@@ -6,4 +6,5 @@
 
     <dimen name="list_horizontal_margin">32dp</dimen>
     <dimen name="paragraph">64dp</dimen>
+    <dimen name="fab_with_margins">88dp</dimen>
 </resources>

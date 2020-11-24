@@ -7,4 +7,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="defaultCaptionText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <style name="defaultValueText">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/colorBlack</item>
+    </style>
+
+    <style name="fabTheme" parent="AppTheme">
+        <item name="colorAccent">@color/bgPlayPauseColor</item>
+    </style>
+
 </resources>

@@ -1,22 +1,259 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.setting.SettingsFragment">
+    tools:context=".ui.main.telemetry.TelemetryFragment">
 
-    <TextView
-        android:id="@+id/text_setting"
+    <data>
+        <variable
+            name="viewModel"
+            type="com.handcontrol.ui.main.setting.SettingViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/halfScreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.6" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrier1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="start"
+                    app:constraint_referenced_ids="mode, frequencyValue" />
+
+                <TextView
+                    android:id="@+id/modeCaption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:text="@string/working_mode"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/barrier1"
+                    app:layout_constraintBottom_toTopOf="@id/modeBarrier"
+                    style="@style/defaultCaptionText" />
+
+                <TextView
+                    android:id="@+id/mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:text="@{viewModel.mode}"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="@id/halfScreen"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/modeBarrier"
+                    style="@style/defaultValueText"
+                    tools:text="Auto" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/modeBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="modeCaption, mode" />
+
+                <TextView
+                    android:id="@+id/frequencyCaption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:text="@string/sending_telemetry_frequency"
+                    android:labelFor="@id/frequencyValue"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/modeBarrier"
+                    app:layout_constraintEnd_toStartOf="@id/barrier1"
+                    app:layout_constraintBottom_toTopOf="@id/frequencyBarrier"
+                    style="@style/defaultCaptionText" />
+
+                <EditText
+                    android:id="@+id/frequencyValue"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:gravity="center"
+                    android:text="@={viewModel.frequency}"
+                    android:inputType="number"
+                    android:importantForAutofill="no"
+                    app:layout_constraintEnd_toStartOf="@id/frequency"
+                    app:layout_constraintTop_toBottomOf="@id/modeBarrier"
+                    app:layout_constraintBottom_toTopOf="@id/frequencyBarrier"
+                    style="@style/defaultValueText"
+                    tools:text="450" />
+
+                <TextView
+                    android:id="@+id/frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:text="@string/hertz"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/modeBarrier"
+                    app:layout_constraintBottom_toTopOf="@id/frequencyBarrier"
+                    style="@style/defaultValueText" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/frequencyBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="frequencyCaption, frequencyValue, frequency" />
+
+                <TextView
+                    android:id="@+id/displayCaption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:text="@string/display"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/frequencyBarrier"
+                    app:layout_constraintEnd_toStartOf="@id/display"
+                    app:layout_constraintBottom_toTopOf="@id/displayBarrier"
+                    style="@style/defaultCaptionText" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:checked="@={viewModel.display}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/frequencyBarrier"
+                    app:layout_constraintBottom_toTopOf="@id/displayBarrier" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/displayBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="displayCaption, display" />
+
+                <TextView
+                    android:id="@+id/emgCaption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:text="@string/emg"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/displayBarrier"
+                    app:layout_constraintEnd_toStartOf="@id/emg"
+                    app:layout_constraintBottom_toTopOf="@id/emgBarrier"
+                    style="@style/defaultCaptionText" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/emg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:checked="@={viewModel.emg}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/displayBarrier"
+                    app:layout_constraintBottom_toTopOf="@id/emgBarrier" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/emgBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="emgCaption, emg" />
+
+                <TextView
+                    android:id="@+id/motorCaption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:text="@string/motor_driver"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emgBarrier"
+                    app:layout_constraintEnd_toStartOf="@id/motor"
+                    app:layout_constraintBottom_toTopOf="@id/motorBarrier"
+                    style="@style/defaultCaptionText" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/motor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:checked="@={viewModel.motor}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/emgBarrier"
+                    app:layout_constraintBottom_toTopOf="@id/motorBarrier" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/motorBarrier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="bottom"
+                    app:constraint_referenced_ids="motorCaption, motor" />
+
+                <TextView
+                    android:id="@+id/gyroscopeCaption"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_marginBottom="@dimen/fab_with_margins"
+                    android:text="@string/gyroscope_accelerometer"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/motorBarrier"
+                    app:layout_constraintEnd_toStartOf="@id/gyroscope"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/defaultCaptionText" />
+
+                <com.google.android.material.switchmaterial.SwitchMaterial
+                    android:id="@+id/gyroscope"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/fab_with_margins"
+                    android:checked="@={viewModel.gyroscope}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/motorBarrier"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginVertical="@dimen/activity_vertical_margin"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_done"
+            android:contentDescription="@string/apply"
+            android:onClick="@{(v) -> viewModel.apply(v)}"
+            android:theme="@style/fabTheme" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

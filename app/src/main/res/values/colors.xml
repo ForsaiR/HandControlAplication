@@ -8,4 +8,8 @@
     <color name="colorVoiceButton">#FFC267</color>
     <color name="colorPlayButton">#B0E6BC</color>
     <color name="colorIcon">#FFFFFF</color>
+    <color name="colorBlack">#000</color>
+
+    <color name="bgPlayPauseColor">#D1C4E9</color>
+    <color name="bgPlayPausePressedColor">#C1B4E9</color>
 </resources>
