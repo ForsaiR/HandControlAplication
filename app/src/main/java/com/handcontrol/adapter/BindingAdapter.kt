@@ -22,3 +22,12 @@ fun addChartData(chart: LineChart, lineData: LineData, interval: Int) {
     }
     chart.invalidate()
 }
+
+//
+//@BindingAdapter("android:enable")
+//fun View.setValueEnable( isEnabled: Boolean?) {
+//    isEnabled?.let { setEnabled(isEnabled)}
+//}
+//
+//@InverseBindingAdapter(attribute = "android:enable")
+//fun View.getValueEnable(): Boolean = isEnabled
