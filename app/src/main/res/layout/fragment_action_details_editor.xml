@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -19,25 +18,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
-            android:layout_marginTop="@dimen/paragraph"
-            android:layout_marginBottom="@dimen/default_margin"
             android:text="@string/finger_thumb"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editFinger1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/editFinger1" />
 
-        <EditText
-            android:id="@+id/textView6"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editFinger1"
+            rangeEnd="@{180}"
+            rangeStart="@{0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/list_horizontal_margin"
-            android:ems="2"
-            android:gravity="end"
-            android:inputType="numberDecimal"
-            android:text="@={viewModel.thumbFinger}"
-            app:layout_constraintBottom_toBottomOf="@+id/textView4"
+            android:layout_marginTop="@dimen/default_margin"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView4" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="@{viewModel.thumbFinger}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView7"
@@ -46,45 +55,69 @@
             android:layout_marginVertical="@dimen/default_margin"
             android:text="@string/finger_pointer"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editFinger2"
             app:layout_constraintStart_toStartOf="@+id/textView4"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toTopOf="@+id/editFinger2" />
 
-        <EditText
-            android:id="@+id/textView8"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editFinger2"
+            rangeEnd="@{180}"
+            rangeStart="@{0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="2"
-            android:gravity="end"
-            android:inputType="numberDecimal"
-            android:text="@={viewModel.pointerFinger}"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/textView7"
-            app:layout_constraintEnd_toEndOf="@+id/textView6"
-            app:layout_constraintTop_toTopOf="@+id/textView7"
-            tools:text="100" />
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger1"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="@{viewModel.pointerFinger}"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/textView9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
+            android:layout_marginBottom="38dp"
             android:text="@string/finger_middle"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editFinger3"
             app:layout_constraintStart_toStartOf="@+id/textView7"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toTopOf="@+id/editFinger3" />
 
-        <EditText
-            android:id="@+id/textView10"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editFinger3"
+            rangeEnd="@{180}"
+            rangeStart="@{0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="2"
-            android:gravity="end"
-            android:inputType="numberDecimal"
-            android:text="@={viewModel.middleFinger}"
-            app:layout_constraintBottom_toBottomOf="@+id/textView9"
-            app:layout_constraintEnd_toEndOf="@+id/textView8"
-            app:layout_constraintTop_toTopOf="@+id/textView9"
-            tools:text="100" />
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger2"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger2">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="@{viewModel.middleFinger}"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <TextView
             android:id="@+id/textView11"
@@ -93,8 +126,9 @@
             android:layout_marginVertical="@dimen/default_margin"
             android:text="@string/finger_little"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editFinger5"
             app:layout_constraintStart_toStartOf="@+id/textView12"
-            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+            app:layout_constraintTop_toTopOf="@+id/editFinger5" />
 
         <TextView
             android:id="@+id/textView12"
@@ -103,32 +137,55 @@
             android:layout_marginVertical="@dimen/default_margin"
             android:text="@string/finger_ring"
             android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editFinger4"
             app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            app:layout_constraintTop_toTopOf="@+id/editFinger4" />
 
-        <EditText
-            android:id="@+id/textView13"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editFinger4"
+            rangeEnd="@{180}"
+            rangeStart="@{0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="2"
-            android:gravity="end"
-            android:inputType="numberDecimal"
-            android:text="@={viewModel.ringFinger}"
-            app:layout_constraintBottom_toBottomOf="@+id/textView12"
-            app:layout_constraintEnd_toEndOf="@+id/textView10"
-            app:layout_constraintTop_toTopOf="@+id/textView12"
-            tools:text="100" />
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger3"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger3">
 
-        <EditText
-            android:id="@+id/textView14"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="@{viewModel.ringFinger}"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editFinger5"
+            rangeEnd="@{180}"
+            rangeStart="@{0}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="2"
-            android:gravity="end"
-            android:inputType="numberDecimal"
-            android:text="@={viewModel.littleFinger}"
-            app:layout_constraintEnd_toEndOf="@+id/textView13"
-            app:layout_constraintTop_toTopOf="@+id/textView11"
-            tools:text="100" />
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger4"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger4">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:maxLength="3"
+                android:text="@{viewModel.littleFinger}"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
