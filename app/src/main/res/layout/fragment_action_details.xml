@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.handcontrol.ui.main.action.ActionViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/list_horizontal_margin"
+            android:layout_marginTop="@dimen/paragraph"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:text="@string/finger_thumb"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/editFinger1"
+            android:text="@{viewModel.thumbFinger}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/list_horizontal_margin"
+            android:layout_marginTop="@dimen/paragraph"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:text="@string/finger_pointer"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView4"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <TextView
+            android:id="@+id/editFinger2"
+            android:text="@{viewModel.pointerFinger}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger1"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger1"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:text="@string/finger_middle"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView7"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/editFinger3"
+            android:text="@{viewModel.middleFinger}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger2"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger2"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:text="@string/finger_little"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView12"
+            app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+        <TextView
+            android:id="@+id/textView12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:text="@string/finger_ring"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/editFinger4"
+            android:text="@{viewModel.ringFinger}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger3"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger3"
+            tools:text="100" />
+
+        <TextView
+            android:id="@+id/editFinger5"
+            android:text="@{viewModel.littleFinger}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/default_margin"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger4"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger4"
+            tools:text="100" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

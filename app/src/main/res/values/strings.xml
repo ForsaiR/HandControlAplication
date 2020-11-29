@@ -1,27 +1,47 @@
 <resources>
     <string name="app_name">HandControl</string>
-    <string name="bluetooth">Bluetooth-подключение</string>
-    <string name="grpc">Интернет-подключение</string>
+    <string name="bluetooth">Bluetooth</string>
+    <string name="grpc">Интернет</string>
     <string name="author">Университет ИТМО</string>
     <string name="title_activity_navigation">MainActivity</string>
     <string name="title_settings">Настройки</string>
     <string name="title_execution">Выполнить жест</string>
     <string name="title_gestures">Жесты</string>
+    <string name="title_action">Действие</string>
     <string name="title_telemetry">Телеметрия</string>
+    <string name="title_choise">Выбор протеза</string>
     <string name="chart">Показания миоэлектроники</string>
     <string name="start">Старт</string>
     <string name="stop">Стоп</string>
-    <string name="title_connection">Тип подключения</string>
+    <string name="title_connection">Режим подключения</string>
     <string name="title_login">Вход</string>
     <string name="title_registration">Регистрация</string>
     <string name="button_login">Войти</string>
     <string name="button_registration">Регистрация</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
+    <string name="login_">Логин*</string>e
+    <string name="password_">Пароль*</string>
     <string name="name">Имя</string>
-    <string name="change_prothesis">Смена протеза</string>
+    <string name="ok">OK</string>
+    <string name="proto">Prosthesis</string>
+    <string name="change_prothesis">Выбор протеза</string>
     <string name="change_mode">Смена режима</string>
     <string name="logout">Выход</string>
+
+    <string name="text_repeat_count">Количество повторов</string>
+    <string name="switch_infinity_repeat">Бесконечный повтор</string>
+    <string name="edit_name">Название жеста</string>
+    <string name="title_new_gesture">Новый жест</string>
+    <string name="text_actions">Действия</string>
+
+    <string name="finger_thumb">Большой палец</string>
+    <string name="finger_little">Мизинец</string>
+    <string name="finger_middle">Средний палец</string>
+    <string name="finger_pointer">Указательный палец</string>
+    <string name="finger_ring">Безыменный палец</string>
+    <string name="finger_error_toast">Заполните поля верно</string>
+
     <string name="current_gesture">Жест на исполнении</string>
     <string name="charge_level">Уровень заряда</string>
     <string name="active_gesture">Активный жест</string>

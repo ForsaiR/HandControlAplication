@@ -22,10 +22,9 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        loginButton.setOnClickListener {
-            activity?.finish()
-            it.findNavController().navigate(R.id.action_global_navigation)
-        }
+        loginButton.setOnClickListener (
+            Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_choiseFragment)
+            )
         registrationButton.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_registrationFragment)
         )
