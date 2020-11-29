@@ -1,0 +1,28 @@
+syntax = "proto3";
+package com.handcontrol.server;
+
+option java_package = "com.handcontrol.proto";
+option java_outer_classname = "RequestProto";
+
+service HandleRequest{
+  rpc login(LoginRequest) returns (LoginResult);
+  rpc ProRequest(ClientRequest) returns (ClientReply);
+}
+message LoginRequest {
+  string imei = 1;
+  string login = 2;
+  string password = 3;
+}
+
+message LoginResult {
+  string message = 1;
+}
+
+message ClientRequest {
+  string imei = 1;
+  string request = 2;
+}
+
+message ClientReply {
+  string message = 1;
+}
