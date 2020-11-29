@@ -24,7 +24,7 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         registrationButton.setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.action_global_navigation)
+            Navigation.createNavigateOnClickListener(R.id.action_registrationFragment_to_choiseFragment)
         )
     }
 }

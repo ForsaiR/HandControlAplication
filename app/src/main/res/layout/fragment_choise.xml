@@ -5,22 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
+    <SearchView
         android:id="@+id/search"
-        android:layout_width="320dp"
+        android:layout_width="334dp"
         android:layout_height="41dp"
+        android:layout_marginTop="20dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/serach"
-        android:textAppearance="@style/text1"
-        android:layout_marginTop="20dp"
-        app:drawableRightCompat="@drawable/ic_baseline_search_24"
-        tools:layout_editor_absoluteX="center"
-        tools:layout_editor_absoluteY="69dp" />
+        android:layoutDirection="rtl"
+        android:searchIcon="@drawable/ic_baseline_search_24"
+        android:textAppearance="@style/text1" />
+
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="94dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="90dp"
         android:background="@drawable/line"
         />
 
