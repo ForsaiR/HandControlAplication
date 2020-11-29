@@ -1,6 +1,7 @@
 package com.handcontrol.ui.main.setting
 
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.android.material.snackbar.Snackbar
