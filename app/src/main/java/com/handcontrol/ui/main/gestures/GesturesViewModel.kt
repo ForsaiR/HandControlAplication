@@ -1,13 +1,14 @@
 package com.handcontrol.ui.main.gestures
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.handcontrol.api.GetGestures
+import com.handcontrol.api.PerformGesture
 
 class GesturesViewModel : ViewModel() {
+    val listData by lazy { MutableLiveData(GetGestures().invoke()) }
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is execution Fragment"
+    fun performGesture(id: Int) {
+        PerformGesture().invoke(id)
     }
-    val text: LiveData<String> = _text
 }
