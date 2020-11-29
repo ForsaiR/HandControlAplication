@@ -238,6 +238,44 @@
                     app:layout_constraintTop_toBottomOf="@id/motorBarrier"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
+                <TextView
+                    android:id="@+id/recognition_lang_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gyroscopeCaption"
+                    app:layout_constraintEnd_toStartOf="@id/recognition_lang"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/recognition_lang"
+                    style="@style/defaultCaptionText" />
+
+                <RadioGroup
+                    tools:layout_editor_absoluteX="348dp"
+                    tools:layout_editor_absoluteY="260dp"
+                    android:id="@+id/recognition_lang"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/fab_with_margins"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/recognition_lang_text">
+                    <RadioButton
+                        android:text="@string/russian"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioRussian"
+                        android:checked="true" />
+
+                    <RadioButton
+                        android:text="@string/english"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioEnglish" />
+                </RadioGroup>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
