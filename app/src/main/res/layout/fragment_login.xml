@@ -12,8 +12,8 @@
 
         <Button
             android:id="@+id/loginButton"
-            android:layout_width="300dp"
-            android:layout_height="45dp"
+            android:layout_width="320dp"
+            android:layout_height="55dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_input"
             android:text="@string/button_login"
@@ -22,8 +22,8 @@
 
         <Button
             android:id="@+id/registrationButton"
-            android:layout_width="300dp"
-            android:layout_height="45dp"
+            android:layout_width="320dp"
+            android:layout_height="55dp"
             android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_input"
@@ -34,9 +34,9 @@
 
         <EditText
             android:id="@+id/login"
-            android:layout_width="248dp"
-            android:layout_height="40dp"
-
+            android:layout_width="260dp"
+            android:layout_height="41dp"
+            android:paddingStart="21dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/input"
             android:hint="@string/login"
@@ -45,9 +45,10 @@
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="245dp"
-            android:layout_height="35dp"
+            android:layout_width="260dp"
+            android:layout_height="41dp"
             android:layout_marginTop="279dp"
+            android:paddingStart="21dp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/input"
             android:hint="@string/password"

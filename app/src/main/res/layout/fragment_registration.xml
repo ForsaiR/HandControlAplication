@@ -23,20 +23,21 @@
 
     <EditText
         android:id="@+id/name"
-        android:layout_width="240dp"
-        android:layout_height="35dp"
+        android:layout_width="260dp"
+        android:layout_height="41dp"
         android:layout_marginTop="222dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/input"
+        android:paddingStart="21dp"
         android:hint="@string/name"
         android:textAppearance="@style/text2" />
 
     <EditText
         android:id="@+id/login"
-        android:layout_width="240dp"
-        android:layout_height="35dp"
+        android:layout_width="260dp"
+        android:layout_height="41dp"
         android:layout_marginTop="300dp"
-
+        android:paddingStart="21dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/input"
         android:hint="@string/login_"
@@ -44,18 +45,19 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="240dp"
-        android:layout_height="35dp"
+        android:layout_width="260dp"
+        android:layout_height="41dp"
         android:layout_marginTop="357dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/input"
+        android:paddingStart="21dp"
         android:hint="@string/password_"
         android:textAppearance="@style/text2"/>
 
     <Button
         android:id="@+id/registrationButton"
-        android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_width="320dp"
+        android:layout_height="55dp"
         android:background="@drawable/button_input"
         android:text="@string/button_registration"
         android:textAppearance="@style/text1"

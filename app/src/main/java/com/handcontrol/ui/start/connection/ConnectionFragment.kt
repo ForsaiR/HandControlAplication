@@ -38,7 +38,7 @@ class ConnectionFragment : Fragment() {
                 }
                 R.id.radioButton_bluetooth -> {
                     okButton.setOnClickListener(
-                        Navigation.createNavigateOnClickListener(R.id.action_connectionFragment_to_choiseFragment)
+                        Navigation.createNavigateOnClickListener(R.id.action_global_navigation)
                     )
                 }
             }
