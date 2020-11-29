@@ -8,9 +8,6 @@
         android:name="com.handcontrol.ui.start.connection.ConnectionFragment"
         android:label="@string/title_connection">
         <action
-            android:id="@+id/action_connectionFragment_to_choiseFragment"
-            app:destination="@+id/choiseFragment"/>
-        <action
             android:id="@+id/action_connectionFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
 
@@ -33,8 +30,8 @@
             android:id="@+id/action_loginFragment_to_registrationFragment"
             app:destination="@id/registrationFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_navigation"
-            app:destination="@id/navigation" />
+            android:id="@+id/action_loginFragment_to_choiseFragment"
+            app:destination="@id/choiseFragment" />
     </fragment>
 
     <fragment
@@ -42,8 +39,8 @@
         android:name="com.handcontrol.ui.start.registration.RegistrationFragment"
         android:label="@string/title_registration" >
         <action
-            android:id="@+id/action_registrationFragment_to_navigation"
-            app:destination="@id/navigation" />
+            android:id="@+id/action_registrationFragment_to_choiseFragment"
+            app:destination="@id/choiseFragment" />
     </fragment>
 
     <activity

@@ -15,6 +15,7 @@ import com.github.mikephil.charting.charts.Chart.LOG_TAG
 import com.handcontrol.R
 import com.handcontrol.ui.main.Navigation
 import kotlinx.android.synthetic.main.fragment_choise.*
+import kotlinx.android.synthetic.main.list_item.*
 
 
 class ChoiseFragment : Fragment() {
@@ -29,10 +30,7 @@ class ChoiseFragment : Fragment() {
     ): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_choise, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-        mAdapter = ArrayAdapter<String>(
-            requireContext(),
-            android.R.layout.simple_list_item_1, devices
-        )
+        mAdapter = ArrayAdapter<String>(requireContext(), R.layout.list_item, devices)
         val listView: ListView = rootView.findViewById(R.id.list) as ListView
         listView.setAdapter(mAdapter)
 

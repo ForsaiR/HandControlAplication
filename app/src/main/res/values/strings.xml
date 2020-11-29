@@ -25,7 +25,7 @@
     <string name="name">Имя</string>
     <string name="ok">OK</string>
     <string name="proto">Prosthesis</string>
-    <string name="change_prothesis">Смена протеза</string>
+    <string name="change_prothesis">Выбор протеза</string>
     <string name="change_mode">Смена режима</string>
     <string name="logout">Выход</string>
 
