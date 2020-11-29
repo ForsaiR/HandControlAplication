@@ -35,6 +35,7 @@
     <string name="finger_middle">Средний палец</string>
     <string name="finger_pointer">Указательный палец</string>
     <string name="finger_ring">Безыменный палец</string>
+    <string name="finger_error_toast">Заполните поля верно</string>
 
     <string name="current_gesture">Жест на исполнении</string>
     <string name="charge_level">Уровень заряда</string>

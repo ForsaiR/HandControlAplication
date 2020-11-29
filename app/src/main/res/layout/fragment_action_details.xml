@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/editFinger1"
             android:text="@{viewModel.thumbFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,14 +50,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/editFinger2"
             android:text="@{viewModel.pointerFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView6"
-            app:layout_constraintTop_toBottomOf="@+id/textView6"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger1"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger1"
             tools:text="100" />
 
         <TextView
@@ -71,14 +71,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <TextView
-            android:id="@+id/textView10"
+            android:id="@+id/editFinger3"
             android:text="@{viewModel.middleFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger2"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger2"
             tools:text="100" />
 
         <TextView
@@ -102,25 +102,25 @@
             app:layout_constraintTop_toBottomOf="@+id/textView9" />
 
         <TextView
-            android:id="@+id/textView13"
+            android:id="@+id/editFinger4"
             android:text="@{viewModel.ringFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView10"
-            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger3"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger3"
             tools:text="100" />
 
         <TextView
-            android:id="@+id/textView14"
+            android:id="@+id/editFinger5"
             android:text="@{viewModel.littleFinger}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/default_margin"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/textView13"
-            app:layout_constraintTop_toBottomOf="@+id/textView13"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger4"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger4"
             tools:text="100" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

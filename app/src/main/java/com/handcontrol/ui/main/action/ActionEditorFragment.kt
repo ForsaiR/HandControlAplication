@@ -2,6 +2,7 @@ package com.handcontrol.ui.main.action
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.onNavDestinationSelected
@@ -10,6 +11,7 @@ import com.handcontrol.base.BaseFragment
 import com.handcontrol.databinding.FragmentActionDetailsEditorBinding
 import com.handcontrol.model.Action
 import com.handcontrol.ui.main.action.ActionFragment.Companion.ARG_ACTION_KEY
+import kotlinx.android.synthetic.main.fragment_action_details_editor.*
 
 class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, ActionViewModel>(
     ActionViewModel::class.java,
@@ -40,11 +42,27 @@ class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, Ac
         val navController = findNavController()
         return when (item.itemId) {
             R.id.app_bar_save -> {
-                viewModel.saveAction()
-                navController.popBackStack()
-                true
+                if (validate()) {
+                    viewModel.saveAction()
+                    navController.popBackStack()
+                    return true
+                }
+                Toast.makeText(requireContext(), R.string.finger_error_toast, Toast.LENGTH_SHORT)
+                    .show()
+                false
             }
             else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun validate(): Boolean {
+        if (editFinger1.error.isNullOrEmpty() &&
+            editFinger2.error.isNullOrEmpty() &&
+            editFinger3.error.isNullOrEmpty() &&
+            editFinger4.error.isNullOrEmpty() &&
+            editFinger5.error.isNullOrEmpty()
+        ) return true
+
+        return false
     }
 }

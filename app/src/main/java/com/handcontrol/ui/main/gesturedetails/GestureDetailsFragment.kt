@@ -39,8 +39,6 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        //todo
-        activity?.actionBar?.title = viewModel.name.value ?: NEW_GESTURE_NAME
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
@@ -101,8 +99,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
 
     companion object {
         const val ARG_GESTURE_KEY = "gesture"
-        const val NEW_GESTURE_NAME = "Новый жест"
-        const val ARG_MODE_CREATE_KEY = "create_mode"
+        const val ARG_NEW_GESTURE_NAME = "Новый жест"
     }
 
 

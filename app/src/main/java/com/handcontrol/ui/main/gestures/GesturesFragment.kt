@@ -13,6 +13,7 @@ import com.handcontrol.databinding.FragmentGesturesBinding
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
 import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment
+import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment.Companion.ARG_NEW_GESTURE_NAME
 import kotlinx.android.synthetic.main.fragment_gestures.*
 
 class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel>(
@@ -27,10 +28,11 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         floatingActionButton.setOnClickListener {
+
             val navController = findNavController()
             navController.navigate(R.id.nav_graph_gesture,
                 Bundle().apply {
-                    putBoolean(GestureDetailsFragment.ARG_MODE_CREATE_KEY, true)
+                    putString("title", ARG_NEW_GESTURE_NAME)
                 })
         }
 
@@ -44,6 +46,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                         navController.navigate(R.id.nav_graph_gesture, Bundle().apply {
                             putSerializable(GestureDetailsFragment.ARG_GESTURE_KEY, item)
+                            putString("title", item.name)
                         })
                     }
 
