@@ -5,10 +5,12 @@
     <string name="author">Университет ИТМО</string>
     <string name="title_activity_navigation">MainActivity</string>
     <string name="title_settings">Настройки</string>
-    <string name="title_redactor">Редактор жестов</string>
-    <string name="title_execution">Исполнение</string>
+    <string name="title_execution">Выполнить жест</string>
+    <string name="title_gestures">Жесты</string>
+    <string name="title_action">Действие</string>
+    <string name="title_telemetry">Телеметрия</string>
     <string name="title_choise">Выбор протеза</string>
-    <string name="chart">График</string>
+    <string name="chart">Показания миоэлектроники</string>
     <string name="start">Старт</string>
     <string name="stop">Стоп</string>
     <string name="title_connection">Режим подключения</string>
@@ -26,6 +28,20 @@
     <string name="change_prothesis">Смена протеза</string>
     <string name="change_mode">Смена режима</string>
     <string name="logout">Выход</string>
+
+    <string name="text_repeat_count">Количество повторов</string>
+    <string name="switch_infinity_repeat">Бесконечный повтор</string>
+    <string name="edit_name">Название жеста</string>
+    <string name="title_new_gesture">Новый жест</string>
+    <string name="text_actions">Действия</string>
+
+    <string name="finger_thumb">Большой палец</string>
+    <string name="finger_little">Мизинец</string>
+    <string name="finger_middle">Средний палец</string>
+    <string name="finger_pointer">Указательный палец</string>
+    <string name="finger_ring">Безыменный палец</string>
+    <string name="finger_error_toast">Заполните поля верно</string>
+
     <string name="current_gesture">Жест на исполнении</string>
     <string name="charge_level">Уровень заряда</string>
     <string name="active_gesture">Активный жест</string>
@@ -43,6 +59,4 @@
     <string name="working_mode">Режим работы</string>
     <string name="sending_telemetry_frequency">Частота отправки телеметрии</string>
     <string name="hertz">Гц</string>
-    <string name="title_gestures">Жесты</string>
-    <string name="title_telemetry">Телеметрия</string>
 </resources>
