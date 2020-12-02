@@ -1,0 +1,20 @@
+syntax="proto3";
+package com.handcontrol.server.protobuf;
+import "enums.proto";
+
+message GetSettings {
+  com.handcontrol.server.protobuf.ModeType type_work = 1;
+  bool enable_emg = 2;
+  bool enable_display = 3;
+  bool enable_gyro = 4;
+  bool enable_driver = 5;
+}
+
+message SetSettings {
+  com.handcontrol.server.protobuf.ModeType type_work = 1;
+  int32 telemetry_frequency = 2;
+  bool enable_emg = 3;
+  bool enable_display = 4;
+  bool enable_gyro = 5;
+  bool enable_driver = 6;
+}
