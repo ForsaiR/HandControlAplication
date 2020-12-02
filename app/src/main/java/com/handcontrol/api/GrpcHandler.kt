@@ -33,6 +33,7 @@ class GrpcHandler(
             val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
             header.put(key, it)
             MetadataUtils.attachHeaders(stub, header)
+                .withInterceptors(WrongTokenInterceptor(context))
         }
     }
 
