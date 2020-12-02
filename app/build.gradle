@@ -56,6 +56,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "io.grpc:grpc-android:$grpc_version"
     implementation "io.grpc:grpc-okhttp:$grpc_version"
     implementation "io.grpc:grpc-protobuf-lite:$grpc_version"
     implementation "io.grpc:grpc-stub:$grpc_version"
