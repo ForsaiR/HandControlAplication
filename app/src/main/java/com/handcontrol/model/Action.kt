@@ -27,4 +27,13 @@ data class Action(
         id = hashCode()
         name = id.toString()
     }
+
+    fun getProtoModel(): Gestures.GestureAction =
+        Gestures.GestureAction.newBuilder()
+            .setThumbFingerPosition(thumbFinger)
+            .setPointerFingerPosition(pointerFinger)
+            .setMiddleFingerPosition(middleFinger)
+            .setRingFingerPosition(ringFinger)
+            .setLittleFingerPosition(littleFinger)
+            .build()
 }

@@ -18,4 +18,12 @@ data class Gesture(
         gesture.repetitions,
         gesture.actionsList.map { Action(it) }.toMutableList()
     )
+
+    fun getProtoModel(): Gestures.Gesture =
+        Gestures.Gesture.newBuilder()
+            .setName(name)
+            .setRepetitions(repeatCount ?: 0)
+            .addAllActions(actions.map { it.getProtoModel() })
+            .build()
+
 }

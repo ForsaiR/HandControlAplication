@@ -1,7 +1,10 @@
 package com.handcontrol.api
 
-import com.handcontrol.server.protobuf.Gestures
+import com.handcontrol.model.Gesture
 
 interface IApiHandler {
-    suspend fun getGestures(): MutableList<Gestures.Gesture>
+
+    suspend fun getGestures(): MutableList<Gesture>
+
+    suspend fun saveGesture(gesture: Gesture)
 }
