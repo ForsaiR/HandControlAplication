@@ -4,6 +4,7 @@ import android.content.Context
 import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.HandleRequestGrpc
 import com.handcontrol.server.protobuf.Request
+import com.handcontrol.server.protobuf.Uuid
 import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -68,13 +69,33 @@ class GrpcHandler(
     override suspend fun saveGesture(gesture: Gesture) {
         if (authorizedStub == null)
             throw IllegalStateException("Haven't been authorized")
-        return withContext(Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
             val saveGestureRequest = Request.saveGestureRequest.newBuilder()
                 .setId("1")
                 .setGesture(gesture.getProtoModel())
                 .setTimeSync(System.currentTimeMillis())
                 .build()
             val response = authorizedStub.saveGesture(saveGestureRequest)
+        }
+    }
+
+    override suspend fun performGesture(gesture: Gesture) {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        withContext(Dispatchers.IO) {
+            val response = if (gesture.id == null) {
+                val performGesture = Request.performGestureRawRequest.newBuilder()
+                    .setId("1")
+                    .setGesture(gesture.getProtoModel())
+                    .build()
+                authorizedStub.performGestureRaw(performGesture)
+            } else {
+                val performGesture = Request.performGestureIdRequest.newBuilder()
+                    .setId("1")
+                    .setGestureId(Uuid.UUID.newBuilder().setValue(gesture.id.toString()))
+                    .build()
+                authorizedStub.performGestureId(performGesture)
+            }
         }
     }
 

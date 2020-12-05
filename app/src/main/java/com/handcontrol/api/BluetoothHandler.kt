@@ -10,4 +10,8 @@ class BluetoothHandler : IApiHandler {
     override suspend fun saveGesture(gesture: Gesture) {
         TODO("Not yet implemented")
     }
+
+    override suspend fun performGesture(gesture: Gesture) {
+        TODO("Not yet implemented")
+    }
 }
