@@ -1,12 +1,39 @@
 package com.handcontrol.model
 
+import com.handcontrol.server.protobuf.Gestures
+
 data class Action(
-    override val id: Int?,
-    override val name: String,
+    override var id: Int?,
+    override var name: String,
     override var isExecuted: Boolean,
     var thumbFinger: Int,
     var pointerFinger: Int,
     var middleFinger: Int,
     var ringFinger: Int,
     var littleFinger: Int
-) : ExecutableItem(id, name, isExecuted)
+) : ExecutableItem(id, name, isExecuted) {
+    constructor(action: Gestures.GestureAction) : this(
+        null,
+        "",
+        false,
+        action.thumbFingerPosition,
+        action.pointerFingerPosition,
+        action.middleFingerPosition,
+        action.ringFingerPosition,
+        action.littleFingerPosition
+    )
+
+    init {
+        id = hashCode()
+        name = id.toString()
+    }
+
+    fun getProtoModel(): Gestures.GestureAction =
+        Gestures.GestureAction.newBuilder()
+            .setThumbFingerPosition(thumbFinger)
+            .setPointerFingerPosition(pointerFinger)
+            .setMiddleFingerPosition(middleFinger)
+            .setRingFingerPosition(ringFinger)
+            .setLittleFingerPosition(littleFinger)
+            .build()
+}
