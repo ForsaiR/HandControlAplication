@@ -1,28 +1,122 @@
 syntax = "proto3";
-package com.handcontrol.server;
-
-option java_package = "com.handcontrol.proto";
-option java_outer_classname = "RequestProto";
+package com.handcontrol.server.protobuf;
+import "settings.proto";
+import "gestures.proto";
+import "uuid.proto";
 
 service HandleRequest{
-  rpc login(LoginRequest) returns (LoginResult);
-  rpc ProRequest(ClientRequest) returns (ClientReply);
-}
-message LoginRequest {
-  string imei = 1;
-  string login = 2;
-  string password = 3;
+  rpc login(LoginRequest) returns (LoginResponse);
+  rpc registry(LoginRequest) returns (LoginResponse);
+  rpc getOnline(getOnlineRequest) returns (getOnlineResponse);
+  rpc setOffline(setOfflineRequest) returns (setOfflineResponse);
+  rpc getSettings(getSettingsRequest) returns (getSettingsResponse);
+  rpc setSettings(setSettingsRequest) returns (setSettingsResponse);
+  rpc getGestures(getGesturesRequest) returns (getGesturesResponse);
+  rpc saveGesture(saveGestureRequest) returns (saveGestureResponse);
+  rpc deleteGesture(deleteGestureRequest) returns (deleteGestureResponse);
+  rpc performGestureId(performGestureIdRequest) returns (performGestureIdResponse);
+  rpc performGestureRaw(performGestureRawRequest) returns (performGestureRawResponse);
+  rpc setPositions(setPositionsRequest) returns (setPositionsResponse);
 }
 
-message LoginResult {
-  string message = 1;
+message LoginRequest {
+  string login = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  string token = 1;
 }
 
 message ClientRequest {
-  string imei = 1;
-  string request = 2;
+  string request = 1;
 }
 
-message ClientReply {
+message ClientResponse {
   string message = 1;
+}
+
+message getOnlineRequest {
+}
+
+message getOnlineResponse {
+  string list = 1;
+}
+
+message setOfflineRequest {
+  string id = 1;
+}
+
+message setOfflineResponse {
+}
+
+message getSettingsRequest {
+  string id = 1;
+}
+
+message getSettingsResponse {
+  com.handcontrol.server.protobuf.GetSettings settings = 1;
+}
+
+message setSettingsRequest {
+  string id = 1;
+  com.handcontrol.server.protobuf.SetSettings settings = 2;
+}
+
+message setSettingsResponse {
+  com.handcontrol.server.protobuf.GetSettings settings = 1;
+}
+
+message getGesturesRequest {
+  string id = 1;
+}
+
+message getGesturesResponse {
+  com.handcontrol.server.protobuf.GetGestures gestures = 1;
+}
+
+message saveGestureRequest {
+  string id = 1;
+  com.handcontrol.server.protobuf.Gesture gesture = 2;
+  int64 time_sync = 3;
+}
+
+message saveGestureResponse {
+}
+
+message deleteGestureRequest {
+  string id = 1;
+  com.handcontrol.server.protobuf.UUID gesture_id = 2;
+  int64 time_sync = 3;
+}
+
+message deleteGestureResponse {
+}
+
+message performGestureIdRequest {
+  string id = 1;
+  com.handcontrol.server.protobuf.UUID gesture_id = 2;
+}
+
+message performGestureIdResponse {
+}
+
+message performGestureRawRequest {
+  string id = 1;
+  com.handcontrol.server.protobuf.Gesture gesture = 2;
+}
+
+message performGestureRawResponse {
+}
+
+message setPositionsRequest {
+  string id = 1;
+  int32 pointer_finger_position = 2;
+  int32 middle_finger_position = 3;
+  int32 ring_finger_position = 4;
+  int32 little_finger_position = 5;
+  int32 thumb_finger_position = 6;
+}
+
+message setPositionsResponse {
 }
