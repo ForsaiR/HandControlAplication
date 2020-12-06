@@ -2,6 +2,7 @@ package com.handcontrol.ui.main.gestures
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -39,7 +40,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
         with(gestureRecycler) {
             adapter = BaseRecyclerAdapter<Gesture, ExecutableItemListener>(
                 R.layout.list_item_executable,
-                viewModel.listData.value!!,
+                viewModel.listData.value ?: mutableListOf(),
                 object : ExecutableItemListener {
                     override fun onClick(item: ExecutableItem, position: Int) {
                         val navController =
@@ -58,10 +59,21 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                     }
 
                 }
+
             )
 
             layoutManager = LinearLayoutManager(context).apply {
                 orientation = LinearLayoutManager.VERTICAL
+            }
+
+            viewModel.listData.observe(viewLifecycleOwner) {
+                (adapter as BaseRecyclerAdapter<Gesture, ExecutableItemListener>).dataSet = (it)
+            }
+        }
+
+        viewModel.errorConnection.observe(viewLifecycleOwner) {
+            if (it) {
+                Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
             }
         }
     }

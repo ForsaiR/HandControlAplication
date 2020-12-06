@@ -1,9 +1,10 @@
 package com.handcontrol.api
 
 import android.content.Context
-import com.handcontrol.server.protobuf.Gestures
+import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.HandleRequestGrpc
 import com.handcontrol.server.protobuf.Request
+import com.handcontrol.server.protobuf.Uuid
 import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -53,7 +54,7 @@ class GrpcHandler(
         }
     }
 
-    override suspend fun getGestures(): MutableList<Gestures.Gesture> {
+    override suspend fun getGestures(): MutableList<Gesture> {
         if (authorizedStub == null)
             throw IllegalStateException("Haven't been authorized")
         return withContext(Dispatchers.IO) {
@@ -61,7 +62,40 @@ class GrpcHandler(
                 .setId("1")
                 .build()
             val response = authorizedStub.getGestures(getGestureRequest)
-            response.gestures.gesturesList
+            response.gestures.gesturesList.map { Gesture(it) }.toMutableList()
+        }
+    }
+
+    override suspend fun saveGesture(gesture: Gesture) {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        withContext(Dispatchers.IO) {
+            val saveGestureRequest = Request.saveGestureRequest.newBuilder()
+                .setId("1")
+                .setGesture(gesture.getProtoModel())
+                .setTimeSync(System.currentTimeMillis())
+                .build()
+            val response = authorizedStub.saveGesture(saveGestureRequest)
+        }
+    }
+
+    override suspend fun performGesture(gesture: Gesture) {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        withContext(Dispatchers.IO) {
+            val response = if (gesture.id == null) {
+                val performGesture = Request.performGestureRawRequest.newBuilder()
+                    .setId("1")
+                    .setGesture(gesture.getProtoModel())
+                    .build()
+                authorizedStub.performGestureRaw(performGesture)
+            } else {
+                val performGesture = Request.performGestureIdRequest.newBuilder()
+                    .setId("1")
+                    .setGestureId(Uuid.UUID.newBuilder().setValue(gesture.id.toString()))
+                    .build()
+                authorizedStub.performGestureId(performGesture)
+            }
         }
     }
 

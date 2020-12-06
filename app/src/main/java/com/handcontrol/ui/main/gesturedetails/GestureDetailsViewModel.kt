@@ -1,12 +1,10 @@
 package com.handcontrol.ui.main.gesturedetails
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.handcontrol.api.SaveGesture
+import androidx.lifecycle.*
+import com.handcontrol.api.Api
 import com.handcontrol.model.Gesture
 import com.handcontrol.repository.GestureRepository
+import kotlinx.coroutines.launch
 
 
 class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
@@ -35,16 +33,18 @@ class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
     }
 
     fun saveGesture() {
-        SaveGesture().invoke(
-            Gesture(
-                id,
-                name.value!!,
-                false,
-                isInfinity.value!!,
-                repeatCount.value!!.toIntOrNull(),
-                actions.value!!
+        viewModelScope.launch {
+            Api.getApiHandler().saveGesture(
+                Gesture(
+                    id,
+                    name.value!!,
+                    false,
+                    isInfinity.value!!,
+                    repeatCount.value!!.toIntOrNull(),
+                    actions.value!!
+                )
             )
-        )
+        }
     }
 
     override fun onCleared() {
