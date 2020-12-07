@@ -61,8 +61,8 @@
     <string name="hertz">Гц</string>
     <string name="error">Ошибка</string>
     <string name="permission_denied">Нет разрешения!</string>
-    <string name="unknown_command">Команда не распознана</string>
-    <string name="command_recognised">Команда</string>
+    <string name="unknown_command">Команда не распознана: %1$s</string>
+    <string name="command_recognised">Команда: %1$s</string>
     <string name="recognition_lang">Язык распознавания</string>
     <string name="russian">Русский</string>
     <string name="english">Английский</string>
