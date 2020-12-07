@@ -29,6 +29,19 @@ class GesturesViewModel : ViewModel() {
         }
     }
 
+    fun deleteGesture(gestureId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Api.getApiHandler().deleteGesture(gestureId)
+                updateGestures()
+                errorConnection.postValue(false)
+            } catch (e: StatusRuntimeException) {
+                e.printStackTrace()
+                errorConnection.postValue(true)
+            }
+        }
+    }
+
     private fun updateGestures() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
