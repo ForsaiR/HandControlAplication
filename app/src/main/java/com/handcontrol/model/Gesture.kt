@@ -8,7 +8,8 @@ data class Gesture(
     override var isExecuted: Boolean,
     val isInfinityRepeat: Boolean,
     val repeatCount: Int?,
-    val actions: MutableList<Action>
+    val actions: MutableList<Action>,
+    val englishName: String = name
 ) : ExecutableItem(id, name, isExecuted) {
     constructor(gesture: Gestures.Gesture) : this(
         gesture.id.value.toInt(),
