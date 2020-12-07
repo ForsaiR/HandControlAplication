@@ -6,8 +6,10 @@ import java.lang.ref.WeakReference
 object Api {
     private const val PREFERENCES = "com.handcontrol.API_PREFERENCES"
     private const val KEY_TOKEN = "TOKEN"
+    private const val KEY_PROTHESIS = "ONLINE_PROTHESIS"
 
     private var token: String? = null
+    private var prothesis: String? = null
     private var handlingType = HandlingType.GRPC
 
     private lateinit var weakContext: WeakReference<Context>
@@ -40,7 +42,20 @@ object Api {
         }
     }
 
+    fun clearProthesis() {
+        prothesis = null
+        weakContext.get()?.run {
+            val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            with (prefs.edit()) {
+                remove(KEY_PROTHESIS)
+                apply()
+            }
+        }
+    }
+
     fun isAuthorized(): Boolean = token != null
+
+    fun isRegistrated(): Boolean = token != null
 
     fun setHandlingType(handlingType: HandlingType) { this.handlingType = handlingType }
 
@@ -53,11 +68,29 @@ object Api {
             }
         }
     }
+    //сохранение uuid протеза
+     fun saveProthesis(prothesis: String){
+        weakContext.get()?.run {
+            val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            with (prefs.edit()) {
+                putString(KEY_PROTHESIS, prothesis)
+                apply()
+            }
+        }
+    }
 
-    private fun loadToken() {
+    fun loadToken(): String? {
         weakContext.get()?.run {
             val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
             token = prefs.getString(KEY_TOKEN, null)
+        }
+        return token;
+    }
+
+    private fun loadProthesis() {
+        weakContext.get()?.run {
+            val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            prothesis = prefs.getString(KEY_PROTHESIS, null)
         }
     }
 }

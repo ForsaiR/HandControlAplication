@@ -1,6 +1,7 @@
 package com.handcontrol.api
 
 import android.content.Context
+import com.google.android.material.snackbar.Snackbar
 import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.HandleRequestGrpc
 import com.handcontrol.server.protobuf.Request
@@ -16,7 +17,7 @@ import kotlinx.coroutines.withContext
 class GrpcHandler(
     context: Context?,
     token: String?
-) : IApiHandler {
+    ) : IApiHandler {
     private val stub: HandleRequestGrpc.HandleRequestBlockingStub
     private val authorizedStub: HandleRequestGrpc.HandleRequestBlockingStub?
 
@@ -43,7 +44,7 @@ class GrpcHandler(
                 .setPassword(testPassword)
                 .build()
             try {
-                val response = stub.registry(loginRequest)
+                val response = stub.login(loginRequest)
                 Api.setToken(response.token)
             } catch (e: StatusRuntimeException) {
                 if (e.status.code == Status.Code.ALREADY_EXISTS) {
@@ -96,6 +97,54 @@ class GrpcHandler(
                     .build()
                 authorizedStub.performGestureId(performGesture)
             }
+        }
+    }
+
+    suspend fun authorization(login: String, password: String) {
+        withContext(Dispatchers.IO) {
+            val loginRequest = Request.LoginRequest.newBuilder()
+                .setLogin(login)
+                .setPassword(password)
+                .build()
+            try {
+                val response = stub.login(loginRequest)
+                Api.setToken(response.token)
+            } catch (e: StatusRuntimeException) {
+                if (e.status.code == Status.Code.ALREADY_EXISTS) {
+                    val response = stub.login(loginRequest)
+                    Api.setToken(response.token)
+                } else throw e
+            }
+        }
+    }
+
+    suspend fun registration(name: String, login: String, password: String) {
+        withContext(Dispatchers.IO) {
+            val registrationRequest = Request.CreateRequest.newBuilder()
+                .setName(name)
+                .setLogin(login)
+                .setPassword(password)
+                .build()
+            try {
+                val response = stub.registry(registrationRequest)
+                Api.setToken(response.token)
+            } catch (e: StatusRuntimeException) {
+                if (e.status.code == Status.Code.ALREADY_EXISTS) {
+                    val response = stub.registry(registrationRequest)
+                    Api.setToken(response.token)
+                } else throw e
+            }
+        }
+    }
+
+    suspend fun getProto(): String{
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        return withContext(Dispatchers.IO) {
+            val getOnlineRequest = Request.getOnlineRequest.newBuilder()
+                .build()
+            val response = authorizedStub.getOnline(getOnlineRequest)
+            response.list
         }
     }
 
