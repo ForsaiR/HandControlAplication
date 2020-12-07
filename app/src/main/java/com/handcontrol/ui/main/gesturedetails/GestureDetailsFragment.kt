@@ -8,7 +8,6 @@ import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.handcontrol.R
-import com.handcontrol.api.SetPositions
 import com.handcontrol.base.BaseFragment
 import com.handcontrol.base.BaseRecyclerAdapter
 import com.handcontrol.databinding.FragmentGestureDetailsBinding
@@ -67,7 +66,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
 
                         }
 
-                        SetPositions().invoke(item as Action)
+                        viewModel.setPositions(item as Action)
                         item.isExecuted = !item.isExecuted
                         viewModel.playedPosition = position
                         adapter?.notifyItemChanged(position)

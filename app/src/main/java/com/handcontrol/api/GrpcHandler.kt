@@ -1,6 +1,7 @@
 package com.handcontrol.api
 
 import android.content.Context
+import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.HandleRequestGrpc
 import com.handcontrol.server.protobuf.Request
@@ -96,6 +97,36 @@ class GrpcHandler(
                     .build()
                 authorizedStub.performGestureId(performGesture)
             }
+        }
+    }
+
+
+    override suspend fun deleteGesture(gestureId: Int) {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        withContext(Dispatchers.IO) {
+            val deleteGestureRequest = Request.deleteGestureRequest.newBuilder()
+                .setId("1")
+                .setGestureId(Uuid.UUID.newBuilder().setValue(gestureId.toString()))
+                .setTimeSync(System.currentTimeMillis())
+                .build()
+            val response = authorizedStub.deleteGesture(deleteGestureRequest)
+        }
+    }
+
+    override suspend fun setPositions(action: Action) {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        withContext(Dispatchers.IO) {
+            val setPositionsRequest = Request.setPositionsRequest.newBuilder()
+                .setId("1")
+                .setLittleFingerPosition(action.littleFinger)
+                .setMiddleFingerPosition(action.middleFinger)
+                .setPointerFingerPosition(action.pointerFinger)
+                .setRingFingerPosition(action.ringFinger)
+                .setThumbFingerPosition(action.thumbFinger)
+                .build()
+            val response = authorizedStub.setPositions(setPositionsRequest)
         }
     }
 
