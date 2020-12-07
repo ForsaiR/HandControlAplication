@@ -27,7 +27,11 @@ class BaseRecyclerAdapter<D, T : BaseAdapterListener>(
     private var differCallback: DiffUtil.ItemCallback<D> = object : DiffUtil.ItemCallback<D>() {
         override fun areItemsTheSame(oldItem: D, newItem: D): Boolean =
             if (oldItem is ExecutableItem && newItem is ExecutableItem) {
-                oldItem.id == newItem.id
+                if (oldItem.id != null) {
+                    oldItem.id == newItem.id
+                } else {
+                    oldItem == newItem
+                }
             } else false
 
 

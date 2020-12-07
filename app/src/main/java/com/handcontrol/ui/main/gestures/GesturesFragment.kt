@@ -26,8 +26,6 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
     R.layout.fragment_gestures
 ) {
 
-//    private val PERMISSIONS_RECORD_AUDIO = 200
-
     override val viewModel: GesturesViewModel by lazy { ViewModelProvider(this).get(viewModelClass) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,6 +57,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                         //todo get gesture state from api
                         item.isExecuted = !item.isExecuted
                         viewModel.performGesture(item as Gesture)
+                        adapter?.notifyItemChanged(position)
                     }
 
                 }
@@ -97,18 +96,4 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
         }
     }
 
-
-//  Вставьте фрагмент кода, когда пользователь захочет использовать голосовые команды
-//    if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-//    == PackageManager.PERMISSION_DENIED
-//    ) {
-//        // Запрос разрешения
-//        ActivityCompat.requestPermissions(
-//            this,
-//            arrayOf(Manifest.permission.RECORD_AUDIO),
-//            PERMISSIONS_RECORD_AUDIO
-//        )
-//    } else {
-//        //исполняемый код
-//    }
 }

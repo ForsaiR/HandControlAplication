@@ -70,6 +70,11 @@ class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
         }
     }
 
+    fun deleteAction(action: Action) {
+        actions.value!!.remove(action)
+        GestureRepository.deleteAction(action)
+    }
+
     override fun onCleared() {
         isInfinity.removeObserver(infinityObserver)
         repeatCount.removeObserver(repeatObserver)

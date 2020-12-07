@@ -24,8 +24,6 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
     R.layout.fragment_gesture_details
 ) {
 
-//    private val PERMISSIONS_RECORD_AUDIO = 200
-
     override val viewModel: GestureDetailsViewModel by navGraphViewModels(R.id.nav_graph_gesture) {
         GestureDetailsViewModelFactory(
             arguments?.getSerializable(ARG_GESTURE_KEY) as? Gesture
@@ -58,7 +56,7 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
                     }
 
                     override fun onPlay(item: ExecutableItem, position: Int) {
-                        if (viewModel.playedPosition != null) {
+                        if (viewModel.playedPosition != null && adapter?.itemCount!! > 1) {
                             (adapter as BaseRecyclerAdapter<Action, ExecutableItemListener>).getItem(
                                 viewModel.playedPosition!!
                             ).isExecuted = false
@@ -101,18 +99,4 @@ class GestureDetailsFragment : BaseFragment<FragmentGestureDetailsBinding, Gestu
         const val ARG_NEW_GESTURE_NAME = "Новый жест"
     }
 
-
-    //  Вставьте фрагмент кода, когда пользователь захочет сохранить график
-//    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//    == PackageManager.PERMISSION_DENIED
-//    ) {
-//        // Запрос разрешения
-//        ActivityCompat.requestPermissions(
-//            this,
-//            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-//            PERMISSIONS_WRITE_EXTERNAL_STORAGE
-//        )
-//    } else {
-//        //исполняемый код
-//    }
 }

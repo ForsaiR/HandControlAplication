@@ -4,7 +4,7 @@ import com.handcontrol.server.protobuf.Gestures
 
 data class Action(
     override var id: Int?,
-    override var name: String,
+    override var name: String?,
     override var isExecuted: Boolean,
     var thumbFinger: Int,
     var pointerFinger: Int,
@@ -14,7 +14,7 @@ data class Action(
 ) : ExecutableItem(id, name, isExecuted) {
     constructor(action: Gestures.GestureAction) : this(
         null,
-        "",
+        null,
         false,
         action.thumbFingerPosition,
         action.pointerFingerPosition,
@@ -22,11 +22,6 @@ data class Action(
         action.ringFingerPosition,
         action.littleFingerPosition
     )
-
-    init {
-        id = hashCode()
-        name = id.toString()
-    }
 
     fun getProtoModel(): Gestures.GestureAction =
         Gestures.GestureAction.newBuilder()
