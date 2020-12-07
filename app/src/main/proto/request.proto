@@ -6,7 +6,7 @@ import "uuid.proto";
 
 service HandleRequest{
   rpc login(LoginRequest) returns (LoginResponse);
-  rpc registry(LoginRequest) returns (LoginResponse);
+  rpc registry(CreateRequest) returns (CreateResponse);
   rpc getOnline(getOnlineRequest) returns (getOnlineResponse);
   rpc setOffline(setOfflineRequest) returns (setOfflineResponse);
   rpc getSettings(getSettingsRequest) returns (getSettingsResponse);
@@ -25,6 +25,16 @@ message LoginRequest {
 }
 
 message LoginResponse {
+  string token = 1;
+}
+
+message CreateRequest {
+  string name = 1;
+  string login = 2;
+  string password = 3;
+}
+
+message CreateResponse {
   string token = 1;
 }
 
