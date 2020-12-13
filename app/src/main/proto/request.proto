@@ -6,7 +6,7 @@ import "uuid.proto";
 
 service HandleRequest{
   rpc login(LoginRequest) returns (LoginResponse);
-  rpc registry(CreateRequest) returns (CreateResponse);
+  rpc registry(LoginRequest) returns (LoginResponse);
   rpc getOnline(getOnlineRequest) returns (getOnlineResponse);
   rpc setOffline(setOfflineRequest) returns (setOfflineResponse);
   rpc getSettings(getSettingsRequest) returns (getSettingsResponse);
@@ -17,6 +17,7 @@ service HandleRequest{
   rpc performGestureId(performGestureIdRequest) returns (performGestureIdResponse);
   rpc performGestureRaw(performGestureRawRequest) returns (performGestureRawResponse);
   rpc setPositions(setPositionsRequest) returns (setPositionsResponse);
+  rpc setProthesis(setProthesisRequest) returns (setProthesisResponse);
 }
 
 message LoginRequest {
@@ -28,14 +29,12 @@ message LoginResponse {
   string token = 1;
 }
 
-message CreateRequest {
-  string name = 1;
-  string login = 2;
-  string password = 3;
+message setProthesisRequest {
+  string login = 1;
+  string id = 2;
 }
 
-message CreateResponse {
-  string token = 1;
+message setProthesisResponse {
 }
 
 message ClientRequest {
@@ -74,7 +73,6 @@ message setSettingsRequest {
 }
 
 message setSettingsResponse {
-  com.handcontrol.server.protobuf.GetSettings settings = 1;
 }
 
 message getGesturesRequest {

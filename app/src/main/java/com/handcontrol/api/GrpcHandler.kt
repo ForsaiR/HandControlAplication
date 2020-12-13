@@ -1,7 +1,6 @@
 package com.handcontrol.api
 
 import android.content.Context
-import com.google.android.material.snackbar.Snackbar
 import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.HandleRequestGrpc
 import com.handcontrol.server.protobuf.Request
@@ -118,10 +117,9 @@ class GrpcHandler(
         }
     }
 
-    suspend fun registration(name: String, login: String, password: String) {
+    suspend fun registration(login: String, password: String) {
         withContext(Dispatchers.IO) {
-            val registrationRequest = Request.CreateRequest.newBuilder()
-                .setName(name)
+            val registrationRequest = Request.LoginRequest.newBuilder()
                 .setLogin(login)
                 .setPassword(password)
                 .build()
