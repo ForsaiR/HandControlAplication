@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/colorPrimary">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -20,20 +18,8 @@
         android:textAppearance="@style/h1"
  />
 
-
     <EditText
-        android:id="@+id/name"
-        android:layout_width="260dp"
-        android:layout_height="41dp"
-        android:layout_marginTop="222dp"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/input"
-        android:paddingStart="21dp"
-        android:hint="@string/name"
-        android:textAppearance="@style/text2" />
-
-    <EditText
-        android:id="@+id/login"
+        android:id="@+id/new_login"
         android:layout_width="260dp"
         android:layout_height="41dp"
         android:layout_marginTop="300dp"
@@ -44,7 +30,7 @@
         android:textAppearance="@style/text2" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/new_password"
         android:layout_width="260dp"
         android:layout_height="41dp"
         android:layout_marginTop="357dp"
@@ -52,6 +38,7 @@
         android:background="@drawable/input"
         android:paddingStart="21dp"
         android:hint="@string/password_"
+        android:inputType="textPassword"
         android:textAppearance="@style/text2"/>
 
     <Button

@@ -1,0 +1,6 @@
+syntax="proto3";
+package com.handcontrol.server.protobuf;
+
+message UUID {
+  string value = 1;
+}
