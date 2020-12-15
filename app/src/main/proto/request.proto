@@ -17,6 +17,7 @@ service HandleRequest{
   rpc performGestureId(performGestureIdRequest) returns (performGestureIdResponse);
   rpc performGestureRaw(performGestureRawRequest) returns (performGestureRawResponse);
   rpc setPositions(setPositionsRequest) returns (setPositionsResponse);
+  rpc setProthesis(setProthesisRequest) returns (setProthesisResponse);
 }
 
 message LoginRequest {
@@ -26,6 +27,14 @@ message LoginRequest {
 
 message LoginResponse {
   string token = 1;
+}
+
+message setProthesisRequest {
+  string login = 1;
+  string id = 2;
+}
+
+message setProthesisResponse {
 }
 
 message ClientRequest {
@@ -64,7 +73,6 @@ message setSettingsRequest {
 }
 
 message setSettingsResponse {
-  com.handcontrol.server.protobuf.GetSettings settings = 1;
 }
 
 message getGesturesRequest {

@@ -44,7 +44,7 @@ class GrpcHandler(
                 .setPassword(testPassword)
                 .build()
             try {
-                val response = stub.registry(loginRequest)
+                val response = stub.login(loginRequest)
                 Api.setToken(response.token)
             } catch (e: StatusRuntimeException) {
                 if (e.status.code == Status.Code.ALREADY_EXISTS) {
@@ -127,6 +127,53 @@ class GrpcHandler(
                 .setThumbFingerPosition(action.thumbFinger)
                 .build()
             val response = authorizedStub.setPositions(setPositionsRequest)
+        }
+    }
+
+    suspend fun authorization(login: String, password: String) {
+        withContext(Dispatchers.IO) {
+            val loginRequest = Request.LoginRequest.newBuilder()
+                .setLogin(login)
+                .setPassword(password)
+                .build()
+            try {
+                val response = stub.login(loginRequest)
+                Api.setToken(response.token)
+            } catch (e: StatusRuntimeException) {
+                if (e.status.code == Status.Code.ALREADY_EXISTS) {
+                    val response = stub.login(loginRequest)
+                    Api.setToken(response.token)
+                } else throw e
+            }
+        }
+    }
+
+    suspend fun registration(login: String, password: String) {
+        withContext(Dispatchers.IO) {
+            val registrationRequest = Request.LoginRequest.newBuilder()
+                .setLogin(login)
+                .setPassword(password)
+                .build()
+            try {
+                val response = stub.registry(registrationRequest)
+                Api.setToken(response.token)
+            } catch (e: StatusRuntimeException) {
+                if (e.status.code == Status.Code.ALREADY_EXISTS) {
+                    val response = stub.registry(registrationRequest)
+                    Api.setToken(response.token)
+                } else throw e
+            }
+        }
+    }
+
+    suspend fun getProto(): String{
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        return withContext(Dispatchers.IO) {
+            val getOnlineRequest = Request.getOnlineRequest.newBuilder()
+                .build()
+            val response = authorizedStub.getOnline(getOnlineRequest)
+            response.list
         }
     }
 

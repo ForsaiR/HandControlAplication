@@ -20,7 +20,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.handcontrol.R
-import com.handcontrol.api.Command
+import com.handcontrol.api.Api
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class Navigation : AppCompatActivity() {
@@ -86,7 +89,6 @@ class Navigation : AppCompatActivity() {
     inner class CommandRecognizer {
         internal lateinit var speech: SpeechRecognizer
         internal var logTag = "VoiceRecognitionActivity"
-        private var currentCommand: Command? = null
 
         @SuppressLint("ClickableViewAccessibility")
         fun setUp(button: View) {
@@ -173,26 +175,33 @@ class Navigation : AppCompatActivity() {
             override fun onResults(results: Bundle?) {
                 val commandText =
                     results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()
-                currentCommand = commandText?.let {
-                    when (recognitionLocale) {
-                        RUSSIAN_LOCALE_TEXT -> Command.getRussianCommandIgnoreCase(commandText)
-                        else -> Command.getEnglishCommandIgnoreCase(commandText)
+                val apiHandler = Api.getApiHandler()
+
+                val gesture = commandText?.let {
+                    runBlocking {
+                        val gestures = apiHandler.getGestures()
+                        when (recognitionLocale) { // find command according to language
+                            RUSSIAN_LOCALE_TEXT -> gestures.find { it.name == commandText }
+                            else -> gestures.find { it.englishName == commandText }
+                        }
                     }
                 }
 
-                if (currentCommand == null) {
+                if (gesture == null) {
                     Toast.makeText(
                         this@Navigation,
-                        "${getString(R.string.unknown_command)}: $commandText",
+                        getString(R.string.unknown_command, commandText),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     Toast.makeText(
                         this@Navigation,
-                        "${getString(R.string.command_recognised)}: $commandText",
+                        getString(R.string.command_recognised, commandText),
                         Toast.LENGTH_SHORT
                     ).show()
-                    // TODO send
+                    GlobalScope.launch {
+                        apiHandler.performGesture(gesture)
+                    }
                 }
             }
 

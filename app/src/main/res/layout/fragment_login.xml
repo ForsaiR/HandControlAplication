@@ -52,6 +52,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/input"
             android:hint="@string/password"
+            android:inputType="textPassword"
             android:textAppearance="@style/text2" />
 
         <TextView
