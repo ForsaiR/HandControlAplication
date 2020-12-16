@@ -11,24 +11,20 @@ import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import com.handcontrol.R
-import com.handcontrol.adapter.AdapterClass
+import com.handcontrol.adapter.SearchAdapter
 import com.handcontrol.api.Api
 import com.handcontrol.repository.SearchQuery
 import com.handcontrol.ui.main.Navigation
 import io.grpc.StatusRuntimeException
+import kotlinx.android.synthetic.main.list_item.view.*
 import kotlinx.coroutines.launch
-import java.util.logging.Logger
 
 
 class ChoiseFragment : Fragment() {
     lateinit var list: ListView
-    var adapter: AdapterClass? = null
+    var adapter: SearchAdapter? = null
     var editsearch: SearchView? = null
-    var searchQueries: Array<String> = arrayOf(
-           "Proto_1", "Proto_2", "Proto_3",
-    )
 
     var arraylist = ArrayList<SearchQuery>()
     override fun onCreateView(
@@ -39,27 +35,51 @@ class ChoiseFragment : Fragment() {
         val rootView: View = inflater.inflate(R.layout.fragment_choise, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         Api.clearProthesis()
-
         lifecycleScope.launch {
-        try{
-            var proto = Api.getGrpcHandler().getProto()
-            proto = proto.replace("[", "")
-            proto = proto.replace("]", "")
-            val parts = proto.split(", ")
-                // Logger.getLogger(ChoiseFragment::class.java.name).warning(proto)
-            for (searchQuery in parts) {
-                val searchQuery1 = SearchQuery(searchQuery)
-                arraylist.add(searchQuery1)
+            try{
+     //           var proto = Api.getGrpcHandler().getProto()
+                var proto = "[proto1, proto2, proto3]"
+
+                proto = proto.replace("[","")
+                proto = proto.replace("]","")
+                proto = proto.replace(" ","")
+                var parts:Array<String> = proto.split(",").toTypedArray()
+
+
+                parts += "d7eae912-142b-4596-993b-1763728e3f9b"
+
+
+                for (searchQuery in parts) {
+                    println(searchQuery)
+                }
+
+
+                for (searchQuery in parts) {
+                    val searchQuery1 = SearchQuery(searchQuery)
+                    arraylist.add(searchQuery1)
+                }
+            }catch (e: StatusRuntimeException){
+                e.printStackTrace()
             }
-        }catch (e: StatusRuntimeException){
-            e.printStackTrace()
-        }
         }
 
         list = rootView.findViewById(R.id.list) as ListView
-        adapter = AdapterClass(this, arraylist)
+        adapter = SearchAdapter(this, arraylist)
         list.adapter = adapter
         editsearch = rootView.findViewById(R.id.search) as SearchView
+
+        return rootView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        list.setOnItemClickListener(OnItemClickListener { adapter, view, item, id ->
+            val intent = Intent(context, Navigation::class.java)
+            val device = view.text1.text
+            //println("proto" + device)
+            Api.saveProthesis(device as String)
+            startActivity(intent)
+        })
         editsearch!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -69,16 +89,6 @@ class ChoiseFragment : Fragment() {
                 adapter!!.filter(newText)
                 return false
             }
-        })
-
-        return rootView
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        list.setOnItemClickListener(OnItemClickListener { _, _, _, id ->
-            val intent = Intent(context, Navigation::class.java)
-            Api.saveProthesis(id.toString())
-            startActivity(intent)
         })
     }
 }

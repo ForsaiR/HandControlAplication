@@ -1,5 +1,6 @@
 package com.handcontrol.api
 
+import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
 
 interface IApiHandler {
@@ -9,4 +10,8 @@ interface IApiHandler {
     suspend fun saveGesture(gesture: Gesture)
 
     suspend fun performGesture(gesture: Gesture)
+
+    suspend fun deleteGesture(gestureId: String)
+
+    suspend fun setPositions(action: Action)
 }
