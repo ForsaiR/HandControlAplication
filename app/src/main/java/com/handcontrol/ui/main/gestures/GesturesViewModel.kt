@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.handcontrol.api.Api
-import com.handcontrol.api.PerformGesture
 import com.handcontrol.model.Gesture
 import io.grpc.StatusRuntimeException
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +17,29 @@ class GesturesViewModel : ViewModel() {
         updateGestures()
     }
 
-    fun performGesture(id: Int) {
-        PerformGesture().invoke(id)
+    fun performGesture(gesture: Gesture) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Api.getApiHandler().performGesture(gesture)
+                errorConnection.postValue(false)
+            } catch (e: StatusRuntimeException) {
+                e.printStackTrace()
+                errorConnection.postValue(true)
+            }
+        }
+    }
+
+    fun deleteGesture(gestureId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Api.getApiHandler().deleteGesture(gestureId)
+                updateGestures()
+                errorConnection.postValue(false)
+            } catch (e: StatusRuntimeException) {
+                e.printStackTrace()
+                errorConnection.postValue(true)
+            }
+        }
     }
 
     private fun updateGestures() {
