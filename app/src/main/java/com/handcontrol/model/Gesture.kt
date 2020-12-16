@@ -3,7 +3,7 @@ package com.handcontrol.model
 import com.handcontrol.server.protobuf.Gestures
 
 data class Gesture(
-    override val id: Int?,
+    override val id: String?,
     override val name: String,
     override var isExecuted: Boolean,
     val isInfinityRepeat: Boolean,
@@ -14,7 +14,7 @@ data class Gesture(
     var i = 0
 
     constructor(gesture: Gestures.Gesture) : this(
-        gesture.id.value.toInt(),
+        gesture.id.value,
         gesture.name,
         false,
         false,

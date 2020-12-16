@@ -20,6 +20,7 @@ class GrpcHandler(
 ) : IApiHandler {
     private val stub: HandleRequestGrpc.HandleRequestBlockingStub
     private val authorizedStub: HandleRequestGrpc.HandleRequestBlockingStub?
+    private val prothesisId: String = Api.getProthesis().toString()
 
     init {
         val channel = AndroidChannelBuilder.forAddress(GRPC_ADDRESS, GRPC_PORT)
@@ -60,7 +61,7 @@ class GrpcHandler(
             throw IllegalStateException("Haven't been authorized")
         return withContext(Dispatchers.IO) {
             val getGestureRequest = Request.getGesturesRequest.newBuilder()
-                .setId("1")
+                .setId(prothesisId)
                 .build()
             val response = authorizedStub.getGestures(getGestureRequest)
             response.gestures.gesturesList.map { Gesture(it) }.toMutableList()
@@ -72,7 +73,7 @@ class GrpcHandler(
             throw IllegalStateException("Haven't been authorized")
         withContext(Dispatchers.IO) {
             val saveGestureRequest = Request.saveGestureRequest.newBuilder()
-                .setId("1")
+                .setId(prothesisId)
                 .setGesture(gesture.getProtoModel())
                 .setTimeSync(System.currentTimeMillis())
                 .build()
@@ -86,13 +87,13 @@ class GrpcHandler(
         withContext(Dispatchers.IO) {
             val response = if (gesture.id == null) {
                 val performGesture = Request.performGestureRawRequest.newBuilder()
-                    .setId("1")
+                    .setId(prothesisId)
                     .setGesture(gesture.getProtoModel())
                     .build()
                 authorizedStub.performGestureRaw(performGesture)
             } else {
                 val performGesture = Request.performGestureIdRequest.newBuilder()
-                    .setId("1")
+                    .setId(prothesisId)
                     .setGestureId(Uuid.UUID.newBuilder().setValue(gesture.id.toString()))
                     .build()
                 authorizedStub.performGestureId(performGesture)
@@ -101,13 +102,13 @@ class GrpcHandler(
     }
 
 
-    override suspend fun deleteGesture(gestureId: Int) {
+    override suspend fun deleteGesture(gestureId: String) {
         if (authorizedStub == null)
             throw IllegalStateException("Haven't been authorized")
         withContext(Dispatchers.IO) {
             val deleteGestureRequest = Request.deleteGestureRequest.newBuilder()
-                .setId("1")
-                .setGestureId(Uuid.UUID.newBuilder().setValue(gestureId.toString()))
+                .setId(prothesisId)
+                .setGestureId(Uuid.UUID.newBuilder().setValue(gestureId))
                 .setTimeSync(System.currentTimeMillis())
                 .build()
             val response = authorizedStub.deleteGesture(deleteGestureRequest)
@@ -119,7 +120,7 @@ class GrpcHandler(
             throw IllegalStateException("Haven't been authorized")
         withContext(Dispatchers.IO) {
             val setPositionsRequest = Request.setPositionsRequest.newBuilder()
-                .setId("1")
+                .setId(prothesisId)
                 .setLittleFingerPosition(action.littleFinger)
                 .setMiddleFingerPosition(action.middleFinger)
                 .setPointerFingerPosition(action.pointerFinger)

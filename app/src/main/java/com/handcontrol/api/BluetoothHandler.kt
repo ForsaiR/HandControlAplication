@@ -16,7 +16,7 @@ class BluetoothHandler : IApiHandler {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteGesture(gestureId: Int) {
+    override suspend fun deleteGesture(gestureId: String) {
         TODO("Not yet implemented")
     }
 

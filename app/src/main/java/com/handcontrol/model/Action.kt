@@ -3,7 +3,7 @@ package com.handcontrol.model
 import com.handcontrol.server.protobuf.Gestures
 
 data class Action(
-    override var id: Int?,
+    override var id: String?,
     override var name: String?,
     override var isExecuted: Boolean,
     var thumbFinger: Int,

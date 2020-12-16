@@ -19,12 +19,12 @@ object Api {
         loadToken()
     }
 
-    fun getApiHandler() : IApiHandler = when (handlingType) {
+    fun getApiHandler(): IApiHandler = when (handlingType) {
         HandlingType.GRPC -> GrpcHandler(weakContext.get(), token)
         HandlingType.BLUETOOTH -> BluetoothHandler()
     }
 
-    fun getGrpcHandler() : GrpcHandler = GrpcHandler(weakContext.get(), token)
+    fun getGrpcHandler(): GrpcHandler = GrpcHandler(weakContext.get(), token)
 
     fun setToken(token: String) {
         this.token = token
@@ -35,7 +35,7 @@ object Api {
         token = null
         weakContext.get()?.run {
             val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-            with (prefs.edit()) {
+            with(prefs.edit()) {
                 remove(KEY_TOKEN)
                 apply()
             }
@@ -46,7 +46,7 @@ object Api {
         prothesis = null
         weakContext.get()?.run {
             val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-            with (prefs.edit()) {
+            with(prefs.edit()) {
                 remove(KEY_PROTHESIS)
                 apply()
             }
@@ -57,25 +57,35 @@ object Api {
 
     fun isRegistrated(): Boolean = token != null
 
-    fun setHandlingType(handlingType: HandlingType) { this.handlingType = handlingType }
+    fun setHandlingType(handlingType: HandlingType) {
+        this.handlingType = handlingType
+    }
 
     private fun saveToken() {
         weakContext.get()?.run {
             val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-            with (prefs.edit()) {
+            with(prefs.edit()) {
                 putString(KEY_TOKEN, token)
                 apply()
             }
         }
     }
+
     //сохранение uuid протеза
-     fun saveProthesis(prothesis: String){
+    fun saveProthesis(prothesis: String) {
         weakContext.get()?.run {
             val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-            with (prefs.edit()) {
+            with(prefs.edit()) {
                 putString(KEY_PROTHESIS, prothesis)
                 apply()
             }
+        }
+    }
+
+    fun getProthesis(): String? {
+        return weakContext.get()?.run {
+            getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+                .getString(KEY_PROTHESIS, "000")
         }
     }
 

@@ -29,7 +29,7 @@ class GesturesViewModel : ViewModel() {
         }
     }
 
-    fun deleteGesture(gestureId: Int) {
+    fun deleteGesture(gestureId: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Api.getApiHandler().deleteGesture(gestureId)

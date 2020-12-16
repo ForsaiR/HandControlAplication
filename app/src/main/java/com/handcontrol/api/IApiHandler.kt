@@ -11,7 +11,7 @@ interface IApiHandler {
 
     suspend fun performGesture(gesture: Gesture)
 
-    suspend fun deleteGesture(gestureId: Int)
+    suspend fun deleteGesture(gestureId: String)
 
     suspend fun setPositions(action: Action)
 }
