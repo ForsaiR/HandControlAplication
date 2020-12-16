@@ -1,20 +1,19 @@
 package com.handcontrol.adapter
 
-import android.R
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.handcontrol.R
 import com.handcontrol.repository.SearchQuery
 import com.handcontrol.ui.start.prothesis.ChoiseFragment
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class AdapterClass(context: ChoiseFragment, searchQueries: MutableList<SearchQuery>?) :
-    BaseAdapter() {
+class SearchAdapter(context: ChoiseFragment, searchQueries: MutableList<SearchQuery>?) :
+        BaseAdapter() {
     var inflater: LayoutInflater
     private var searchQueries: MutableList<SearchQuery>? = null
     private val arraylist: ArrayList<SearchQuery>
@@ -40,7 +39,7 @@ class AdapterClass(context: ChoiseFragment, searchQueries: MutableList<SearchQue
         val holder: ViewHolder
         if (view == null) {
             holder = ViewHolder()
-            view = inflater.inflate(com.handcontrol.R.layout.list_item, null)
+            view = inflater.inflate(R.layout.list_item, null)
             holder.devices = view.findViewById(R.id.text1)
             view.setTag(holder)
         } else {
@@ -51,8 +50,7 @@ class AdapterClass(context: ChoiseFragment, searchQueries: MutableList<SearchQue
     }
 
     fun filter(charText: String) {
-        var charText = charText
-        charText = charText.toLowerCase(Locale.getDefault())
+        charText.toLowerCase(Locale.getDefault())
         searchQueries!!.clear()
         if (charText.length == 0) {
             searchQueries!!.addAll(arraylist)
@@ -69,7 +67,7 @@ class AdapterClass(context: ChoiseFragment, searchQueries: MutableList<SearchQue
     init {
         this.searchQueries = searchQueries
         inflater = LayoutInflater.from(context.context)
-        arraylist = ArrayList<SearchQuery>()
+        arraylist = ArrayList()
         arraylist.addAll(searchQueries!!)
     }
 }
