@@ -27,11 +27,6 @@ class ActionFragment : BaseFragment<FragmentActionDetailsBinding, ActionViewMode
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        (arguments?.getSerializable(ARG_ACTION_KEY) as? Action).let {
-//            if (it == null) {
-//                findNavController().navigate(R.id.navigation_action_details_editor)
-//            }
-//        }
         setHasOptionsMenu(true)
         return super.onCreateView(inflater, container, savedInstanceState)
     }

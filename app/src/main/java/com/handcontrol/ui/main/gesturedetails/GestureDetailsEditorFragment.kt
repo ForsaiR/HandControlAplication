@@ -6,11 +6,15 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.navigation.ui.onNavDestinationSelected
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
 import com.handcontrol.base.BaseRecyclerAdapter
+import com.handcontrol.base.BaseViewHolder
 import com.handcontrol.databinding.FragmentGestureDetailsEditorBinding
+import com.handcontrol.databinding.ListItemEditableBinding
 import com.handcontrol.model.Action
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
@@ -24,8 +28,6 @@ class GestureDetailsEditorFragment
     GestureDetailsViewModel::class.java,
     R.layout.fragment_gesture_details_editor
 ) {
-
-//    private val PERMISSIONS_RECORD_AUDIO = 200
 
     override val viewModel: GestureDetailsViewModel by navGraphViewModels(R.id.nav_graph_gesture) {
         GestureDetailsViewModelFactory(
@@ -71,6 +73,25 @@ class GestureDetailsEditorFragment
                 orientation = LinearLayoutManager.VERTICAL
             }
         }
+
+        ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    with((viewHolder as BaseViewHolder).binding as ListItemEditableBinding) {
+                        viewModel.deleteAction(item as Action)
+                        editableActionsRecycler.adapter?.notifyItemRemoved(position!!)
+                    }
+                }
+            }
+        ).attachToRecyclerView(editableActionsRecycler)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -89,18 +110,4 @@ class GestureDetailsEditorFragment
         }
     }
 
-
-    //  Вставьте фрагмент кода, когда пользователь захочет сохранить график
-//    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//    == PackageManager.PERMISSION_DENIED
-//    ) {
-//        // Запрос разрешения
-//        ActivityCompat.requestPermissions(
-//            this,
-//            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-//            PERMISSIONS_WRITE_EXTERNAL_STORAGE
-//        )
-//    } else {
-//        //исполняемый код
-//    }
 }
