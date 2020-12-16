@@ -94,4 +94,10 @@
         </fragment>
     </navigation>
 
+    <fragment
+        android:id="@+id/change_prosthesis"
+        android:name="com.handcontrol.ui.start.prothesis.ChoiseFragment"
+        android:label="@string/change_prothesis"
+        tools:layout="@layout/fragment_choise" />
+
 </navigation>
