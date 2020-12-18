@@ -12,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.handcontrol.R
 import com.handcontrol.api.Api
-import com.handcontrol.api.HandlingType
 import io.grpc.StatusRuntimeException
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.launch
@@ -31,21 +30,14 @@ class LoginFragment : Fragment() {
         val login: EditText = view.findViewById(R.id.login) as EditText
         val password: EditText = view.findViewById(R.id.password) as EditText
         loginButton.setOnClickListener {
-            Api.setHandlingType(HandlingType.GRPC)
-            if (!login.text.isBlank() && !password.text.isBlank()) {
+            if (login.text.isNotBlank() && password.text.isNotBlank()) {
                 lifecycleScope.launch {
                     try {
                         Snackbar.make(it, "wait...", Snackbar.LENGTH_INDEFINITE).show()
                         Api.getGrpcHandler()
                             .authorization(login.text.toString(), password.text.toString())
                         Snackbar.make(it, "authorized", Snackbar.LENGTH_SHORT).show()
-                        if (Api.isAuthorized()) {
-                           val proto = Api.getGrpcHandler().getProto()
-                            Api.saveProtos(proto)
-                            findNavController().navigate(R.id.action_loginFragment_to_choiseFragment)
-                        } else {
-                            Snackbar.make(it, "Not authorized", Snackbar.LENGTH_SHORT).show()
-                        }
+                        findNavController().navigate(R.id.action_loginFragment_to_choiseFragment)
                     } catch (e: StatusRuntimeException) {
                         e.printStackTrace()
                         Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()

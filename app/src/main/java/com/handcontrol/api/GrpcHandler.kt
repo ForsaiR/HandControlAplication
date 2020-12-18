@@ -16,11 +16,11 @@ import kotlinx.coroutines.withContext
 
 class GrpcHandler(
     context: Context?,
-    token: String?
+    token: String?,
+    private val prothesisId: String
 ) : IApiHandler {
     private val stub: HandleRequestGrpc.HandleRequestBlockingStub
     private val authorizedStub: HandleRequestGrpc.HandleRequestBlockingStub?
-    private val prothesisId: String = Api.getProthesis().toString()
 
     init {
         val channel = AndroidChannelBuilder.forAddress(GRPC_ADDRESS, GRPC_PORT)
@@ -34,26 +34,6 @@ class GrpcHandler(
             header.put(key, it)
             MetadataUtils.attachHeaders(stub, header)
                 .withInterceptors(WrongTokenInterceptor(context))
-        }
-    }
-
-    suspend fun setTestToken() {
-        withContext(Dispatchers.IO) {
-            val testLogin = "testLogin"
-            val testPassword = "testPassword"
-            val loginRequest = Request.LoginRequest.newBuilder()
-                .setLogin(testLogin)
-                .setPassword(testPassword)
-                .build()
-            try {
-                val response = stub.login(loginRequest)
-                Api.setToken(response.token)
-            } catch (e: StatusRuntimeException) {
-                if (e.status.code == Status.Code.ALREADY_EXISTS) {
-                    val response = stub.login(loginRequest)
-                    Api.setToken(response.token)
-                } else throw e
-            }
         }
     }
 
@@ -78,7 +58,7 @@ class GrpcHandler(
                 .setGesture(gesture.getProtoModel())
                 .setTimeSync(System.currentTimeMillis())
                 .build()
-            val response = authorizedStub.saveGesture(saveGestureRequest)
+            authorizedStub.saveGesture(saveGestureRequest)
         }
     }
 
@@ -86,7 +66,7 @@ class GrpcHandler(
         if (authorizedStub == null)
             throw IllegalStateException("Haven't been authorized")
         withContext(Dispatchers.IO) {
-            val response = if (gesture.id == null) {
+            if (gesture.id == null) {
                 val performGesture = Request.performGestureRawRequest.newBuilder()
                     .setId(prothesisId)
                     .setGesture(gesture.getProtoModel())
@@ -112,7 +92,7 @@ class GrpcHandler(
                 .setGestureId(Uuid.UUID.newBuilder().setValue(gestureId))
                 .setTimeSync(System.currentTimeMillis())
                 .build()
-            val response = authorizedStub.deleteGesture(deleteGestureRequest)
+            authorizedStub.deleteGesture(deleteGestureRequest)
         }
     }
 
@@ -128,7 +108,7 @@ class GrpcHandler(
                 .setRingFingerPosition(action.ringFinger)
                 .setThumbFingerPosition(action.thumbFinger)
                 .build()
-            val response = authorizedStub.setPositions(setPositionsRequest)
+            authorizedStub.setPositions(setPositionsRequest)
         }
     }
 

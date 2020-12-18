@@ -21,7 +21,6 @@ class WrongTokenInterceptor(
                         override fun onClose(status: Status?, trailers: Metadata?) {
                             super.onClose(status, trailers)
                             if (status?.code == Status.Code.UNAUTHENTICATED) {
-                                Api.clearToken()
                                 context?.run {
                                     startActivity(
                                         Intent(this, MainActivity::class.java)
