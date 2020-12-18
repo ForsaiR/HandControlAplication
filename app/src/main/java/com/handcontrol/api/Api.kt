@@ -7,9 +7,12 @@ object Api {
     private const val PREFERENCES = "com.handcontrol.API_PREFERENCES"
     private const val KEY_TOKEN = "TOKEN"
     private const val KEY_PROTHESIS = "ONLINE_PROTHESIS"
+    private const val KEY_PROTOS = "ALL_ONLINE_PROTHESIS"
+
 
     private var token: String? = null
     private var prothesis: String? = null
+    private var protos: String? = null
     private var handlingType = HandlingType.GRPC
 
     private lateinit var weakContext: WeakReference<Context>
@@ -53,6 +56,17 @@ object Api {
         }
     }
 
+    fun clearProtos() {
+        prothesis = null
+        weakContext.get()?.run {
+            val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            with(prefs.edit()) {
+                remove(KEY_PROTOS)
+                apply()
+            }
+        }
+    }
+
     fun isAuthorized(): Boolean = token != null
 
     fun isRegistrated(): Boolean = token != null
@@ -82,11 +96,32 @@ object Api {
         }
     }
 
+    //сохранение протезв
+    fun saveProtos(prothesis: String) {
+        weakContext.get()?.run {
+            val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            with(prefs.edit()) {
+                putString(KEY_PROTOS, prothesis)
+                println("Save in " + prothesis)
+                apply()
+            }
+        }
+    }
+
     fun getProthesis(): String? {
         return weakContext.get()?.run {
             getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
                 .getString(KEY_PROTHESIS, "000")
         }
+    }
+
+    fun getProtos(): String? {
+        weakContext.get()?.run {
+            val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+            protos = prefs.getString(KEY_PROTOS, null)
+            println("Getting: "+protos)
+        }
+        return protos;
     }
 
     fun loadToken(): String? {
@@ -97,10 +132,4 @@ object Api {
         return token;
     }
 
-    private fun loadProthesis() {
-        weakContext.get()?.run {
-            val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-            prothesis = prefs.getString(KEY_PROTHESIS, null)
-        }
-    }
 }
