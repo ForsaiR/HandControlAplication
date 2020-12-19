@@ -3,9 +3,7 @@ package com.handcontrol.api
 import android.content.Context
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
-import com.handcontrol.server.protobuf.HandleRequestGrpc
-import com.handcontrol.server.protobuf.Request
-import com.handcontrol.server.protobuf.Uuid
+import com.handcontrol.server.protobuf.*
 import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -21,6 +19,7 @@ class GrpcHandler(
 ) : IApiHandler {
     private val stub: HandleRequestGrpc.HandleRequestBlockingStub
     private val authorizedStub: HandleRequestGrpc.HandleRequestBlockingStub?
+    private val telemetryStub: TelemetryStreamGrpc.TelemetryStreamBlockingStub?
 
     init {
         val channel = AndroidChannelBuilder.forAddress(GRPC_ADDRESS, GRPC_PORT)
@@ -34,6 +33,15 @@ class GrpcHandler(
             header.put(key, it)
             MetadataUtils.attachHeaders(stub, header)
                 .withInterceptors(WrongTokenInterceptor(context))
+        }
+        telemetryStub = token?.let {
+            val header = Metadata()
+            val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
+            header.put(key, it)
+            MetadataUtils.attachHeaders(
+                TelemetryStreamGrpc.newBlockingStub(channel),
+                header
+            ).withInterceptors(WrongTokenInterceptor(context))
         }
     }
 
@@ -156,6 +164,41 @@ class GrpcHandler(
                 .build()
             val response = authorizedStub.getOnline(getOnlineRequest)
             response.list
+        }
+    }
+
+    override suspend fun getSettings(): Settings.GetSettings {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        return withContext(Dispatchers.IO) {
+            val request = Request.getSettingsRequest.newBuilder()
+                .setId(prothesisId)
+                .build()
+            val response = authorizedStub.getSettings(request)
+            response.settings
+        }
+    }
+
+    override suspend fun setSettings(settings: Settings.SetSettings) {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        withContext(Dispatchers.IO) {
+            val request = Request.setSettingsRequest.newBuilder()
+                .setId(prothesisId)
+                .setSettings(settings)
+                .build()
+            authorizedStub.setSettings(request)
+        }
+    }
+
+    override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
+        if (telemetryStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        return withContext(Dispatchers.IO) {
+            val request = Stream.SubRequest.newBuilder()
+                .setId(prothesisId)
+                .build()
+            telemetryStub.startTelemetryStream(request)
         }
     }
 

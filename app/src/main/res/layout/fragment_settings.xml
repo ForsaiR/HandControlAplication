@@ -5,6 +5,7 @@
     tools:context=".ui.main.telemetry.TelemetryFragment">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.handcontrol.ui.main.setting.SettingViewModel" />
@@ -14,9 +15,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone"/>
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="@{!viewModel.loading ? View.VISIBLE : View.GONE}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -290,7 +299,8 @@
             android:src="@drawable/ic_done"
             android:contentDescription="@string/apply"
             android:onClick="@{(v) -> viewModel.apply(v)}"
-            android:theme="@style/fabTheme" />
+            android:theme="@style/fabTheme"
+            android:visibility="@{!viewModel.loading ? View.VISIBLE : View.GONE}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
