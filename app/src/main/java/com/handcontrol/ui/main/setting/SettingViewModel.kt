@@ -1,9 +1,11 @@
 package com.handcontrol.ui.main.setting
 
+import android.app.Activity
 import android.app.Application
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -70,6 +72,7 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
                     .setEnableEmg(emg.value!!)
                     .setEnableDriver(motor.value!!)
                     .setEnableGyro(gyroscope.value!!)
+                    .setPowerOff(false)
                     .build()
                 api.setSettings(settings)
                 Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show()
@@ -78,6 +81,34 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun powerOff(v: View) {
+        AlertDialog.Builder(v.context)
+            .setMessage(v.context.getString(R.string.power_off_confirmation))
+            .setPositiveButton(v.context.getString(R.string.yes)) { _, _ ->
+                viewModelScope.launch {
+                    Snackbar.make(v, "wait...", Snackbar.LENGTH_INDEFINITE).show()
+                    try {
+                        val settings = Settings.SetSettings.newBuilder()
+                            .setTypeWork(typeWork)
+                            .setTelemetryFrequency(frequency.value!!.toInt())
+                            .setEnableDisplay(display.value!!)
+                            .setEnableEmg(emg.value!!)
+                            .setEnableDriver(motor.value!!)
+                            .setEnableGyro(gyroscope.value!!)
+                            .setPowerOff(true)
+                            .build()
+                        api.setSettings(settings)
+                        (v.context as Activity).finish()
+                    } catch (e: StatusRuntimeException) {
+                        Snackbar.make(v, "error", Snackbar.LENGTH_SHORT).show()
+                        e.printStackTrace()
+                    }
+                }
+            }
+            .setNegativeButton(v.context.getString(R.string.no), null)
+            .show()
     }
 
     private fun getString(@StringRes id: Int): String {

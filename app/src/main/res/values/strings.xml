@@ -69,4 +69,8 @@
     <string name="mode_mio">mio</string>
     <string name="mode_commands">commands</string>
     <string name="mode_auto">auto</string>
+    <string name="power_off">Выключение</string>
+    <string name="power_off_confirmation">Отключить питание?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
 </resources>
