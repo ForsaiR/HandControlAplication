@@ -1,6 +1,6 @@
 syntax="proto3";
 package com.handcontrol.server.protobuf;
-import "enums.proto";
+import "com/handcontrol/server/protobuf/enums.proto";
 
 message GetSettings {
   com.handcontrol.server.protobuf.ModeType type_work = 1;
@@ -17,4 +17,5 @@ message SetSettings {
   bool enable_display = 4;
   bool enable_gyro = 5;
   bool enable_driver = 6;
+  bool power_off = 7;
 }

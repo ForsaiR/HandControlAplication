@@ -11,7 +11,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.handcontrol.R
 import com.handcontrol.api.Api
-import com.handcontrol.api.HandlingType
 import io.grpc.StatusRuntimeException
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.launch
@@ -32,6 +31,7 @@ class RegistrationFragment : Fragment() {
         val password: EditText = view.findViewById(R.id.new_password) as EditText
         registrationButton.setOnClickListener {
             Api.setHandlingType(HandlingType.GRPC)
+            registrationButton.isEnabled = false;
             if (!login.text.isBlank() && !password.text.isBlank()) {
                 lifecycleScope.launch {
                     try {
@@ -39,11 +39,7 @@ class RegistrationFragment : Fragment() {
                         Api.getGrpcHandler()
                             .registration(login.text.toString(), password.text.toString())
                         Snackbar.make(it, "Registrated", Snackbar.LENGTH_SHORT).show()
-                        if (Api.isRegistrated()) {
-                            findNavController().navigate(R.id.action_registrationFragment_to_choiseFragment)
-                        } else {
-                            Snackbar.make(it, "Not registrated", Snackbar.LENGTH_SHORT).show()
-                        }
+                        findNavController().navigate(R.id.action_registrationFragment_to_choiseFragment)
                     } catch (e: StatusRuntimeException) {
                         e.printStackTrace()
                         Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()

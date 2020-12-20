@@ -5,6 +5,7 @@
     tools:context=".ui.main.telemetry.TelemetryFragment">
 
     <data>
+        <import type="android.view.View" />
         <variable
             name="viewModel"
             type="com.handcontrol.ui.main.setting.SettingViewModel" />
@@ -14,9 +15,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone"/>
+
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:visibility="@{!viewModel.loading ? View.VISIBLE : View.GONE}">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -219,12 +228,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginEnd="@dimen/default_margin"
-                    android:layout_marginBottom="@dimen/fab_with_margins"
                     android:text="@string/gyroscope_accelerometer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/motorBarrier"
                     app:layout_constraintEnd_toStartOf="@id/gyroscope"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/defaultCaptionText" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -232,11 +239,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:layout_marginBottom="@dimen/fab_with_margins"
                     android:checked="@={viewModel.gyroscope}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/motorBarrier"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/motorBarrier" />
 
                 <TextView
                     android:id="@+id/recognition_lang_text"
@@ -244,11 +249,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/activity_horizontal_margin"
                     android:layout_marginEnd="@dimen/default_margin"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/default_margin"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gyroscopeCaption"
                     app:layout_constraintEnd_toStartOf="@id/recognition_lang"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     android:text="@string/recognition_lang"
                     style="@style/defaultCaptionText" />
 
@@ -276,6 +280,24 @@
                         android:id="@+id/radioEnglish" />
                 </RadioGroup>
 
+
+
+                <ImageView
+                    android:id="@+id/powerOff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/fab_with_margins"
+                    android:contentDescription="@string/power_off"
+                    android:src="@drawable/ic_power_off"
+                    android:background="@drawable/bg_play_pause"
+                    android:stateListAnimator="@animator/button_animator"
+                    android:onClick="@{(v) -> viewModel.powerOff(v)}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/recognition_lang"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </ScrollView>
@@ -290,7 +312,8 @@
             android:src="@drawable/ic_done"
             android:contentDescription="@string/apply"
             android:onClick="@{(v) -> viewModel.apply(v)}"
-            android:theme="@style/fabTheme" />
+            android:theme="@style/fabTheme"
+            android:visibility="@{!viewModel.loading ? View.VISIBLE : View.GONE}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
