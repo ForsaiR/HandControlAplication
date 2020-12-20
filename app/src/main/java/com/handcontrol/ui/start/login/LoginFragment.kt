@@ -40,6 +40,8 @@ class LoginFragment : Fragment() {
                             .authorization(login.text.toString(), password.text.toString())
                         Snackbar.make(it, "authorized", Snackbar.LENGTH_SHORT).show()
                         if (Api.isAuthorized()) {
+                           val proto = Api.getGrpcHandler().getProto()
+                            Api.saveProtos(proto)
                             findNavController().navigate(R.id.action_loginFragment_to_choiseFragment)
                         } else {
                             Snackbar.make(it, "Not authorized", Snackbar.LENGTH_SHORT).show()
