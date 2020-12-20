@@ -1,6 +1,6 @@
 syntax = "proto3";
 package com.handcontrol.server.protobuf;
-import "uuid.proto";
+import "com/handcontrol/server/protobuf/uuid.proto";
 
 message GetGestures {
   int64 last_time_sync = 1;
