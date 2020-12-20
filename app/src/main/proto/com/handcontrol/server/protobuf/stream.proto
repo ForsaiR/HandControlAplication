@@ -1,0 +1,16 @@
+syntax = "proto3";
+package com.handcontrol.server.protobuf;
+
+import "com/handcontrol/server/protobuf/telemetry.proto";
+
+service TelemetryStream {
+  rpc StartTelemetryStream (SubRequest) returns (stream PubReply);
+}
+
+message SubRequest {
+  string id = 1;
+}
+
+message PubReply {
+  Telemetry telemetry = 1;
+}

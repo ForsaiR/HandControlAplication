@@ -1,7 +1,6 @@
 package com.handcontrol.ui.main.setting
 
 import android.os.Bundle
-import android.speech.RecognizerIntent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,7 +29,7 @@ class SettingsFragment : Fragment() {
         val viewModel: SettingViewModel by viewModels()
         binding.viewModel = viewModel
         val radioGroup = getView()?.findViewById<RadioGroup>(R.id.recognition_lang)
-        radioGroup?.setOnCheckedChangeListener { group, id ->
+        radioGroup?.setOnCheckedChangeListener { _, id ->
             Navigation.recognitionLocale = when (radioGroup.findViewById<RadioButton>(id).text) {
                 "Русский" -> Navigation.RUSSIAN_LOCALE_TEXT
                 else -> Navigation.ENGLISH_LOCALE_TEXT
