@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -28,9 +29,11 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         val login: EditText = view.findViewById(R.id.login) as EditText
         val password: EditText = view.findViewById(R.id.password) as EditText
         loginButton.setOnClickListener {
+            loginButton.isEnabled = false;
             Api.setHandlingType(HandlingType.GRPC)
             if (!login.text.isBlank() && !password.text.isBlank()) {
                 lifecycleScope.launch {
