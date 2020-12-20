@@ -11,6 +11,7 @@
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 
+
     <fragment
         android:id="@+id/navigation_gestures"
         android:name="com.handcontrol.ui.main.gestures.GesturesFragment"
@@ -99,5 +100,11 @@
         android:name="com.handcontrol.ui.start.prothesis.ChoiseFragment"
         android:label="@string/change_prothesis"
         tools:layout="@layout/fragment_choise" />
+
+    <fragment
+        android:id="@+id/change_mode"
+        android:name="com.handcontrol.ui.start.connection.ConnectionFragment"
+        android:label="@string/title_connection"
+        tools:layout="@layout/fragment_connection" />
 
 </navigation>

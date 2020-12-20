@@ -26,10 +26,10 @@ class ChoiseFragment : Fragment() {
     var parts:Array<String> = emptyArray()
     var arraylist = ArrayList<SearchQuery>()
     override fun onCreateView(
-    inflater: LayoutInflater, container: ViewGroup?,
-    savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
 
-): View? {
+    ): View? {
         val rootView: View = inflater.inflate(R.layout.fragment_choise, container, false)
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         Api.clearProthesis()
@@ -40,8 +40,8 @@ class ChoiseFragment : Fragment() {
                // proto = Api.getGrpcHandler().getProto()
                 proto = Api.getProtos().toString()
                 var device = proto
-                device = device.replace("[","")
-                device = device.replace("]","")
+                device = device.replace("[", "")
+                device = device.replace("]", "")
                 parts = device.split(", ").toTypedArray()
                 for (searchQuery in parts) {
                     val searchQuery1 = SearchQuery(searchQuery)
@@ -80,4 +80,5 @@ class ChoiseFragment : Fragment() {
             }
         })
     }
+
 }
