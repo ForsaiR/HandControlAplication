@@ -32,6 +32,7 @@ class RegistrationFragment : Fragment() {
         val password: EditText = view.findViewById(R.id.new_password) as EditText
         registrationButton.setOnClickListener {
             Api.setHandlingType(HandlingType.GRPC)
+            registrationButton.isEnabled = false;
             if (!login.text.isBlank() && !password.text.isBlank()) {
                 lifecycleScope.launch {
                     try {
