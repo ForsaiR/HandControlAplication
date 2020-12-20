@@ -62,6 +62,8 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun apply(view: View) {
+        if (frequency.value.isNullOrEmpty())
+            frequency.value = "1"
         viewModelScope.launch {
             Snackbar.make(view, "wait...", Snackbar.LENGTH_INDEFINITE).show()
             try {
