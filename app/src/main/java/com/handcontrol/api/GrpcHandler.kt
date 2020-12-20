@@ -3,9 +3,7 @@ package com.handcontrol.api
 import android.content.Context
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
-import com.handcontrol.server.protobuf.HandleRequestGrpc
-import com.handcontrol.server.protobuf.Request
-import com.handcontrol.server.protobuf.Uuid
+import com.handcontrol.server.protobuf.*
 import io.grpc.Metadata
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -16,11 +14,12 @@ import kotlinx.coroutines.withContext
 
 class GrpcHandler(
     context: Context?,
-    token: String?
+    token: String?,
+    private val prothesisId: String
 ) : IApiHandler {
     private val stub: HandleRequestGrpc.HandleRequestBlockingStub
     private val authorizedStub: HandleRequestGrpc.HandleRequestBlockingStub?
-    private val prothesisId: String = Api.getProthesis().toString()
+    private val telemetryStub: TelemetryStreamGrpc.TelemetryStreamBlockingStub?
 
     init {
         val channel = AndroidChannelBuilder.forAddress(GRPC_ADDRESS, GRPC_PORT)
@@ -33,26 +32,16 @@ class GrpcHandler(
             val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
             header.put(key, it)
             MetadataUtils.attachHeaders(stub, header)
+                .withInterceptors(WrongTokenInterceptor(context))
         }
-    }
-
-    suspend fun setTestToken() {
-        withContext(Dispatchers.IO) {
-            val testLogin = "testLogin"
-            val testPassword = "testPassword"
-            val loginRequest = Request.LoginRequest.newBuilder()
-                .setLogin(testLogin)
-                .setPassword(testPassword)
-                .build()
-            try {
-                val response = stub.login(loginRequest)
-                Api.setToken(response.token)
-            } catch (e: StatusRuntimeException) {
-                if (e.status.code == Status.Code.ALREADY_EXISTS) {
-                    val response = stub.login(loginRequest)
-                    Api.setToken(response.token)
-                } else throw e
-            }
+        telemetryStub = token?.let {
+            val header = Metadata()
+            val key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER)
+            header.put(key, it)
+            MetadataUtils.attachHeaders(
+                TelemetryStreamGrpc.newBlockingStub(channel),
+                header
+            ).withInterceptors(WrongTokenInterceptor(context))
         }
     }
 
@@ -81,7 +70,7 @@ class GrpcHandler(
                 .setGesture(gesture.getProtoModel())
                 .setTimeSync(System.currentTimeMillis())
                 .build()
-            val response = authorizedStub.saveGesture(saveGestureRequest)
+            authorizedStub.saveGesture(saveGestureRequest)
         }
     }
 
@@ -89,7 +78,7 @@ class GrpcHandler(
         if (authorizedStub == null)
             throw IllegalStateException("Haven't been authorized")
         withContext(Dispatchers.IO) {
-            val response = if (gesture.id == null) {
+            if (gesture.id == null) {
                 val performGesture = Request.performGestureRawRequest.newBuilder()
                     .setId(prothesisId)
                     .setGesture(gesture.getProtoModel())
@@ -98,7 +87,7 @@ class GrpcHandler(
             } else {
                 val performGesture = Request.performGestureIdRequest.newBuilder()
                     .setId(prothesisId)
-                    .setGestureId(Uuid.UUID.newBuilder().setValue(gesture.id.toString()))
+                    .setGestureId(gesture.id)
                     .build()
                 authorizedStub.performGestureId(performGesture)
             }
@@ -115,7 +104,7 @@ class GrpcHandler(
                 .setGestureId(gestureId)
                 .setTimeSync(System.currentTimeMillis())
                 .build()
-            val response = authorizedStub.deleteGesture(deleteGestureRequest)
+            authorizedStub.deleteGesture(deleteGestureRequest)
         }
     }
 
@@ -131,7 +120,7 @@ class GrpcHandler(
                 .setRingFingerPosition(action.ringFinger)
                 .setThumbFingerPosition(action.thumbFinger)
                 .build()
-            val response = authorizedStub.setPositions(setPositionsRequest)
+            authorizedStub.setPositions(setPositionsRequest)
         }
     }
 
@@ -179,6 +168,41 @@ class GrpcHandler(
                 .build()
             val response = authorizedStub.getOnline(getOnlineRequest)
             response.list
+        }
+    }
+
+    override suspend fun getSettings(): Settings.GetSettings {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        return withContext(Dispatchers.IO) {
+            val request = Request.getSettingsRequest.newBuilder()
+                .setId(prothesisId)
+                .build()
+            val response = authorizedStub.getSettings(request)
+            response.settings
+        }
+    }
+
+    override suspend fun setSettings(settings: Settings.SetSettings) {
+        if (authorizedStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        withContext(Dispatchers.IO) {
+            val request = Request.setSettingsRequest.newBuilder()
+                .setId(prothesisId)
+                .setSettings(settings)
+                .build()
+            authorizedStub.setSettings(request)
+        }
+    }
+
+    override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
+        if (telemetryStub == null)
+            throw IllegalStateException("Haven't been authorized")
+        return withContext(Dispatchers.IO) {
+            val request = Stream.SubRequest.newBuilder()
+                .setId(prothesisId)
+                .build()
+            telemetryStub.startTelemetryStream(request)
         }
     }
 

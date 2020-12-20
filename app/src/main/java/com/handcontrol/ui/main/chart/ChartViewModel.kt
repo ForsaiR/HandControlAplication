@@ -7,15 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import com.handcontrol.api.Telemetry
+import com.handcontrol.api.Api
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 class ChartViewModel : ViewModel() {
-    private val telemetry by lazy { Telemetry() }
-    private var time = 0f
+    private val api by lazy { Api.getApiHandler() }
     private var started = false
     private var background: Job? = null
 
@@ -34,15 +33,27 @@ class ChartViewModel : ViewModel() {
     fun start() {
         if (!started) {
             started = true
-            time = 0f
             lineData.value?.getDataSetByIndex(0)?.clear()
-            background = viewModelScope.launch(Dispatchers.Default) {
-                while (started) {
-                    lineData.value?.addEntry(Entry(time, telemetry.getValue().toFloat()), 0)
+            background = viewModelScope.launch(Dispatchers.IO) {
+                val gestures = api.getGestures()
+                val stream = api.getTelemetry()
+                var time = 0f
+                var lastTime = System.currentTimeMillis()
+                for (data in stream) {
+                    if (!isActive)
+                        break
+                    val currentTime = System.currentTimeMillis()
+                    time += (currentTime - lastTime).toFloat() / 1000
+                    lastTime = currentTime
+                    lineData.value?.addEntry(
+                        Entry(time, data.telemetry.emg.toFloat()),
+                        0
+                    )
                     lineData.postValue(lineData.value)
-                    currentGesture.postValue("Gesture 1")
-                    time += INTERVAL.toFloat() / 1000
-                    delay(INTERVAL)
+                    val executedGesture = gestures.find {
+                        it.id == data.telemetry.executableGesture
+                    }
+                    currentGesture.postValue(executedGesture?.name ?: "")
                 }
             }
         }
@@ -51,9 +62,5 @@ class ChartViewModel : ViewModel() {
     fun stop() {
         started = false
         background?.cancel()
-    }
-
-    companion object {
-        private const val INTERVAL = 200L
     }
 }
