@@ -1,9 +1,10 @@
 package com.handcontrol.model
 
 import com.handcontrol.server.protobuf.Gestures
+import com.handcontrol.server.protobuf.Uuid
 
 data class Gesture(
-    override val id: String?,
+    override var id: Uuid.UUID?,
     override val name: String,
     override var isExecuted: Boolean,
     val isInfinityRepeat: Boolean,
@@ -14,10 +15,10 @@ data class Gesture(
     var i = 0
 
     constructor(gesture: Gestures.Gesture) : this(
-        gesture.id.value,
+        gesture.id,
         gesture.name,
         false,
-        false,
+        gesture.iterable,
         gesture.repetitions,
         gesture.actionsList.map { Action(it) }.toMutableList()
     ) {
@@ -25,11 +26,17 @@ data class Gesture(
     }
 
     fun getProtoModel(): Gestures.Gesture {
-        return Gestures.Gesture.newBuilder()
+        val gesture = Gestures.Gesture.newBuilder()
             .setName(name)
             .setRepetitions(repeatCount ?: 0)
+            .setIterable(isInfinityRepeat)
             .addAllActions(actions.map { it.getProtoModel() })
-            .build()
+
+        id?.let {
+            gesture.setId(id)
+        }
+
+        return gesture.build()
     }
 
     private fun addActionName(action: Action): Action {

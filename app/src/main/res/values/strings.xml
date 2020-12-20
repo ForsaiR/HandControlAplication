@@ -66,4 +66,5 @@
     <string name="recognition_lang">Язык распознавания</string>
     <string name="russian">Русский</string>
     <string name="english">Английский</string>
+    <string name="valid_name_characters">ёйцукенгшщзхъэждлорпавыфячсмитьбюqwertyuioplkjhgfdsazxcvbnmЁЙЦУКЕНГШЩЗХЪЭЖДЛОРПАВЫФЯЧСМИТЬБЮQWERTYUIOPLKJHGFDSAZXCVBNM</string>
 </resources>
