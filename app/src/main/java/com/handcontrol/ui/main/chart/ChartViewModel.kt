@@ -51,7 +51,7 @@ class ChartViewModel : ViewModel() {
                     )
                     lineData.postValue(lineData.value)
                     val executedGesture = gestures.find {
-                        it.id == data.telemetry.executableGesture.value
+                        it.id == data.telemetry.executableGesture
                     }
                     currentGesture.postValue(executedGesture?.name ?: "")
                 }
