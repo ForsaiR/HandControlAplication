@@ -10,15 +10,12 @@ import android.widget.ListView
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.handcontrol.R
 import com.handcontrol.adapter.SearchAdapter
 import com.handcontrol.api.Api
 import com.handcontrol.repository.SearchQuery
 import com.handcontrol.ui.main.Navigation
-import io.grpc.StatusRuntimeException
 import kotlinx.android.synthetic.main.list_item.view.*
-import kotlinx.coroutines.launch
 
 
 class ChoiseFragment : Fragment() {
@@ -37,11 +34,11 @@ class ChoiseFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.show()
         Api.clearProthesis()
 
-        lifecycleScope.launch {
-
-            try{
-                proto = Api.getGrpcHandler().getProto()
-           //     proto = Api.getProtos().toString()
+//        lifecycleScope.launch {
+//
+//            try{
+               // proto = Api.getGrpcHandler().getProto()
+                proto = Api.getProtos().toString()
                 var device = proto
                 device = device.replace("[", "")
                 device = device.replace("]", "")
@@ -50,10 +47,10 @@ class ChoiseFragment : Fragment() {
                     val searchQuery1 = SearchQuery(searchQuery)
                     arraylist.add(searchQuery1)
                 }
-            } catch (e: StatusRuntimeException){
-                e.printStackTrace()
-            }
-        }
+//            } catch (e: StatusRuntimeException){
+//                e.printStackTrace()
+//            }
+//        }
 
         list = rootView.findViewById(R.id.list) as ListView
         adapter = SearchAdapter(this, arraylist)

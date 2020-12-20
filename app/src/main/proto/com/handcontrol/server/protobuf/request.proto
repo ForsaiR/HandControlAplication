@@ -1,8 +1,8 @@
 syntax = "proto3";
 package com.handcontrol.server.protobuf;
-import "settings.proto";
-import "gestures.proto";
-import "uuid.proto";
+import "com/handcontrol/server/protobuf/settings.proto";
+import "com/handcontrol/server/protobuf/gestures.proto";
+import "com/handcontrol/server/protobuf/uuid.proto";
 
 service HandleRequest{
   rpc login(LoginRequest) returns (LoginResponse);
@@ -17,7 +17,6 @@ service HandleRequest{
   rpc performGestureId(performGestureIdRequest) returns (performGestureIdResponse);
   rpc performGestureRaw(performGestureRawRequest) returns (performGestureRawResponse);
   rpc setPositions(setPositionsRequest) returns (setPositionsResponse);
-  rpc setProthesis(setProthesisRequest) returns (setProthesisResponse);
 }
 
 message LoginRequest {
@@ -27,14 +26,6 @@ message LoginRequest {
 
 message LoginResponse {
   string token = 1;
-}
-
-message setProthesisRequest {
-  string login = 1;
-  string id = 2;
-}
-
-message setProthesisResponse {
 }
 
 message ClientRequest {
@@ -73,6 +64,7 @@ message setSettingsRequest {
 }
 
 message setSettingsResponse {
+  com.handcontrol.server.protobuf.GetSettings settings = 1;
 }
 
 message getGesturesRequest {

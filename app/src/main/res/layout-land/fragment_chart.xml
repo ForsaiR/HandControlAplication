@@ -85,7 +85,7 @@
                 android:layout_marginEnd="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:contentDescription="@string/start"
-                android:src="@drawable/ic_play"
+                android:src="@drawable/ic_play_white"
                 android:background="@drawable/bg_play_pause"
                 android:stateListAnimator="@animator/button_animator"
                 android:onClick="@{() -> viewModel.start()}"
