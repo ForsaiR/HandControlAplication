@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.handcontrol.R
 import com.handcontrol.api.Api
+import com.handcontrol.api.HandlingType
 import io.grpc.StatusRuntimeException
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.launch
