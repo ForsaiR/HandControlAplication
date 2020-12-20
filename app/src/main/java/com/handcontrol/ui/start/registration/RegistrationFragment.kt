@@ -30,7 +30,9 @@ class RegistrationFragment : Fragment() {
         val login: EditText = view.findViewById(R.id.new_login) as EditText
         val password: EditText = view.findViewById(R.id.new_password) as EditText
         registrationButton.setOnClickListener {
-            if (login.text.isNotBlank() && password.text.isNotBlank()) {
+            Api.setHandlingType(HandlingType.GRPC)
+            registrationButton.isEnabled = false;
+            if (!login.text.isBlank() && !password.text.isBlank()) {
                 lifecycleScope.launch {
                     try {
                         Snackbar.make(it, "wait...", Snackbar.LENGTH_INDEFINITE).show()
