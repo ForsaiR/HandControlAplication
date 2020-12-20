@@ -87,7 +87,8 @@ class GestureDetailsEditorFragment
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     with((viewHolder as BaseViewHolder).binding as ListItemEditableBinding) {
                         viewModel.deleteAction(item as Action)
-                        editableActionsRecycler.adapter?.notifyItemRemoved(position!!)
+                        (editableActionsRecycler.adapter as BaseRecyclerAdapter<Action, ExecutableItemListener>)
+                            .dataSet = viewModel.actions.value!!
                     }
                 }
             }
@@ -103,7 +104,9 @@ class GestureDetailsEditorFragment
         return when (item.itemId) {
             R.id.app_bar_save -> {
                 viewModel.saveGesture()
-                navController.popBackStack()
+                val navController =
+                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                navController.navigate(R.id.navigation_gestures)
                 true
             }
             else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
