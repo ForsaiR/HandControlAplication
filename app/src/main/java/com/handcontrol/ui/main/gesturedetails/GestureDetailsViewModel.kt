@@ -17,7 +17,7 @@ class GestureDetailsViewModel(var item: Gesture?) : ViewModel() {
     val repeatCount = MutableLiveData(item?.repeatCount?.toString() ?: "")
 
     var playedPosition: Int? = null
-    var repeatCountInt = item?.repeatCount ?: 0
+    var repeatCountInt = item?.repeatCount ?: 1
 
     private val infinityObserver =
         Observer<Boolean> { v ->
