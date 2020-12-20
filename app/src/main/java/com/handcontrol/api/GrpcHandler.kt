@@ -72,6 +72,10 @@ class GrpcHandler(
         if (authorizedStub == null)
             throw IllegalStateException("Haven't been authorized")
         withContext(Dispatchers.IO) {
+            if (gesture.id == null) {
+                gesture.id = Uuid.UUID.newBuilder()
+                    .setValue((gesture.hashCode() + System.currentTimeMillis()).toString()).build()
+            }
             val saveGestureRequest = Request.saveGestureRequest.newBuilder()
                 .setId(prothesisId)
                 .setGesture(gesture.getProtoModel())

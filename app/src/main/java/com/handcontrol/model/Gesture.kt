@@ -4,7 +4,7 @@ import com.handcontrol.server.protobuf.Gestures
 import com.handcontrol.server.protobuf.Uuid
 
 data class Gesture(
-    override val id: Uuid.UUID?,
+    override var id: Uuid.UUID?,
     override val name: String,
     override var isExecuted: Boolean,
     val isInfinityRepeat: Boolean,
