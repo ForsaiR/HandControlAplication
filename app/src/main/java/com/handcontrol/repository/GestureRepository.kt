@@ -18,11 +18,20 @@ object GestureRepository {
         }
     }
 
+    fun deleteAction(action: Action) {
+        repo!!.actions.remove(action)
+    }
+
     private fun editAction(action: Action, position: Int) {
         repo!!.actions[position] = action
     }
 
     private fun addAction(action: Action) {
-        repo!!.actions.add(action)
+        with(repo!!.actions) {
+            add(action.apply {
+                name = if (isEmpty()) "action" + 0
+                else "action" + (last().name?.get(6)?.toString()?.toInt()?.plus(1))
+            })
+        }
     }
 }

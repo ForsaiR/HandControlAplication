@@ -8,8 +8,10 @@ import android.widget.Button
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.handcontrol.R
+import com.handcontrol.api.Api
+import com.handcontrol.api.HandlingType
 
 
 class ConnectionFragment : Fragment() {
@@ -32,14 +34,16 @@ class ConnectionFragment : Fragment() {
         radioGroup.setOnCheckedChangeListener { radioGroup, i ->
             when (i) {
                 R.id.radioButton_grpc -> {
-                    okButton.setOnClickListener(
-                        Navigation.createNavigateOnClickListener(R.id.action_connectionFragment_to_loginFragment)
-                    )
+                    okButton.setOnClickListener {
+                        Api.setHandlingType(HandlingType.GRPC)
+                        it.findNavController().navigate(R.id.action_connectionFragment_to_loginFragment)
+                    }
                 }
                 R.id.radioButton_bluetooth -> {
-                    okButton.setOnClickListener(
-                        Navigation.createNavigateOnClickListener(R.id.action_global_navigation)
-                    )
+                    okButton.setOnClickListener {
+                        Api.setHandlingType(HandlingType.BLUETOOTH)
+                        it.findNavController().navigate(R.id.action_global_navigation)
+                    }
                 }
             }
 

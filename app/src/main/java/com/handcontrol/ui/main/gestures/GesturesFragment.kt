@@ -6,11 +6,15 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
 import com.handcontrol.base.BaseRecyclerAdapter
+import com.handcontrol.base.BaseViewHolder
 import com.handcontrol.databinding.FragmentGesturesBinding
+import com.handcontrol.databinding.ListItemExecutableBinding
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
 import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment
@@ -22,9 +26,13 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
     R.layout.fragment_gestures
 ) {
 
-//    private val PERMISSIONS_RECORD_AUDIO = 200
-
     override val viewModel: GesturesViewModel by lazy { ViewModelProvider(this).get(viewModelClass) }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateGestures()
+    //    gestureRecycler.adapter?.notifyDataSetChanged()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,8 +62,8 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
                     override fun onPlay(item: ExecutableItem, position: Int) {
                         //todo get gesture state from api
                         item.isExecuted = !item.isExecuted
-                        viewModel.performGesture(item.id!!)
-                        gestureRecycler.adapter?.notifyDataSetChanged()
+                        viewModel.performGesture(item as Gesture)
+                        adapter?.notifyItemChanged(position)
                     }
 
                 }
@@ -71,6 +79,22 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
             }
         }
 
+        ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    viewModel.deleteGesture(((viewHolder as BaseViewHolder).binding as ListItemExecutableBinding).item?.id!!)
+                }
+            }
+        ).attachToRecyclerView(gestureRecycler)
+
         viewModel.errorConnection.observe(viewLifecycleOwner) {
             if (it) {
                 Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
@@ -78,18 +102,4 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
         }
     }
 
-
-//  Вставьте фрагмент кода, когда пользователь захочет использовать голосовые команды
-//    if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-//    == PackageManager.PERMISSION_DENIED
-//    ) {
-//        // Запрос разрешения
-//        ActivityCompat.requestPermissions(
-//            this,
-//            arrayOf(Manifest.permission.RECORD_AUDIO),
-//            PERMISSIONS_RECORD_AUDIO
-//        )
-//    } else {
-//        //исполняемый код
-//    }
 }

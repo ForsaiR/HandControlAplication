@@ -1,5 +1,8 @@
 package com.handcontrol.adapter
 
+import android.text.InputFilter
+import android.text.Spanned
+import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import com.github.mikephil.charting.charts.LineChart
@@ -32,4 +35,22 @@ fun TextInputLayout.rangeError(start: Int, end: Int) {
             error = if (this == null || this < start || this > end) "$start-$end" else null
         }
     }
+}
+
+@BindingAdapter("validateBy")
+fun EditText.validateInput(allowedCharacters: String) {
+    filters = mutableListOf(object : InputFilter {
+
+        override fun filter(
+            source: CharSequence?,
+            start: Int,
+            end: Int,
+            dest: Spanned?,
+            dstart: Int,
+            dend: Int
+        ): CharSequence {
+            return source?.filter { allowedCharacters.contains(it) } ?: ""
+        }
+
+    }).toTypedArray()
 }

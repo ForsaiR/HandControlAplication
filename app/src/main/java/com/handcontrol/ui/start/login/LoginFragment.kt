@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -28,9 +29,11 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
         val login: EditText = view.findViewById(R.id.login) as EditText
         val password: EditText = view.findViewById(R.id.password) as EditText
         loginButton.setOnClickListener {
+            loginButton.isEnabled = false;
             Api.setHandlingType(HandlingType.GRPC)
             if (!login.text.isBlank() && !password.text.isBlank()) {
                 lifecycleScope.launch {
@@ -39,11 +42,7 @@ class LoginFragment : Fragment() {
                         Api.getGrpcHandler()
                             .authorization(login.text.toString(), password.text.toString())
                         Snackbar.make(it, "authorized", Snackbar.LENGTH_SHORT).show()
-                        if (Api.isAuthorized()) {
-                            findNavController().navigate(R.id.action_loginFragment_to_choiseFragment)
-                        } else {
-                            Snackbar.make(it, "Not authorized", Snackbar.LENGTH_SHORT).show()
-                        }
+                        findNavController().navigate(R.id.action_loginFragment_to_choiseFragment)
                     } catch (e: StatusRuntimeException) {
                         e.printStackTrace()
                         Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()
