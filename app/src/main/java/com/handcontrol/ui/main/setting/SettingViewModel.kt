@@ -1,20 +1,119 @@
 package com.handcontrol.ui.main.setting
 
+import android.app.Activity
+import android.app.Application
 import android.view.View
-import androidx.core.app.ActivityCompat
+import android.widget.Toast
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
+import com.handcontrol.R
+import com.handcontrol.api.Api
+import com.handcontrol.server.protobuf.Enums
+import com.handcontrol.server.protobuf.Enums.ModeType.*
+import com.handcontrol.server.protobuf.Settings
+import io.grpc.StatusRuntimeException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class SettingViewModel : ViewModel() {
-    val mode = MutableLiveData("Auto")
-    val frequency = MutableLiveData("450")
-    val display = MutableLiveData(false)
-    val emg = MutableLiveData(false)
-    val motor = MutableLiveData(false)
-    val gyroscope = MutableLiveData(true)
+class SettingViewModel(app: Application) : AndroidViewModel(app) {
+    private val api = Api.getApiHandler()
+    private var typeWork: Enums.ModeType? = null
+
+    val loading = MutableLiveData(true)
+
+    val mode = MutableLiveData<String>()
+    val frequency = MutableLiveData("1")
+    val display = MutableLiveData<Boolean>()
+    val emg = MutableLiveData<Boolean>()
+    val motor = MutableLiveData<Boolean>()
+    val gyroscope = MutableLiveData<Boolean>()
+
+    init {
+        viewModelScope.launch {
+            try {
+                val settings = api.getSettings()
+                typeWork = settings.typeWork
+                mode.value = when (settings.typeWork) {
+                    MODE_MIO -> getString(R.string.mode_mio)
+                    MODE_COMMANDS -> getString(R.string.mode_commands)
+                    MODE_AUTO -> getString(R.string.mode_auto)
+                    else -> ""
+                }
+                display.value = settings.enableDisplay
+                emg.value = settings.enableEmg
+                motor.value = settings.enableDriver
+                gyroscope.value = settings.enableGyro
+                withContext(Dispatchers.IO) {
+                    val stream = api.getTelemetry()
+                    if (stream.hasNext())
+                        frequency.postValue(stream.next().telemetry.telemetryFrequency.toString())
+                }
+                loading.value = false
+            } catch (e: StatusRuntimeException) {
+                Toast.makeText(getApplication(), "error", Toast.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+        }
+    }
 
     fun apply(view: View) {
-        Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show()
+        if (frequency.value.isNullOrEmpty())
+            frequency.value = "1"
+        viewModelScope.launch {
+            Snackbar.make(view, "wait...", Snackbar.LENGTH_INDEFINITE).show()
+            try {
+                val settings = Settings.SetSettings.newBuilder()
+                    .setTypeWork(typeWork)
+                    .setTelemetryFrequency(frequency.value!!.toInt())
+                    .setEnableDisplay(display.value!!)
+                    .setEnableEmg(emg.value!!)
+                    .setEnableDriver(motor.value!!)
+                    .setEnableGyro(gyroscope.value!!)
+                    .setPowerOff(false)
+                    .build()
+                api.setSettings(settings)
+                Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show()
+            } catch (e: StatusRuntimeException) {
+                Snackbar.make(view, "error", Snackbar.LENGTH_SHORT).show()
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun powerOff(v: View) {
+        AlertDialog.Builder(v.context)
+            .setMessage(v.context.getString(R.string.power_off_confirmation))
+            .setPositiveButton(v.context.getString(R.string.yes)) { _, _ ->
+                viewModelScope.launch {
+                    Snackbar.make(v, "wait...", Snackbar.LENGTH_INDEFINITE).show()
+                    try {
+                        val settings = Settings.SetSettings.newBuilder()
+                            .setTypeWork(typeWork)
+                            .setTelemetryFrequency(frequency.value!!.toInt())
+                            .setEnableDisplay(display.value!!)
+                            .setEnableEmg(emg.value!!)
+                            .setEnableDriver(motor.value!!)
+                            .setEnableGyro(gyroscope.value!!)
+                            .setPowerOff(true)
+                            .build()
+                        api.setSettings(settings)
+                        (v.context as Activity).finish()
+                    } catch (e: StatusRuntimeException) {
+                        Snackbar.make(v, "error", Snackbar.LENGTH_SHORT).show()
+                        e.printStackTrace()
+                    }
+                }
+            }
+            .setNegativeButton(v.context.getString(R.string.no), null)
+            .show()
+    }
+
+    private fun getString(@StringRes id: Int): String {
+        return getApplication<Application>().resources.getString(id)
     }
 }

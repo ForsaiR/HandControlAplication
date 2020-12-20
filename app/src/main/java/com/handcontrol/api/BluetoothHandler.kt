@@ -2,6 +2,8 @@ package com.handcontrol.api
 
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
+import com.handcontrol.server.protobuf.Settings
+import com.handcontrol.server.protobuf.Stream
 import com.handcontrol.server.protobuf.Uuid
 
 class BluetoothHandler : IApiHandler {
@@ -22,6 +24,18 @@ class BluetoothHandler : IApiHandler {
     }
 
     override suspend fun setPositions(action: Action) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSettings(): Settings.GetSettings {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setSettings(settings: Settings.SetSettings) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
         TODO("Not yet implemented")
     }
 }

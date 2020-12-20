@@ -40,11 +40,7 @@ class RegistrationFragment : Fragment() {
                         Api.getGrpcHandler()
                             .registration(login.text.toString(), password.text.toString())
                         Snackbar.make(it, "Registrated", Snackbar.LENGTH_SHORT).show()
-                        if (Api.isRegistrated()) {
-                            findNavController().navigate(R.id.action_registrationFragment_to_choiseFragment)
-                        } else {
-                            Snackbar.make(it, "Not registrated", Snackbar.LENGTH_SHORT).show()
-                        }
+                        findNavController().navigate(R.id.action_registrationFragment_to_choiseFragment)
                     } catch (e: StatusRuntimeException) {
                         e.printStackTrace()
                         Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()
