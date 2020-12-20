@@ -1,9 +1,10 @@
 package com.handcontrol.model
 
 import com.handcontrol.server.protobuf.Gestures
+import com.handcontrol.server.protobuf.Uuid
 
 data class Action(
-    override var id: String?,
+    override var id: Uuid.UUID?,
     override var name: String?,
     override var isExecuted: Boolean,
     var thumbFinger: Int,

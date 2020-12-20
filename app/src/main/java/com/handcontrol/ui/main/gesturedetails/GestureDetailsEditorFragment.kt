@@ -87,7 +87,8 @@ class GestureDetailsEditorFragment
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     with((viewHolder as BaseViewHolder).binding as ListItemEditableBinding) {
                         viewModel.deleteAction(item as Action)
-                        editableActionsRecycler.adapter?.notifyItemRemoved(position!!)
+                        (editableActionsRecycler.adapter as BaseRecyclerAdapter<Action, ExecutableItemListener>)
+                            .dataSet = viewModel.actions.value!!
                     }
                 }
             }
