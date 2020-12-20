@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.handcontrol.api.Api
 import com.handcontrol.model.Gesture
+import com.handcontrol.server.protobuf.Uuid
 import io.grpc.StatusRuntimeException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +30,7 @@ class GesturesViewModel : ViewModel() {
         }
     }
 
-    fun deleteGesture(gestureId: String) {
+    fun deleteGesture(gestureId: Uuid.UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Api.getApiHandler().deleteGesture(gestureId)

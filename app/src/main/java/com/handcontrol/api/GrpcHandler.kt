@@ -102,13 +102,13 @@ class GrpcHandler(
     }
 
 
-    override suspend fun deleteGesture(gestureId: String) {
+    override suspend fun deleteGesture(gestureId: Uuid.UUID) {
         if (authorizedStub == null)
             throw IllegalStateException("Haven't been authorized")
         withContext(Dispatchers.IO) {
             val deleteGestureRequest = Request.deleteGestureRequest.newBuilder()
                 .setId(prothesisId)
-                .setGestureId(Uuid.UUID.newBuilder().setValue(gestureId))
+                .setGestureId(gestureId)
                 .setTimeSync(System.currentTimeMillis())
                 .build()
             val response = authorizedStub.deleteGesture(deleteGestureRequest)
