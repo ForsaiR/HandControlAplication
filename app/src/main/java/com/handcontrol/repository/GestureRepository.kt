@@ -29,7 +29,8 @@ object GestureRepository {
     private fun addAction(action: Action) {
         with(repo!!.actions) {
             add(action.apply {
-                name = "action" + (last().name?.get(6)?.toString()?.toInt()?.plus(1))
+                name = if (isEmpty()) "action" + 0
+                else "action" + (last().name?.get(6)?.toString()?.toInt()?.plus(1))
             })
         }
     }

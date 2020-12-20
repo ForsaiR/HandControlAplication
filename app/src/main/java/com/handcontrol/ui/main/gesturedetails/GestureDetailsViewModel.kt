@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class GestureDetailsViewModel(item: Gesture?) : ViewModel() {
+class GestureDetailsViewModel(val item: Gesture?) : ViewModel() {
     val errorConnection = MutableLiveData(false)
 
     val id = item?.id
