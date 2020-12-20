@@ -4,6 +4,7 @@ import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.Settings
 import com.handcontrol.server.protobuf.Stream
+import com.handcontrol.server.protobuf.Uuid
 
 class BluetoothHandler : IApiHandler {
     override suspend fun getGestures(): MutableList<Gesture> {
@@ -18,7 +19,7 @@ class BluetoothHandler : IApiHandler {
         TODO("Not yet implemented")
     }
 
-    override suspend fun deleteGesture(gestureId: String) {
+    override suspend fun deleteGesture(gestureId: Uuid.UUID) {
         TODO("Not yet implemented")
     }
 

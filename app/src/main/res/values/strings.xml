@@ -73,4 +73,5 @@
     <string name="power_off_confirmation">Отключить питание?</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="valid_name_characters">ёйцукенгшщзхъэждлорпавыфячсмитьбюqwertyuioplkjhgfdsazxcvbnmЁЙЦУКЕНГШЩЗХЪЭЖДЛОРПАВЫФЯЧСМИТЬБЮQWERTYUIOPLKJHGFDSAZXCVBNM</string>
 </resources>
