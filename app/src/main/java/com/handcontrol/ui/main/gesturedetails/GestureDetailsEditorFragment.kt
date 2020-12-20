@@ -104,7 +104,9 @@ class GestureDetailsEditorFragment
         return when (item.itemId) {
             R.id.app_bar_save -> {
                 viewModel.saveGesture()
-                navController.popBackStack()
+                val navController =
+                    Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                navController.navigate(R.id.navigation_gestures)
                 true
             }
             else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)

@@ -38,7 +38,7 @@ class TelemetryViewModel : ViewModel() {
                     gyroscope.postValue(telemetry.gyroStatus.name)
                     motor.postValue(telemetry.driverStatus.name)
                     val executedGesture = gestures.find {
-                        it.id == telemetry.executableGesture.value
+                        it.id == telemetry.executableGesture
                     }
                     gesture.postValue(executedGesture?.name ?: "")
                     charge.postValue(telemetry.power.toString())
