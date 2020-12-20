@@ -102,7 +102,6 @@ object Api {
             val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
             with(prefs.edit()) {
                 putString(KEY_PROTOS, prothesis)
-                println("Save in " + prothesis)
                 apply()
             }
         }
@@ -119,7 +118,6 @@ object Api {
         weakContext.get()?.run {
             val prefs = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
             protos = prefs.getString(KEY_PROTOS, null)
-            println("Getting: "+protos)
         }
         return protos;
     }
