@@ -10,14 +10,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class GestureDetailsViewModel(val item: Gesture?) : ViewModel() {
+class GestureDetailsViewModel(var item: Gesture?) : ViewModel() {
     val errorConnection = MutableLiveData(false)
 
-    val id = item?.id
-    val name = MutableLiveData(item?.name ?: "")
-    val repeatCount = MutableLiveData(item?.repeatCount?.toString() ?: "")
-    val actions = MutableLiveData(item?.actions ?: mutableListOf())
     val isInfinity = MutableLiveData(item?.isInfinityRepeat ?: false)
+    val repeatCount = MutableLiveData(item?.repeatCount?.toString() ?: "")
+
     var playedPosition: Int? = null
     var repeatCountInt = item?.repeatCount ?: 0
 
@@ -34,8 +32,15 @@ class GestureDetailsViewModel(val item: Gesture?) : ViewModel() {
     init {
         isInfinity.observeForever(infinityObserver)
         repeatCount.observeForever(repeatObserver)
+        if (item == null) {
+            item = Gesture(null, "", false, true, null, mutableListOf())
+        }
         GestureRepository.initGesture(item)
     }
+
+    val id = item?.id
+    val name = MutableLiveData(item?.name ?: "")
+    val actions = MutableLiveData(item?.actions ?: mutableListOf())
 
     fun saveGesture() {
         viewModelScope.launch(Dispatchers.IO) {

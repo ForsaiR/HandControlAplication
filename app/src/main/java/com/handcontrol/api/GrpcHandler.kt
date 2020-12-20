@@ -87,7 +87,7 @@ class GrpcHandler(
             } else {
                 val performGesture = Request.performGestureIdRequest.newBuilder()
                     .setId(prothesisId)
-                    .setGestureId(Uuid.UUID.newBuilder().setValue(gesture.id.toString()))
+                    .setGestureId(gesture.id)
                     .build()
                 authorizedStub.performGestureId(performGesture)
             }
