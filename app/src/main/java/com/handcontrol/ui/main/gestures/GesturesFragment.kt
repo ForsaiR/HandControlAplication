@@ -28,6 +28,12 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
 
     override val viewModel: GesturesViewModel by lazy { ViewModelProvider(this).get(viewModelClass) }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateGestures()
+        gestureRecycler.adapter?.notifyDataSetChanged()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         floatingActionButton.setOnClickListener {

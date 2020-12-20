@@ -43,16 +43,16 @@ class GesturesViewModel : ViewModel() {
         }
     }
 
-    private fun updateGestures() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                listData.postValue(Api.getApiHandler().getGestures())
-                errorConnection.postValue(false)
-            } catch (e: StatusRuntimeException) {
-                e.printStackTrace()
-                errorConnection.postValue(true)
-            }
-        }
-    }
+     fun updateGestures() {
+         viewModelScope.launch(Dispatchers.IO) {
+             try {
+                 listData.postValue(Api.getApiHandler().getGestures())
+                 errorConnection.postValue(false)
+             } catch (e: StatusRuntimeException) {
+                 e.printStackTrace()
+                 errorConnection.postValue(true)
+             }
+         }
+     }
 
 }
