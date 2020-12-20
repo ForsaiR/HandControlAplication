@@ -31,7 +31,7 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
     override fun onResume() {
         super.onResume()
         viewModel.updateGestures()
-        gestureRecycler.adapter?.notifyDataSetChanged()
+    //    gestureRecycler.adapter?.notifyDataSetChanged()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
