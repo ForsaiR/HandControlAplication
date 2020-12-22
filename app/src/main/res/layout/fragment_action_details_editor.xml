@@ -187,5 +187,35 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editFinger6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:errorEnabled="true"
+            app:hintEnabled="false"
+            app:layout_constraintEnd_toEndOf="@+id/editFinger5"
+            app:layout_constraintTop_toBottomOf="@+id/editFinger5">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="2"
+                android:gravity="end"
+                android:inputType="numberDecimal"
+                android:text="@={viewModel.delay}"
+                android:textSize="18sp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delay"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/editFinger6"
+            app:layout_constraintStart_toStartOf="@+id/textView11"
+            app:layout_constraintTop_toTopOf="@+id/editFinger6" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

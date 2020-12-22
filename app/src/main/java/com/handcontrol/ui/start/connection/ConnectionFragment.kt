@@ -42,6 +42,7 @@ class ConnectionFragment : Fragment() {
                 R.id.radioButton_bluetooth -> {
                     okButton.setOnClickListener {
                         Api.setHandlingType(HandlingType.BLUETOOTH)
+                        activity?.finish()
                         it.findNavController().navigate(R.id.action_global_navigation)
                     }
                 }
