@@ -67,6 +67,7 @@ class ChoiseFragment : Fragment() {
             val device = item.text1.text
             //println("proto" + device)
             Api.saveProthesis(device as String)
+            activity?.finish()
             startActivity(intent)
         }
         editsearch!!.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

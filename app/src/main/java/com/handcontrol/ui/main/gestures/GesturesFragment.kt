@@ -1,8 +1,10 @@
 package com.handcontrol.ui.main.gestures
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -27,6 +29,21 @@ class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel
 ) {
 
     override val viewModel: GesturesViewModel by lazy { ViewModelProvider(this).get(viewModelClass) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().onBackPressedDispatcher.addCallback {
+            val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(context)
+            alertDialogBuilder
+                .setMessage("Выйти из приложения?")
+                .setPositiveButton("Да") { _, _ ->
+                    activity?.finish()
+                }
+                .setNegativeButton("Нет") { dialog, _ -> dialog.cancel() }
+            val alertDialog: AlertDialog = alertDialogBuilder.create()
+            alertDialog.show()
+        }
+    }
 
     override fun onResume() {
         super.onResume()
