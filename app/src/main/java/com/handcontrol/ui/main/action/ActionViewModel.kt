@@ -14,6 +14,7 @@ class ActionViewModel(action: Action?, private val position: Int? = null) : View
     val middleFinger = MutableLiveData(action?.middleFinger?.toString() ?: "0")
     val ringFinger = MutableLiveData(action?.ringFinger?.toString() ?: "0")
     val littleFinger = MutableLiveData(action?.littleFinger?.toString() ?: "0")
+    val delay = MutableLiveData(action?.delay?.toString() ?: "0")
 
     fun saveAction() {
         GestureRepository.saveAction(
@@ -24,7 +25,8 @@ class ActionViewModel(action: Action?, private val position: Int? = null) : View
                 pointerFinger.value?.toInt() ?: 0,
                 middleFinger.value?.toInt() ?: 0,
                 ringFinger.value?.toInt() ?: 0,
-                littleFinger.value?.toInt() ?: 0
+                littleFinger.value?.toInt() ?: 0,
+                delay.value?.toInt() ?: 0
             ), position
         )
     }

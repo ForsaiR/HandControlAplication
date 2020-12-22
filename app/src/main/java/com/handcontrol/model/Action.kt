@@ -11,7 +11,8 @@ data class Action(
     var pointerFinger: Int,
     var middleFinger: Int,
     var ringFinger: Int,
-    var littleFinger: Int
+    var littleFinger: Int,
+    var delay: Int
 ) : ExecutableItem(id, name, isExecuted) {
     constructor(action: Gestures.GestureAction) : this(
         null,
@@ -21,7 +22,8 @@ data class Action(
         action.pointerFingerPosition,
         action.middleFingerPosition,
         action.ringFingerPosition,
-        action.littleFingerPosition
+        action.littleFingerPosition,
+        action.delay
     )
 
     fun getProtoModel(): Gestures.GestureAction =
@@ -31,5 +33,6 @@ data class Action(
             .setMiddleFingerPosition(middleFinger)
             .setRingFingerPosition(ringFinger)
             .setLittleFingerPosition(littleFinger)
+            .setDelay(delay)
             .build()
 }

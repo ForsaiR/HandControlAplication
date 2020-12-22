@@ -185,8 +185,8 @@ class Navigation : AppCompatActivity() {
                     runBlocking {
                         val gestures = apiHandler.getGestures()
                         when (recognitionLocale) { // find command according to language
-                            RUSSIAN_LOCALE_TEXT -> gestures.find { it.name == commandText }
-                            else -> gestures.find { it.englishName == commandText }
+                            RUSSIAN_LOCALE_TEXT -> gestures.find { it.name.equals(commandText, true) }
+                            else -> gestures.find { it.englishName.equals(commandText, true) }
                         }
                     }
                 }
