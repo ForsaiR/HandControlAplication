@@ -2,17 +2,12 @@ package com.handcontrol.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Process.killProcess
-import android.os.Process.myPid
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.system.Os.kill
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -190,8 +185,8 @@ class Navigation : AppCompatActivity() {
                     runBlocking {
                         val gestures = apiHandler.getGestures()
                         when (recognitionLocale) { // find command according to language
-                            RUSSIAN_LOCALE_TEXT -> gestures.find { it.name == commandText }
-                            else -> gestures.find { it.englishName == commandText }
+                            RUSSIAN_LOCALE_TEXT -> gestures.find { it.name.equals(commandText, true) }
+                            else -> gestures.find { it.englishName.equals(commandText, true) }
                         }
                     }
                 }
@@ -222,24 +217,6 @@ class Navigation : AppCompatActivity() {
 
         }
     }
-    override fun onBackPressed() {
-        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialogBuilder.setTitle("Выйти из приложения?")
-        alertDialogBuilder
-                .setMessage("Нажмите Да для выхода!")
-                .setCancelable(false)
-                .setPositiveButton("Да",
-                        DialogInterface.OnClickListener { dialog, id ->
-                            moveTaskToBack(true)
-                            killProcess(myPid())
-                            System.exit(1)
-                        })
-                .setNegativeButton("Нет", DialogInterface.OnClickListener { dialog, id -> dialog.cancel() })
-        val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-    }
-
-
 
     companion object {
         internal const val RUSSIAN_LOCALE_TEXT = "RU-ru"
