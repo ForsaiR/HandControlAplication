@@ -46,12 +46,12 @@ class BluetoothService(
 
     private fun connectionError() {
         mState = State.FAIL
-        close()
+        closeResources()
     }
 
     private fun connectionLost() {
         mState = State.FAIL
-        close()
+        closeResources()
     }
 
     private fun readPackets(packets: LinkedList<Packet>) = packets.forEach {
@@ -63,8 +63,7 @@ class BluetoothService(
         }
     }
 
-    override fun close() {
-        mState = State.DISCONNECTED
+    private fun closeResources() {
         mConnectingThread?.let {
             it.close()
             mConnectingThread = null
@@ -73,6 +72,11 @@ class BluetoothService(
             it.close()
             mConnectedThread = null
         }
+    }
+
+    override fun close() {
+        mState = State.DISCONNECTED
+        closeResources()
     }
 
     fun write(packet: Packet) {
