@@ -21,6 +21,7 @@ import androidx.navigation.ui.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.handcontrol.R
 import com.handcontrol.api.Api
+import com.handcontrol.api.BluetoothHandler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -49,6 +50,13 @@ class Navigation : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         recognizer.setUp(findViewById(R.id.speech_recognition))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val api = Api.getApiHandler()
+        if (api is BluetoothHandler)
+            api.close()
     }
 
     override fun onSupportNavigateUp(): Boolean {
