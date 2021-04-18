@@ -6,7 +6,7 @@ import java.lang.ref.WeakReference
 object Api {
     private var token: String? = null
     private var prothesis: String = ""
-    private var handlingType = HandlingType.GRPC
+    private var handlingType = HandlingType.BLUETOOTH
     private var bluetoothAddress: String? = null
     private var bluetoothHandler: BluetoothHandler? = null
 
@@ -17,17 +17,17 @@ object Api {
     }
 
     fun getApiHandler(): IApiHandler = when (handlingType) {
-        HandlingType.GRPC -> GrpcHandler(weakContext.get(), token, prothesis)
         HandlingType.BLUETOOTH -> {
             if (bluetoothAddress == null)
-                throw IllegalStateException("Bluetooth's MAC address haven't been set")
+                print("Bluetooth's MAC address haven't been set")
             if (bluetoothHandler == null)
                 bluetoothHandler = BluetoothHandler(bluetoothAddress!!)
             bluetoothHandler!!
         }
+        else -> {
+            throw IllegalStateException("Connection error!")
+        }
     }
-
-    fun getGrpcHandler(): GrpcHandler = GrpcHandler(weakContext.get(), token, prothesis)
 
     fun setToken(token: String) {
         this.token = token

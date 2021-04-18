@@ -95,16 +95,4 @@
         </fragment>
     </navigation>
 
-    <fragment
-        android:id="@+id/change_prosthesis"
-        android:name="com.handcontrol.ui.start.prothesis.ChoiseFragment"
-        android:label="@string/change_prothesis"
-        tools:layout="@layout/fragment_choise" />
-
-    <fragment
-        android:id="@+id/change_mode"
-        android:name="com.handcontrol.ui.start.connection.ConnectionFragment"
-        android:label="@string/title_connection"
-        tools:layout="@layout/fragment_connection" />
-
 </navigation>
