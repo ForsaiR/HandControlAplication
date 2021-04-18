@@ -4,7 +4,6 @@ import android.content.Context
 import java.lang.ref.WeakReference
 
 object Api {
-    private var token: String? = null
     private var prothesis: String = ""
     private var handlingType = HandlingType.BLUETOOTH
     private var bluetoothAddress: String? = null
@@ -27,10 +26,6 @@ object Api {
         else -> {
             throw IllegalStateException("Connection error!")
         }
-    }
-
-    fun setToken(token: String) {
-        this.token = token
     }
 
     fun setHandlingType(handlingType: HandlingType) {
