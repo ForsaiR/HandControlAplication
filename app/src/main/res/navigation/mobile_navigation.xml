@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_gestures">
+    app:startDestination="@id/navigation_connection">
 
     <fragment
-        android:id="@+id/navigation_settings"
-        android:name="com.handcontrol.ui.main.setting.SettingsFragment"
-        android:label="@string/title_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:id="@+id/navigation_connection"
+        android:name="com.handcontrol.ui.main.connection.ConnectionFragment"
+        android:label="@string/title_connection"
+        tools:layout="@layout/fragment_connection">
+        <action
+            android:id="@+id/action_navigation_connection_to_navigation_gestures"
+            app:destination="@id/navigation_gestures"/>
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_gestures"
@@ -23,18 +27,6 @@
             android:id="@+id/action_navigation_gestures_to_navigation_gesture_details_editor"
             app:destination="@id/nav_graph_gesture" />
     </fragment>
-
-    <fragment
-        android:id="@+id/navigation_telemetry"
-        android:name="com.handcontrol.ui.main.telemetry.TelemetryFragment"
-        android:label="@string/title_telemetry"
-        tools:layout="@layout/fragment_telemetry" />
-
-    <fragment
-        android:id="@+id/navigation_chart"
-        android:name="com.handcontrol.ui.main.chart.ChartFragment"
-        android:label="@string/chart"
-        tools:layout="@layout/fragment_chart" />
 
     <navigation
         android:id="@+id/nav_graph_gesture"
@@ -94,5 +86,23 @@
                 app:argType="com.handcontrol.model.Action" />
         </fragment>
     </navigation>
+
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="com.handcontrol.ui.main.setting.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_telemetry"
+        android:name="com.handcontrol.ui.main.telemetry.TelemetryFragment"
+        android:label="@string/title_telemetry"
+        tools:layout="@layout/fragment_telemetry" />
+
+    <fragment
+        android:id="@+id/navigation_chart"
+        android:name="com.handcontrol.ui.main.chart.ChartFragment"
+        android:label="@string/chart"
+        tools:layout="@layout/fragment_chart" />
 
 </navigation>
