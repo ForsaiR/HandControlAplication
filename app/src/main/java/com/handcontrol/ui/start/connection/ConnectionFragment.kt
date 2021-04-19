@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import com.handcontrol.R
 import com.handcontrol.api.Api
 import com.handcontrol.api.HandlingType
+import org.w3c.dom.Text
 
 
 class ConnectionFragment : Fragment() {
@@ -37,34 +36,19 @@ class ConnectionFragment : Fragment() {
 
         val okButton: Button = view.findViewById(R.id.okButton) as Button
 
-        val radioGroup: RadioGroup = view.findViewById(R.id.radios) as RadioGroup
-        val bluetoothButton: RadioButton = view.findViewById(R.id.radioButton_bluetooth)
         if (bluetoothAdapter == null) {
-            bluetoothButton.isEnabled = false
-            bluetoothButton.visibility = View.INVISIBLE
-        }
-        radioGroup.setOnCheckedChangeListener { _, i ->
-            when (i) {
-                R.id.radioButton_grpc -> {
-                    okButton.setOnClickListener {
-                        Api.setHandlingType(HandlingType.GRPC)
-                        it.findNavController().navigate(R.id.action_connectionFragment_to_loginFragment)
-                    }
-                }
-                R.id.radioButton_bluetooth -> {
-                    okButton.setOnClickListener {
-                        if (bluetoothAdapter!!.isEnabled) {
-                            navigateBluetooth()
-                        } else {
-                            val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-                        }
-                    }
+            okButton.visibility = View.INVISIBLE
+            Toast.makeText(context, "Bluetooth не обнаружен", Toast.LENGTH_LONG).show()
+        } else {
+            okButton.setOnClickListener {
+                if (bluetoothAdapter.isEnabled) {
+                    navigateBluetooth()
+                } else {
+                    val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
                 }
             }
-
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

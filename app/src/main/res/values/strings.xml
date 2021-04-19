@@ -13,7 +13,9 @@
     <string name="chart">Показания миоэлектроники</string>
     <string name="start">Старт</string>
     <string name="stop">Стоп</string>
-    <string name="title_connection">Режим подключения</string>
+    <string name="title_connection_description">Включите bluetooth на своем устройстве и соединитесь
+    с протезом. После этого нажмите «OK».</string>
+    <string name="title_connection">Подключение bluetooth устройства</string>
     <string name="title_login">Вход</string>
     <string name="title_registration">Регистрация</string>
     <string name="button_login">Войти</string>
