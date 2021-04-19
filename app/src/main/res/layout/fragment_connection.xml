@@ -5,60 +5,77 @@
     android:layout_width="match_parent"
     android:background="@color/colorPrimary"
     android:layout_height="match_parent">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="239dp"
-        android:layout_height="101dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="143dp"
-        android:text="@string/title_connection"
-        android:textAppearance="@style/h1" />
-
-
-        <RadioGroup
-            android:id="@+id/radios"
-            android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="70dp"
-            android:layout_marginTop="9dp"
-            >
-
-            <RadioButton
-                android:id="@+id/radioButton_bluetooth"
-                android:layout_width="184dp"
-                android:layout_height="37dp"
-                android:paddingStart="17dp"
-                android:layout_marginTop="279dp"
-                android:textColor="#ffffff"
-                android:text="@string/bluetooth"
-                android:textAppearance="@style/text3"
-                android:button="@drawable/radio" />
-
-            <RadioButton
-                android:id="@+id/radioButton_grpc"
-                android:layout_width="184dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="9dp"
-                android:paddingStart="17dp"
-                android:button="@drawable/radio"
-                android:text="@string/grpc"
-                android:textAppearance="@style/text3"
-                android:textColor="#ffffff" />
-        </RadioGroup>
-
-    <Button
-        android:id="@+id/okButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="459dp"
-        android:layout_width="320dp"
-        android:layout_height="55dp"
-        android:background="@drawable/button_input"
-        android:text="@string/ok"
-        android:textAppearance="@style/text1" />
-
-
-    </RelativeLayout>
+            android:gravity="end">
+            <TextView
+                android:id="@+id/textView3"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="20dp"
+                android:layout_marginTop="145dp"
+                android:text="@string/title_connection"
+                android:textAppearance="@style/h1" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <RadioGroup
+                android:id="@+id/radios"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="100dp"
+                android:gravity="center">
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:layout_marginVertical="5dp"
+                    android:id="@+id/radioButton_bluetooth"
+                    android:textColor="#ffffff"
+                    android:text="@string/bluetooth"
+                    android:textAppearance="@style/text3"
+                    android:button="@drawable/radio"
+                    tools:ignore="RtlSymmetry" />
+                <RadioButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:layout_marginVertical="5dp"
+                    android:id="@+id/radioButton_grpc"
+                    android:button="@drawable/radio"
+                    android:text="@string/grpc"
+                    android:textAppearance="@style/text3"
+                    android:textColor="#ffffff"
+                    tools:ignore="RtlSymmetry" />
+            </RadioGroup>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="bottom"
+                android:paddingBottom="40dp">
+                <Button
+                    android:id="@+id/okButton"
+                    android:layout_width="320dp"
+                    android:layout_height="55dp"
+                    android:gravity="center"
+                    android:background="@drawable/button_input"
+                    android:text="@string/ok"
+                    android:textAppearance="@style/text1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
