@@ -68,7 +68,13 @@ class BluetoothHandler(
     }
 
     override suspend fun saveGesture(gesture: Gesture) {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            val byteArray: MutableList<Byte> = mutableListOf()
+            gesture.getProtoModel().toByteArray().forEach {
+                byteArray.add(it)
+            }
+            request(Packet(Packet.Type.SAVE_GESTURE, byteArray))
+        }
     }
 
     override suspend fun performGesture(gesture: Gesture) {
