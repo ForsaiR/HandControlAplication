@@ -1,31 +1,11 @@
 package com.handcontrol.ui.start
 
-import android.Manifest
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.speech.RecognitionListener
-import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.MotionEvent
-import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.handcontrol.R
-import com.handcontrol.api.Api
-import com.handcontrol.api.BluetoothHandler
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
