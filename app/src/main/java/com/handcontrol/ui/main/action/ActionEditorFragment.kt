@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.action
+package com.handcontrol.ui.main.main.action
 
 import android.os.Bundle
 import android.view.*
@@ -10,7 +10,7 @@ import com.handcontrol.R
 import com.handcontrol.base.BaseFragment
 import com.handcontrol.databinding.FragmentActionDetailsEditorBinding
 import com.handcontrol.model.Action
-import com.handcontrol.ui.main.action.ActionFragment.Companion.ARG_ACTION_KEY
+import com.handcontrol.ui.main.main.action.ActionFragment.Companion.ARG_ACTION_KEY
 import kotlinx.android.synthetic.main.fragment_action_details_editor.*
 
 class ActionEditorFragment : BaseFragment<FragmentActionDetailsEditorBinding, ActionViewModel>(

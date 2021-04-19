@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.gestures
+package com.handcontrol.ui.main.main.gestures
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -19,8 +19,8 @@ import com.handcontrol.databinding.FragmentGesturesBinding
 import com.handcontrol.databinding.ListItemExecutableBinding
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
-import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment
-import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment.Companion.ARG_NEW_GESTURE_NAME
+import com.handcontrol.ui.main.main.gesturedetails.GestureDetailsFragment
+import com.handcontrol.ui.main.main.gesturedetails.GestureDetailsFragment.Companion.ARG_NEW_GESTURE_NAME
 import kotlinx.android.synthetic.main.fragment_gestures.*
 
 class GesturesFragment : BaseFragment<FragmentGesturesBinding, GesturesViewModel>(

@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.handcontrol.ui.main.gestures.GesturesViewModel" />
+            type="com.handcontrol.ui.main.main.gestures.GesturesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.gestures.GesturesFragment">
+        tools:context=".ui.main.main.gestures.GesturesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/gestureRecycler"

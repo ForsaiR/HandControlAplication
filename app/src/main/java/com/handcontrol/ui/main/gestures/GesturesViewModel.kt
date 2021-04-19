@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.gestures
+package com.handcontrol.ui.main.main.gestures
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

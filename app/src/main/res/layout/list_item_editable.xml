@@ -13,7 +13,7 @@
 
         <variable
             name="listener"
-            type="com.handcontrol.ui.main.gestures.ExecutableItemListener" />
+            type="com.handcontrol.ui.main.main.gestures.ExecutableItemListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.handcontrol.ui.main.chart.ChartViewModel" />
+            type="com.handcontrol.ui.main.main.chart.ChartViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

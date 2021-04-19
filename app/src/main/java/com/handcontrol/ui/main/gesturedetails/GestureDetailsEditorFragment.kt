@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.gesturedetails
+package com.handcontrol.ui.main.main.gesturedetails
 
 import android.os.Bundle
 import android.view.*
@@ -18,9 +18,9 @@ import com.handcontrol.databinding.ListItemEditableBinding
 import com.handcontrol.model.Action
 import com.handcontrol.model.ExecutableItem
 import com.handcontrol.model.Gesture
-import com.handcontrol.ui.main.action.ActionFragment
-import com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment.Companion.ARG_GESTURE_KEY
-import com.handcontrol.ui.main.gestures.ExecutableItemListener
+import com.handcontrol.ui.main.main.action.ActionFragment
+import com.handcontrol.ui.main.main.gesturedetails.GestureDetailsFragment.Companion.ARG_GESTURE_KEY
+import com.handcontrol.ui.main.main.gestures.ExecutableItemListener
 import kotlinx.android.synthetic.main.fragment_gesture_details_editor.*
 
 class GestureDetailsEditorFragment

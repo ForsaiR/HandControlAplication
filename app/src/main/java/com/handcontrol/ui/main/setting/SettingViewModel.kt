@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.setting
+package com.handcontrol.ui.main.main.setting
 
 import android.app.Activity
 import android.app.Application

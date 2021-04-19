@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.setting
+package com.handcontrol.ui.main.main.setting
 
 import android.os.Bundle
 import android.view.LayoutInflater

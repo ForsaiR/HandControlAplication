@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.telemetry
+package com.handcontrol.ui.main.main.telemetry
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

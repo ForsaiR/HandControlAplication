@@ -3,21 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_connection">
-
-    <fragment
-        android:id="@+id/navigation_connection"
-        android:name="com.handcontrol.ui.main.connection.ConnectionFragment"
-        android:label="@string/title_connection"
-        tools:layout="@layout/fragment_connection">
-        <action
-            android:id="@+id/action_navigation_connection_to_navigation_gestures"
-            app:destination="@id/navigation_gestures"/>
-    </fragment>
+    app:startDestination="@id/navigation_gestures">
 
     <fragment
         android:id="@+id/navigation_gestures"
-        android:name="com.handcontrol.ui.main.gestures.GesturesFragment"
+        android:name="com.handcontrol.ui.main.main.gestures.GesturesFragment"
         android:label="@string/title_gestures"
         tools:layout="@layout/fragment_gestures">
         <action
@@ -33,7 +23,7 @@
         app:startDestination="@id/navigation_gesture_details">
         <fragment
             android:id="@+id/navigation_gesture_details"
-            android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsFragment"
+            android:name="com.handcontrol.ui.main.main.gesturedetails.GestureDetailsFragment"
             android:label="{title}"
             tools:layout="@layout/fragment_gesture_details">
             <argument
@@ -50,7 +40,7 @@
         </fragment>
         <fragment
             android:id="@+id/navigation_gesture_details_editor"
-            android:name="com.handcontrol.ui.main.gesturedetails.GestureDetailsEditorFragment"
+            android:name="com.handcontrol.ui.main.main.gesturedetails.GestureDetailsEditorFragment"
             tools:layout="@layout/fragment_gesture_details_editor">
             <argument
                 android:name="gesture"
@@ -67,7 +57,7 @@
         app:startDestination="@id/navigation_action_details">
         <fragment
             android:id="@+id/navigation_action_details"
-            android:name="com.handcontrol.ui.main.action.ActionFragment"
+            android:name="com.handcontrol.ui.main.main.action.ActionFragment"
             android:label="@string/title_action"
             tools:layout="@layout/fragment_action_details">
             <argument
@@ -77,7 +67,7 @@
         </fragment>
         <fragment
             android:id="@+id/navigation_action_details_editor"
-            android:name="com.handcontrol.ui.main.action.ActionEditorFragment"
+            android:name="com.handcontrol.ui.main.main.action.ActionEditorFragment"
             android:label="@string/title_action"
             tools:layout="@layout/fragment_action_details_editor">
             <argument
@@ -89,19 +79,19 @@
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.handcontrol.ui.main.setting.SettingsFragment"
+        android:name="com.handcontrol.ui.main.main.setting.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/navigation_telemetry"
-        android:name="com.handcontrol.ui.main.telemetry.TelemetryFragment"
+        android:name="com.handcontrol.ui.main.main.telemetry.TelemetryFragment"
         android:label="@string/title_telemetry"
         tools:layout="@layout/fragment_telemetry" />
 
     <fragment
         android:id="@+id/navigation_chart"
-        android:name="com.handcontrol.ui.main.chart.ChartFragment"
+        android:name="com.handcontrol.ui.main.main.chart.ChartFragment"
         android:label="@string/chart"
         tools:layout="@layout/fragment_chart" />
 

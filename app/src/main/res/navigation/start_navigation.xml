@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/start_navigation"
+    app:startDestination="@id/navigation_connection">
+
+    <fragment
+        android:id="@+id/navigation_connection"
+        android:name="com.handcontrol.ui.main.main.connection.ConnectionFragment"
+        android:label="@string/title_connection">
+        <action
+            android:id="@+id/action_navigation_connection_to_navigation"
+            app:destination="@id/navigation" />
+    </fragment>
+
+    <activity
+        android:id="@+id/navigation"
+        android:name="com.handcontrol.ui.main.Navigation"
+        android:label="Navigation" />
+
+    <action
+        android:id="@+id/action_global_navigation"
+        app:destination="@id/navigation" />
+</navigation>

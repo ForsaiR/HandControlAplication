@@ -14,6 +14,8 @@
     <string name="start">Старт</string>
     <string name="stop">Стоп</string>
     <string name="title_connection">Подключение bluetooth устройства</string>
+    <string name="title_connection_not_found">Bluetooth не обнаружен</string>
+
     <string name="title_connection_description">Включите bluetooth на своем устройстве и соединитесь
     с устройством протеза. После этого нажмите «OK».</string>
     <string name="title_login">Вход</string>

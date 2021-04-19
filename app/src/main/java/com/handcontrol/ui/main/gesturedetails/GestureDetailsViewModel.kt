@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.gesturedetails
+package com.handcontrol.ui.main.main.gesturedetails
 
 import androidx.lifecycle.*
 import com.handcontrol.api.Api

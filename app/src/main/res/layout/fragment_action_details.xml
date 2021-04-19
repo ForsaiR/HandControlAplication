@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.handcontrol.ui.main.action.ActionViewModel" />
+            type="com.handcontrol.ui.main.main.action.ActionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

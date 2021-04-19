@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.telemetry
+package com.handcontrol.ui.main.main.telemetry
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -2,12 +2,12 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.main.telemetry.TelemetryFragment">
+    tools:context=".ui.main.main.telemetry.TelemetryFragment">
 
     <data>
         <variable
             name="viewModel"
-            type="com.handcontrol.ui.main.telemetry.TelemetryViewModel" />
+            type="com.handcontrol.ui.main.main.telemetry.TelemetryViewModel" />
     </data>
 
     <ScrollView

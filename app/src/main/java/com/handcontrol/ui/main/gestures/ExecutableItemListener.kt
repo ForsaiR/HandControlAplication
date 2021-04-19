@@ -1,4 +1,4 @@
-package com.handcontrol.ui.main.gestures
+package com.handcontrol.ui.main.main.gestures
 
 import com.handcontrol.base.BaseAdapterListener
 import com.handcontrol.model.ExecutableItem
