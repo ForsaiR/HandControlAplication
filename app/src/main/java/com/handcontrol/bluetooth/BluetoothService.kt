@@ -118,7 +118,7 @@ class BluetoothService(
 
         override fun close() {
             try {
-                mmSocket?.close()
+                //mmSocket?.close()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -188,6 +188,6 @@ class BluetoothService(
     }
 
     companion object {
-        private val SERVICE_UUID = UUID.fromString("c1366517-2680-4c8b-9153-918c8584b45a")
+        private val SERVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
     }
 }

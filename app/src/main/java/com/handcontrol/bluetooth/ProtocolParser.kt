@@ -27,7 +27,6 @@ class ProtocolParser {
                         mState = State.TYPE
                         repeat(8) { mBuffer.poll() }
                         mCrc.clear()
-                        mCrc.add(SFD)
                         break
                     } else {
                         mBuffer.poll()

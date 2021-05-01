@@ -8,6 +8,8 @@ import com.handcontrol.server.protobuf.Stream
 import com.handcontrol.server.protobuf.Uuid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.util.*
 
@@ -18,7 +20,14 @@ class BluetoothHandler(
 
     fun close() = bluetoothService.close()
 
+    companion object {
+        var test = false
+        val mutex = Mutex()
+    }
+
     private suspend fun prepareService() {
+
+
         if (bluetoothService.state == BluetoothService.State.DISCONNECTED)
             bluetoothService.start()
         while (bluetoothService.state == BluetoothService.State.CONNECTING)
@@ -60,9 +69,17 @@ class BluetoothHandler(
     }
 
     override suspend fun getGestures(): MutableList<Gesture> {
+        mutex.withLock {
+            if (test)
+                return arrayListOf()
+
+            test = true
+        }
+
         return withContext(Dispatchers.IO) {
             prepareService()
-            request(Packet(Packet.Type.GET_GESTURES, emptyList()))
+            val res = request(Packet(Packet.Type.GET_GESTURES, emptyList()))
+
             mutableListOf()
         }
     }
