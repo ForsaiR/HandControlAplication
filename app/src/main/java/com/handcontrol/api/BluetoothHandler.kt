@@ -68,6 +68,18 @@ class BluetoothHandler(
         throw TimeoutException()
     }
 
+    override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSettings(): Settings.GetSettings {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setSettings(settings: Settings.SetSettings) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun getGestures(): MutableList<Gesture> {
         mutex.withLock {
             if (test)
@@ -94,27 +106,19 @@ class BluetoothHandler(
         }
     }
 
-    override suspend fun performGesture(gesture: Gesture) {
-        TODO("Not yet implemented")
-    }
-
     override suspend fun deleteGesture(gestureId: Uuid.UUID) {
         TODO("Not yet implemented")
     }
 
+    override suspend fun performGestureId(gesture: Gesture) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun performGestureRaw(gesture: Gesture) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun setPositions(action: Action) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getSettings(): Settings.GetSettings {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun setSettings(settings: Settings.SetSettings) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
         TODO("Not yet implemented")
     }
 }

@@ -21,7 +21,7 @@ class GesturesViewModel : ViewModel() {
     fun performGesture(gesture: Gesture) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Api.getApiHandler().performGesture(gesture)
+                Api.getApiHandler().performGestureId(gesture)
                 errorConnection.postValue(false)
             } catch (e: StatusRuntimeException) {
                 e.printStackTrace()

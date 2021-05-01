@@ -31,24 +31,24 @@ class RegistrationFragment : Fragment() {
         val login: EditText = view.findViewById(R.id.new_login) as EditText
         val password: EditText = view.findViewById(R.id.new_password) as EditText
         registrationButton.setOnClickListener {
-            Api.setHandlingType(HandlingType.GRPC)
-            registrationButton.isEnabled = false;
-            if (!login.text.isBlank() && !password.text.isBlank()) {
-                lifecycleScope.launch {
-                    try {
-                        Snackbar.make(it, "wait...", Snackbar.LENGTH_INDEFINITE).show()
-                        Api.getGrpcHandler()
-                            .registration(login.text.toString(), password.text.toString())
-                        Snackbar.make(it, "Registrated", Snackbar.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_registrationFragment_to_choiseFragment)
-                    } catch (e: StatusRuntimeException) {
-                        e.printStackTrace()
-                        Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
-                Snackbar.make(it, "Name, login or password is empty", Snackbar.LENGTH_SHORT).show()
-            }
+//            Api.setHandlingType(HandlingType.GRPC)
+//            registrationButton.isEnabled = false;
+//            if (!login.text.isBlank() && !password.text.isBlank()) {
+//                lifecycleScope.launch {
+//                    try {
+//                        Snackbar.make(it, "wait...", Snackbar.LENGTH_INDEFINITE).show()
+//                        Api.getGrpcHandler()
+//                            .registration(login.text.toString(), password.text.toString())
+//                        Snackbar.make(it, "Registrated", Snackbar.LENGTH_SHORT).show()
+//                        findNavController().navigate(R.id.action_registrationFragment_to_choiseFragment)
+//                    } catch (e: StatusRuntimeException) {
+//                        e.printStackTrace()
+//                        Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()
+//                    }
+//                }
+//            } else {
+//                Snackbar.make(it, "Name, login or password is empty", Snackbar.LENGTH_SHORT).show()
+//            }
         }
     }
 }

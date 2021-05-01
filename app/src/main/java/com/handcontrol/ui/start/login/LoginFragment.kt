@@ -33,24 +33,24 @@ class LoginFragment : Fragment() {
         val login: EditText = view.findViewById(R.id.login) as EditText
         val password: EditText = view.findViewById(R.id.password) as EditText
         loginButton.setOnClickListener {
-            loginButton.isEnabled = false;
-            Api.setHandlingType(HandlingType.GRPC)
-            if (!login.text.isBlank() && !password.text.isBlank()) {
-                lifecycleScope.launch {
-                    try {
-                        Snackbar.make(it, "wait...", Snackbar.LENGTH_INDEFINITE).show()
-                        Api.getGrpcHandler()
-                            .authorization(login.text.toString(), password.text.toString())
-                        Snackbar.make(it, "authorized", Snackbar.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_loginFragment_to_choiseFragment)
-                    } catch (e: StatusRuntimeException) {
-                        e.printStackTrace()
-                        Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()
-                    }
-                }
-            } else {
-                Snackbar.make(it, "Login or password is empty", Snackbar.LENGTH_SHORT).show()
-            }
+//            loginButton.isEnabled = false;
+//            Api.setHandlingType(HandlingType.GRPC)
+//            if (!login.text.isBlank() && !password.text.isBlank()) {
+//                lifecycleScope.launch {
+//                    try {
+//                        Snackbar.make(it, "wait...", Snackbar.LENGTH_INDEFINITE).show()
+//                        Api.getGrpcHandler()
+//                            .authorization(login.text.toString(), password.text.toString())
+//                        Snackbar.make(it, "authorized", Snackbar.LENGTH_SHORT).show()
+//                        findNavController().navigate(R.id.action_loginFragment_to_choiseFragment)
+//                    } catch (e: StatusRuntimeException) {
+//                        e.printStackTrace()
+//                        Snackbar.make(it, "error", Snackbar.LENGTH_SHORT).show()
+//                    }
+//                }
+//            } else {
+//                Snackbar.make(it, "Login or password is empty", Snackbar.LENGTH_SHORT).show()
+//            }
         }
         registrationButton.setOnClickListener (
             Navigation.createNavigateOnClickListener(R.id.action_loginFragment_to_registrationFragment)

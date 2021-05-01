@@ -40,17 +40,17 @@ class ChoiseFragment : Fragment() {
         lifecycleScope.launch {
 
             try{
-                proto = Api.getGrpcHandler().getProto()
-                var device = proto
-                device = device.replace("[", "")
-                device = device.replace("]", "")
-                parts = device.split(", ").toTypedArray()
-                for (searchQuery in parts) {
-                    val searchQuery1 = SearchQuery(searchQuery)
-                    arraylist.add(searchQuery1)
-                }
-                adapter = SearchAdapter(this@ChoiseFragment, arraylist)
-                list.adapter = adapter
+//                proto = Api.getGrpcHandler().getProto()
+//                var device = proto
+//                device = device.replace("[", "")
+//                device = device.replace("]", "")
+//                parts = device.split(", ").toTypedArray()
+//                for (searchQuery in parts) {
+//                    val searchQuery1 = SearchQuery(searchQuery)
+//                    arraylist.add(searchQuery1)
+//                }
+//                adapter = SearchAdapter(this@ChoiseFragment, arraylist)
+//                list.adapter = adapter
             } catch (e: StatusRuntimeException){
                 e.printStackTrace()
             }

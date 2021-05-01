@@ -212,7 +212,7 @@ class Navigation : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     GlobalScope.launch {
-                        apiHandler.performGesture(gesture)
+                        apiHandler.performGestureId(gesture)
                     }
                 }
             }
