@@ -13,21 +13,15 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.util.*
 
-class BluetoothHandler(
-    private val macAddress: String
-) : IApiHandler {
+/**
+ * BluetoothHandler - класс обработчика Bluetooth соединения
+ */
+class BluetoothHandler(private val macAddress: String) : IApiHandler {
     private val bluetoothService by lazy { BluetoothService(macAddress).apply { start() } }
 
     fun close() = bluetoothService.close()
 
-    companion object {
-        var test = false
-        val mutex = Mutex()
-    }
-
     private suspend fun prepareService() {
-
-
         if (bluetoothService.state == BluetoothService.State.DISCONNECTED)
             bluetoothService.start()
         while (bluetoothService.state == BluetoothService.State.CONNECTING)
@@ -81,13 +75,6 @@ class BluetoothHandler(
     }
 
     override suspend fun getGestures(): MutableList<Gesture> {
-        mutex.withLock {
-            if (test)
-                return arrayListOf()
-
-            test = true
-        }
-
         return withContext(Dispatchers.IO) {
             prepareService()
             val res = request(Packet(Packet.Type.GET_GESTURES, emptyList()))

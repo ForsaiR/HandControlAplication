@@ -8,50 +8,69 @@ import java.io.InputStream
 import java.io.OutputStream
 import java.util.*
 
-class BluetoothService(
-    private val macAddress: String
-) : Closeable {
-    private var mConnectingThread: ConnectingThread? = null
-    private var mConnectedThread: ConnectedThread? = null
+class BluetoothService(private val macAddress: String) : Closeable {
+    private var mBluetoothThread: BluetoothThread? = null
     @Volatile private var mState = State.DISCONNECTED
-    val state
-        get() = mState
+    val state get() = mState
 
     val mTelemetry = BaseObservable<Packet?>(null)
     val mReadPackets = ObservableList<Packet>()
 
+    /**
+     * start - метод реализующий запуск соединения с Bluetooth устройством
+     */
     fun start() {
         mState = State.CONNECTING
-        mConnectingThread?.let {
+        mBluetoothThread?.let {
             it.close()
-            mConnectingThread = null
+            mBluetoothThread = null
         }
-        mConnectedThread?.let {
-            it.close()
-            mConnectedThread = null
-        }
-        mConnectingThread = ConnectingThread(macAddress)
-        mConnectingThread?.start()
+        mBluetoothThread = BluetoothThread(macAddress)
+        mBluetoothThread?.start()   //TODO:Откуда взялся старт?
     }
 
-    private fun connected(socket: BluetoothSocket) {
-        mConnectingThread?.let {
-            it.close()
-            mConnectingThread = null
+    fun write(packet: Packet) {
+        if (mState == State.CONNECTED) {
+            mBluetoothThread?.write(ProtocolParser.packetToRaw(packet))
         }
-        mConnectedThread = ConnectedThread(socket)
-        mConnectedThread?.start()
+    }
+
+    /**
+     * close - метод закрывающий Bluetooth соединение
+     */
+    override fun close() {
+        closeConn()
+        mState = State.DISCONNECTED
+    }
+
+    /**
+     * connected - соединение установлено
+     */
+    private fun connected() {
         mState = State.CONNECTED
     }
 
-    private fun connectionError() {
-        mState = State.FAIL
-        closeResources()
+    /**
+     * disconnected - соединение прекращено
+     */
+    private fun disconnected() {
+        mState = State.CONNECTED
     }
 
-    private fun connectionLost() {
+    /**
+     * connectionError - ошибка соединения
+     */
+    private fun connectionError() {
         mState = State.FAIL
-        closeResources()
+        closeConn()
+    }
+
+    /**
+     * connectionLost - соединение потеряно
+     */
+    private fun connectionLost() {
+        mState = State.LOST
+        closeConn()
     }
 
     private fun readPackets(packets: LinkedList<Packet>) = packets.forEach {
@@ -63,46 +82,43 @@ class BluetoothService(
         }
     }
 
-    private fun closeResources() {
-        mConnectingThread?.let {
+    /**
+     * closeConn - метод производящий закрытие Bluetooth соединения
+     */
+    private fun closeConn() {
+        mBluetoothThread?.let {
             it.close()
-            mConnectingThread = null
-        }
-        mConnectedThread?.let {
-            it.close()
-            mConnectedThread = null
+            mBluetoothThread = null
         }
     }
 
-    override fun close() {
-        mState = State.DISCONNECTED
-        closeResources()
-    }
-
-    fun write(packet: Packet) {
-        if (mState == State.CONNECTED) {
-            mConnectedThread?.write(ProtocolParser.packetToRaw(packet))
-        }
-    }
-
-    private inner class ConnectingThread(macAddress: String) : Thread(), Closeable {
+    private inner class BluetoothThread(macAddress: String) : Thread(), Closeable {
         private val mmAdapter = BluetoothAdapter.getDefaultAdapter()
+
+        @Volatile private var connected = false
         private var mmSocket: BluetoothSocket? = null
+        private var mmInStream: InputStream? = null
+        private var mmOutStream: OutputStream? = null
+
+        private val mmParser by lazy { ProtocolParser() }
 
         init {
+            mmAdapter.cancelDiscovery()
             val device = mmAdapter.getRemoteDevice(macAddress)
             try {
                 mmSocket = device.createRfcommSocketToServiceRecord(SERVICE_UUID)
             } catch (e: IOException) {
+                mmAdapter.startDiscovery()
                 connectionError()
             }
         }
 
+        //TODO: Вызывается где либо? Как Работает?
         override fun run() {
             mmSocket?.let { socket ->
-                mmAdapter.cancelDiscovery()
                 try {
                     socket.connect()
+                    connected = true
                 } catch (e: IOException) {
                     try {
                         socket.close()
@@ -112,39 +128,14 @@ class BluetoothService(
                     connectionError()
                     return
                 }
-                connected(socket)
+                connected()
             }
         }
 
-        override fun close() {
-            try {
-                //mmSocket?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-    }
+        fun openStreams() {
+            mmInStream = mmSocket?.inputStream
+            mmOutStream = mmSocket?.outputStream
 
-    private inner class ConnectedThread(
-        private val mmSocket: BluetoothSocket
-    ) : Thread(), Closeable {
-        private var mmInStream: InputStream? = null
-        private var mmOutStream: OutputStream? = null
-
-        private val mmParser by lazy { ProtocolParser() }
-
-        @Volatile private var connected = true
-
-        init {
-            try {
-                mmInStream = mmSocket.inputStream
-                mmOutStream = mmSocket.outputStream
-            } catch (e: IOException) {
-                connectionError()
-            }
-        }
-
-        override fun run() {
             mmInStream?.let { stream ->
                 val buffer = ByteArray(1024)
                 var bytes: Int
@@ -173,10 +164,11 @@ class BluetoothService(
         override fun close() {
             connected = false
             try {
-                mmSocket.close()
+                mmSocket?.close()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
+
         }
     }
 
@@ -184,6 +176,7 @@ class BluetoothService(
         CONNECTING,
         CONNECTED,
         DISCONNECTED,
+        LOST,
         FAIL
     }
 
