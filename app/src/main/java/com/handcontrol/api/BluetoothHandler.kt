@@ -1,5 +1,6 @@
 package com.handcontrol.api
 
+import android.util.Log
 import com.handcontrol.bluetooth.*
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
@@ -17,49 +18,55 @@ import java.util.*
  * BluetoothHandler - класс обработчика Bluetooth соединения
  */
 class BluetoothHandler(private val macAddress: String) : IApiHandler {
-    private val bluetoothService by lazy { BluetoothService(macAddress).apply { start() } }
+    private val bluetoothService =  BluetoothService(macAddress).apply { start() }
+
+    /**
+     * isConnected - функция подтверждения соединения
+     */
+    fun isConnected() : Boolean {
+        if (bluetoothService.state != BluetoothService.State.CONNECTED) {
+            return true
+        }
+
+        return false
+    }
 
     fun close() = bluetoothService.close()
 
-    private suspend fun prepareService() {
-        if (bluetoothService.state == BluetoothService.State.DISCONNECTED)
-            bluetoothService.start()
-        while (bluetoothService.state == BluetoothService.State.CONNECTING)
-            delay(200)
-        if (bluetoothService.state == BluetoothService.State.FAIL)
-            throw ConnectingFailedException()
-    }
-
     private suspend fun request(request: Packet): Packet {
-        var response: Packet? = null
-        val observer = object : Observer {
-            override fun update(p0: Observable?, list: Any?) {
-                if (list is MutableList<*>) {
-                    list.forEach {
-                        if (it is Packet) {
-                            if (it.type == request.type) {
-                                response = it
-                                list.remove(it)
-                                return
-                            } else if (it.type == Packet.Type.ERR) {
-                                list.remove(it)
-                                throw HandlingException()
+        if (isConnected()) {
+            var response: Packet? = null
+            val observer = object : Observer {
+                override fun update(p0: Observable?, list: Any?) {
+                    if (list is MutableList<*>) {
+                        list.forEach {
+                            if (it is Packet) {
+                                if (it.type == request.type) {
+                                    response = it
+                                    list.remove(it)
+                                    return
+                                } else if (it.type == Packet.Type.ERR) {
+                                    list.remove(it)
+                                    throw HandlingException()
+                                }
                             }
                         }
                     }
                 }
             }
-        }
-        bluetoothService.mReadPackets.addObserver(observer)
-        bluetoothService.write(request)
-        response?.let { return it }
-        repeat(25) {
-            delay(200)
+            bluetoothService.mReadPackets.addObserver(observer)
+            bluetoothService.write(request)
             response?.let { return it }
-            if (bluetoothService.state == BluetoothService.State.DISCONNECTED)
-                throw DisconnectedException()
+            repeat(25) {
+                delay(200)
+                response?.let { return it }
+                if (bluetoothService.state == BluetoothService.State.DISCONNECTED)
+                    throw DisconnectedException()
+            }
+            throw TimeoutException()
         }
-        throw TimeoutException()
+
+        throw ConnectingFailedException()
     }
 
     override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
@@ -76,7 +83,6 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
 
     override suspend fun getGestures(): MutableList<Gesture> {
         return withContext(Dispatchers.IO) {
-            prepareService()
             val res = request(Packet(Packet.Type.GET_GESTURES, emptyList()))
 
             mutableListOf()

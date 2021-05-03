@@ -16,6 +16,10 @@ class BluetoothService(private val macAddress: String) : Closeable {
     val mTelemetry = BaseObservable<Packet?>(null)
     val mReadPackets = ObservableList<Packet>()
 
+    companion object {
+        private val SERVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
+    }
+
     /**
      * start - метод реализующий запуск соединения с Bluetooth устройством
      */
@@ -26,9 +30,12 @@ class BluetoothService(private val macAddress: String) : Closeable {
             mBluetoothThread = null
         }
         mBluetoothThread = BluetoothThread(macAddress)
-        mBluetoothThread?.start()   //TODO:Откуда взялся старт?
+        mBluetoothThread?.start()
     }
 
+    /**
+     * write - метод отправки сообщения типа Packet протезу по Bluetooth
+     */
     fun write(packet: Packet) {
         if (mState == State.CONNECTED) {
             mBluetoothThread?.write(ProtocolParser.packetToRaw(packet))
@@ -73,6 +80,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
         closeConn()
     }
 
+    //TODO: Переделать
     private fun readPackets(packets: LinkedList<Packet>) = packets.forEach {
         if (it.type == Packet.Type.TELEMETRY) {
             mTelemetry.value = it
@@ -92,6 +100,9 @@ class BluetoothService(private val macAddress: String) : Closeable {
         }
     }
 
+    /**
+     * BluetoothThread - класс обеспечивающий чтение/записть по Bluetooth соединению
+     */
     private inner class BluetoothThread(macAddress: String) : Thread(), Closeable {
         private val mmAdapter = BluetoothAdapter.getDefaultAdapter()
 
@@ -102,6 +113,10 @@ class BluetoothService(private val macAddress: String) : Closeable {
 
         private val mmParser by lazy { ProtocolParser() }
 
+        /**
+         * init - прекращаем процесс обнаружения устройства и создаем RfcommSocket с устройством
+         * SERVICE_UUID
+         */
         init {
             mmAdapter.cancelDiscovery()
             val device = mmAdapter.getRemoteDevice(macAddress)
@@ -113,7 +128,10 @@ class BluetoothService(private val macAddress: String) : Closeable {
             }
         }
 
-        //TODO: Вызывается где либо? Как Работает?
+        /**
+         * run - при зупуске труда открываем соединение и запускаем обнаружение Streams чтения и
+         * записи
+         */
         override fun run() {
             mmSocket?.let { socket ->
                 try {
@@ -129,10 +147,15 @@ class BluetoothService(private val macAddress: String) : Closeable {
                     return
                 }
                 connected()
+                openStreams()
             }
         }
 
-        fun openStreams() {
+        /**
+         * openStreams - открываем стримы чтения и записи. Запускием цикл чтения по 1024 байта из
+         * стрима и расшифровываем полученное сообщение
+         */
+        private fun openStreams() {
             mmInStream = mmSocket?.inputStream
             mmOutStream = mmSocket?.outputStream
 
@@ -151,6 +174,9 @@ class BluetoothService(private val macAddress: String) : Closeable {
             }
         }
 
+        /**
+         * write - отправка сообщения по RfcommSocket
+         */
         fun write(data: ByteArray) {
             mmOutStream?.let { stream ->
                 try {
@@ -161,6 +187,9 @@ class BluetoothService(private val macAddress: String) : Closeable {
             }
         }
 
+        /**
+         * close - закрыте RfcommSocket
+         */
         override fun close() {
             connected = false
             try {
@@ -178,9 +207,5 @@ class BluetoothService(private val macAddress: String) : Closeable {
         DISCONNECTED,
         LOST,
         FAIL
-    }
-
-    companion object {
-        private val SERVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
     }
 }

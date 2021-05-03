@@ -7,7 +7,7 @@ object Api {
     private var prothesis: String = ""
     private var handlingType = HandlingType.BLUETOOTH
     private var bluetoothAddress: String? = null
-    private var bluetoothHandler: BluetoothHandler? = null
+    private var handler: IApiHandler? = null
 
     private lateinit var weakContext: WeakReference<Context>
 
@@ -16,14 +16,10 @@ object Api {
     }
 
     /**
-     * getApiHandler - функция получения интерфейса обработчика запросов к протезу
+     * setBluetoothAddress - фукнкция обеспечивающая установку адреса Bluetooth устройства
      */
-    fun getApiHandler(): IApiHandler {
-        if (bluetoothHandler == null) {
-            bluetoothHandler = BluetoothHandler(bluetoothAddress!!)
-        }
-
-        return bluetoothHandler!!
+    fun setBluetoothAddress(address: String) {
+        bluetoothAddress = address
     }
 
     /**
@@ -34,16 +30,27 @@ object Api {
     }
 
     /**
+     * getApiHandler - функция получения интерфейса обработчика запросов к протезу
+     */
+    fun getApiHandler(): IApiHandler {
+        if (handler == null) {
+            handler = BluetoothHandler(bluetoothAddress!!)
+        }
+
+        return handler!!
+    }
+
+    /**
+     * setApiHandler - функция установки значения интерфейса обработчика запросов
+     */
+    fun setApiHandler(handler : IApiHandler) {
+        this.handler = handler
+    }
+
+    /**
      * saveProthesis - функция устанавливающая значение uuid протеза
      */
     fun saveProthesis(prothesis: String) {
         this.prothesis = prothesis
-    }
-
-    /**
-     * setBluetoothAddress - фукнкция обеспечивающая установку адреса Bluetooth устройства
-     */
-    fun setBluetoothAddress(address: String) {
-        bluetoothAddress = address
     }
 }

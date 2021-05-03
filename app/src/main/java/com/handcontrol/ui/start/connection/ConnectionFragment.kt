@@ -16,6 +16,9 @@ import com.handcontrol.R
 import com.handcontrol.api.Api
 import com.handcontrol.api.BluetoothHandler
 import com.handcontrol.api.HandlingType
+import com.handcontrol.bluetooth.BluetoothService
+import com.handcontrol.bluetooth.ConnectingFailedException
+import kotlinx.coroutines.delay
 
 
 class ConnectionFragment : Fragment() {
@@ -48,7 +51,9 @@ class ConnectionFragment : Fragment() {
         if(!bluetoothAdapter.isEnabled) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
-        } else {
+        }
+
+        okButton.setOnClickListener {
             navigateBluetooth()
         }
     }
@@ -59,11 +64,9 @@ class ConnectionFragment : Fragment() {
             AlertDialog.Builder(it)
                 .setTitle(getString(R.string.choose_device_title))
                 .setItems(pairedDevices.map { item -> item.name }.toTypedArray()) { _, i ->
-                    val bluetoothHandler = BluetoothHandler(pairedDevices[i].address)
-
                     Api.setHandlingType(HandlingType.BLUETOOTH)
                     Api.setBluetoothAddress(pairedDevices[i].address)
-                    Api.setApiHandler(bluetoothHandler)
+                    Api.setApiHandler(BluetoothHandler(pairedDevices[i].address))
 
                     activity?.finish()
                     findNavController().navigate(R.id.action_global_navigation)
