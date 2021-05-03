@@ -11,16 +11,19 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.handcontrol.R
 import com.handcontrol.api.Api
+import com.handcontrol.api.BluetoothHandler
 import com.handcontrol.api.HandlingType
-import org.w3c.dom.Text
 
 
 class ConnectionFragment : Fragment() {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+
+    companion object {
+        private const val REQUEST_ENABLE_BLUETOOTH = 1
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,26 +39,18 @@ class ConnectionFragment : Fragment() {
 
         val okButton: Button = view.findViewById(R.id.okButton) as Button
 
-        if (bluetoothAdapter == null) {
+        if(bluetoothAdapter == null) {
             okButton.visibility = View.INVISIBLE
-            Toast.makeText(context, "Bluetooth не обнаружен", Toast.LENGTH_LONG).show()
-        } else {
-            okButton.setOnClickListener {
-                if (bluetoothAdapter.isEnabled) {
-                    navigateBluetooth()
-                } else {
-                    val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
-                    startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
-                }
-            }
+            Toast.makeText(context, "Устройство не поддерживает Bluetooth", Toast.LENGTH_LONG).show()
+            return
         }
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_ENABLE_BT) {
-            if (resultCode == Activity.RESULT_OK)
-                navigateBluetooth()
-        } else super.onActivityResult(requestCode, resultCode, data)
+        if(!bluetoothAdapter.isEnabled) {
+            val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+            startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
+        } else {
+            navigateBluetooth()
+        }
     }
 
     private fun navigateBluetooth() {
@@ -64,8 +59,12 @@ class ConnectionFragment : Fragment() {
             AlertDialog.Builder(it)
                 .setTitle(getString(R.string.choose_device_title))
                 .setItems(pairedDevices.map { item -> item.name }.toTypedArray()) { _, i ->
+                    val bluetoothHandler = BluetoothHandler(pairedDevices[i].address)
+
                     Api.setHandlingType(HandlingType.BLUETOOTH)
                     Api.setBluetoothAddress(pairedDevices[i].address)
+                    Api.setApiHandler(bluetoothHandler)
+
                     activity?.finish()
                     findNavController().navigate(R.id.action_global_navigation)
                 }
@@ -73,7 +72,10 @@ class ConnectionFragment : Fragment() {
         }
     }
 
-    companion object {
-        private const val REQUEST_ENABLE_BT = 1
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
+            if (resultCode == Activity.RESULT_OK)
+                navigateBluetooth()
+        } else super.onActivityResult(requestCode, resultCode, data)
     }
 }
