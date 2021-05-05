@@ -2,6 +2,8 @@ package com.handcontrol.bluetooth
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 import java.io.Closeable
 import java.io.IOException
 import java.io.InputStream
@@ -29,8 +31,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
             it.close()
             mBluetoothThread = null
         }
-        mBluetoothThread = BluetoothThread(macAddress)
-        mBluetoothThread?.start()
+        mBluetoothThread = BluetoothThread(macAddress).apply { start() }
     }
 
     /**
@@ -146,8 +147,9 @@ class BluetoothService(private val macAddress: String) : Closeable {
                     connectionError()
                     return
                 }
-                connected()
-                openStreams()
+                runBlocking {
+                    openStreams()
+                }
             }
         }
 
@@ -158,6 +160,8 @@ class BluetoothService(private val macAddress: String) : Closeable {
         private fun openStreams() {
             mmInStream = mmSocket?.inputStream
             mmOutStream = mmSocket?.outputStream
+
+            connected()
 
             mmInStream?.let { stream ->
                 val buffer = ByteArray(1024)

@@ -18,11 +18,16 @@ import com.handcontrol.R
 import com.handcontrol.api.Api
 import com.handcontrol.api.BluetoothHandler
 import com.handcontrol.api.HandlingType
+import android.widget.Button
+
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 
 
 class ConnectionFragment : Fragment() {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private lateinit var mPairedDevices: Set<BluetoothDevice>
+    private var pairedDevice: BluetoothDevice? = null
 
     companion object {
         private const val REQUEST_ENABLE_BLUETOOTH = 1
@@ -41,6 +46,7 @@ class ConnectionFragment : Fragment() {
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
         val refreshButton: Button = view.findViewById(R.id.refreshButton) as Button
+        val animAlpha: Animation = AnimationUtils.loadAnimation(this.requireContext(), R.anim.alpha)
 
         if(bluetoothAdapter == null) {
             refreshButton.visibility = View.INVISIBLE
@@ -56,24 +62,8 @@ class ConnectionFragment : Fragment() {
         pairedDeviceList()
 
         refreshButton.setOnClickListener {
+            it.animation = animAlpha
             pairedDeviceList()
-        }
-    }
-
-    private fun navigateBluetooth() {
-        context?.let {
-            val pairedDevices = bluetoothAdapter!!.bondedDevices.toList()
-            AlertDialog.Builder(it)
-                .setTitle(getString(R.string.choose_device_title))
-                .setItems(pairedDevices.map { item -> item.name }.toTypedArray()) { _, i ->
-                    Api.setHandlingType(HandlingType.BLUETOOTH)
-                    Api.setBluetoothAddress(pairedDevices[i].address)
-                    Api.setApiHandler(BluetoothHandler(pairedDevices[i].address))
-
-                    activity?.finish()
-                    findNavController().navigate(R.id.action_global_navigation)
-                }
-                .show()
         }
     }
 
@@ -98,21 +88,33 @@ class ConnectionFragment : Fragment() {
 
         devList.adapter = adapter
         devList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val device: BluetoothDevice = listDevices[position]
-
-            Api.setHandlingType(HandlingType.BLUETOOTH)
-            Api.setBluetoothAddress(device.address)
-            Api.setApiHandler(BluetoothHandler(device.address))
-
-            activity?.finish()
-            findNavController().navigate(R.id.action_global_navigation)
+            choice(listDevices[position])
         }
+    }
+
+    private fun choice(device: BluetoothDevice) {
+        val bluetoothHandler = BluetoothHandler(device.address)
+
+        while (!bluetoothHandler.isConnected()) {
+            print("Connecting")
+        }
+
+        Api.setHandlingType(HandlingType.BLUETOOTH)
+        Api.setBluetoothAddress(device.address)
+        Api.setApiHandler(bluetoothHandler)
+
+        transfer()
+    }
+
+    private fun transfer() {
+        activity?.finish()
+        findNavController().navigate(R.id.action_global_navigation)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
             if (resultCode == Activity.RESULT_OK)
-                navigateBluetooth()
+                pairedDeviceList()
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 }
