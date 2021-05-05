@@ -16,9 +16,6 @@ import com.handcontrol.R
 import com.handcontrol.api.Api
 import com.handcontrol.api.BluetoothHandler
 import com.handcontrol.api.HandlingType
-import com.handcontrol.bluetooth.BluetoothService
-import com.handcontrol.bluetooth.ConnectingFailedException
-import kotlinx.coroutines.delay
 
 
 class ConnectionFragment : Fragment() {
@@ -40,7 +37,7 @@ class ConnectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        val okButton: Button = view.findViewById(R.id.okButton) as Button
+        val okButton: Button = view.findViewById(R.id.refreshButton) as Button
 
         if(bluetoothAdapter == null) {
             okButton.visibility = View.INVISIBLE

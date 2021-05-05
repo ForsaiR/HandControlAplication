@@ -26,6 +26,7 @@
     <string name="password_">Пароль*</string>
     <string name="name">Имя</string>
     <string name="ok">OK</string>
+    <string name="refresh">Обновить</string>
     <string name="proto">Prosthesis</string>
     <string name="change_prothesis">Выбор протеза</string>
     <string name="change_mode">Смена режима</string>
