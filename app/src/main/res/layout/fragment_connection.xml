@@ -20,6 +20,7 @@
         android:textAppearance="@style/h1" />
 
     <ListView
+        android:id="@+id/device_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/textView3"

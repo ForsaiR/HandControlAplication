@@ -2,8 +2,10 @@ package com.handcontrol.ui.start.connection
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,7 @@ import com.handcontrol.api.HandlingType
 
 class ConnectionFragment : Fragment() {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+    private lateinit var mPairedDevices: Set<BluetoothDevice>
 
     companion object {
         private const val REQUEST_ENABLE_BLUETOOTH = 1
@@ -37,10 +40,10 @@ class ConnectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        val okButton: Button = view.findViewById(R.id.refreshButton) as Button
+        val refreshButton: Button = view.findViewById(R.id.refreshButton) as Button
 
         if(bluetoothAdapter == null) {
-            okButton.visibility = View.INVISIBLE
+            refreshButton.visibility = View.INVISIBLE
             Toast.makeText(context, "Устройство не поддерживает Bluetooth", Toast.LENGTH_LONG).show()
             return
         }
@@ -50,8 +53,10 @@ class ConnectionFragment : Fragment() {
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
         }
 
-        okButton.setOnClickListener {
-            navigateBluetooth()
+        pairedDeviceList()
+
+        refreshButton.setOnClickListener {
+            pairedDeviceList()
         }
     }
 
@@ -69,6 +74,38 @@ class ConnectionFragment : Fragment() {
                     findNavController().navigate(R.id.action_global_navigation)
                 }
                 .show()
+        }
+    }
+
+    private fun pairedDeviceList() {
+        mPairedDevices = bluetoothAdapter!!.bondedDevices
+        val listDevices : ArrayList<BluetoothDevice> = ArrayList()
+        val listDevicesName : ArrayList<String> = ArrayList()
+
+        if (mPairedDevices.isNotEmpty()) {
+            for (device: BluetoothDevice in mPairedDevices) {
+                listDevices.add(device)
+                listDevicesName.add(device.name)
+                Log.i("device", ""+device)
+            }
+        } else {
+            Toast.makeText(context, "Bluetooth устройства не найдены", Toast.LENGTH_LONG).show()
+        }
+
+        val devList: ListView = view?.findViewById(R.id.device_list) as ListView
+
+        val adapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, listDevicesName)
+
+        devList.adapter = adapter
+        devList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            val device: BluetoothDevice = listDevices[position]
+
+            Api.setHandlingType(HandlingType.BLUETOOTH)
+            Api.setBluetoothAddress(device.address)
+            Api.setApiHandler(BluetoothHandler(device.address))
+
+            activity?.finish()
+            findNavController().navigate(R.id.action_global_navigation)
         }
     }
 
