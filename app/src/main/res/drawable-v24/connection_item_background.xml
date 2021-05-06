@@ -16,22 +16,13 @@
 
         <path
             android:pathData="M0 0V41H334V0"
-<<<<<<< HEAD
             android:fillColor="#673AB7"
-=======
-            android:fillColor="#FFFFFF"
->>>>>>> ref
             />
 
         <path
             android:pathData="M20.5 0H313.5C324.822 0 334 9.17816 334 20.5C334 31.8218 324.822 41 313.5 41H20.5C9.17816 41 0 31.8218 0 20.5C0 9.17816 9.17816 0 20.5 0Z"
-<<<<<<< HEAD
             android:strokeWidth="3"
             android:strokeColor="#FFFFFF"
-=======
-            android:strokeWidth="2"
-            android:strokeColor="#673AB7"
->>>>>>> ref
             />
 
     </group>
