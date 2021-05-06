@@ -22,12 +22,12 @@ import android.widget.Button
 
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import com.handcontrol.adapter.ConnectionItemAdapter
 
 
 class ConnectionFragment : Fragment() {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private lateinit var mPairedDevices: Set<BluetoothDevice>
-    private var pairedDevice: BluetoothDevice? = null
 
     companion object {
         private const val REQUEST_ENABLE_BLUETOOTH = 1
@@ -83,10 +83,8 @@ class ConnectionFragment : Fragment() {
         }
 
         val devList: ListView = view?.findViewById(R.id.device_list) as ListView
-
-        val adapter = ArrayAdapter(this.requireContext(), android.R.layout.simple_list_item_1, listDevicesName)
-
-        devList.adapter = adapter
+        devList.divider = null
+        devList.adapter = ConnectionItemAdapter(this.requireContext(),listDevicesName)
         devList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             choice(listDevices[position])
         }
