@@ -22,12 +22,12 @@ import android.widget.Button
 
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import com.handcontrol.adapter.ConnectionItemAdapter
 
 
 class ConnectionFragment : Fragment() {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private lateinit var mPairedDevices: Set<BluetoothDevice>
-    private var pairedDevice: BluetoothDevice? = null
 
     companion object {
         private const val REQUEST_ENABLE_BLUETOOTH = 1
