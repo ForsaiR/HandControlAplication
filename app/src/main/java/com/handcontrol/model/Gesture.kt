@@ -44,5 +44,4 @@ data class Gesture(
         i++
         return action
     }
-
 }
