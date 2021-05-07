@@ -2,8 +2,10 @@ package com.handcontrol.ui.start.connection
 
 import android.app.Activity
 import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothDevice
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,13 +18,16 @@ import com.handcontrol.R
 import com.handcontrol.api.Api
 import com.handcontrol.api.BluetoothHandler
 import com.handcontrol.api.HandlingType
-import com.handcontrol.bluetooth.BluetoothService
-import com.handcontrol.bluetooth.ConnectingFailedException
-import kotlinx.coroutines.delay
+import android.widget.Button
+
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import com.handcontrol.adapter.ConnectionItemAdapter
 
 
 class ConnectionFragment : Fragment() {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
+    private lateinit var mPairedDevices: Set<BluetoothDevice>
 
     companion object {
         private const val REQUEST_ENABLE_BLUETOOTH = 1
@@ -40,10 +45,11 @@ class ConnectionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
 
-        val okButton: Button = view.findViewById(R.id.okButton) as Button
+        val refreshButton: Button = view.findViewById(R.id.refreshButton) as Button
+        val animAlpha: Animation = AnimationUtils.loadAnimation(this.requireContext(), R.anim.alpha)
 
         if(bluetoothAdapter == null) {
-            okButton.visibility = View.INVISIBLE
+            refreshButton.visibility = View.INVISIBLE
             Toast.makeText(context, "Устройство не поддерживает Bluetooth", Toast.LENGTH_LONG).show()
             return
         }
@@ -53,32 +59,60 @@ class ConnectionFragment : Fragment() {
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
         }
 
-        okButton.setOnClickListener {
-            navigateBluetooth()
+        pairedDeviceList()
+
+        refreshButton.setOnClickListener {
+            it.animation = animAlpha
+            pairedDeviceList()
         }
     }
 
-    private fun navigateBluetooth() {
-        context?.let {
-            val pairedDevices = bluetoothAdapter!!.bondedDevices.toList()
-            AlertDialog.Builder(it)
-                .setTitle(getString(R.string.choose_device_title))
-                .setItems(pairedDevices.map { item -> item.name }.toTypedArray()) { _, i ->
-                    Api.setHandlingType(HandlingType.BLUETOOTH)
-                    Api.setBluetoothAddress(pairedDevices[i].address)
-                    Api.setApiHandler(BluetoothHandler(pairedDevices[i].address))
+    private fun pairedDeviceList() {
+        mPairedDevices = bluetoothAdapter!!.bondedDevices
+        val listDevices : ArrayList<BluetoothDevice> = ArrayList()
+        val listDevicesName : ArrayList<String> = ArrayList()
 
-                    activity?.finish()
-                    findNavController().navigate(R.id.action_global_navigation)
-                }
-                .show()
+        if (mPairedDevices.isNotEmpty()) {
+            for (device: BluetoothDevice in mPairedDevices) {
+                listDevices.add(device)
+                listDevicesName.add(device.name)
+                Log.i("device", ""+device)
+            }
+        } else {
+            Toast.makeText(context, "Bluetooth устройства не найдены", Toast.LENGTH_LONG).show()
         }
+
+        val devList: ListView = view?.findViewById(R.id.device_list) as ListView
+        devList.divider = null
+        devList.adapter = ConnectionItemAdapter(this.requireContext(),listDevicesName)
+        devList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            choice(listDevices[position])
+        }
+    }
+
+    private fun choice(device: BluetoothDevice) {
+        val bluetoothHandler = BluetoothHandler(device.address)
+
+        while (!bluetoothHandler.isConnected()) {
+            print("Connecting")
+        }
+
+        Api.setHandlingType(HandlingType.BLUETOOTH)
+        Api.setBluetoothAddress(device.address)
+        Api.setApiHandler(bluetoothHandler)
+
+        transfer()
+    }
+
+    private fun transfer() {
+        activity?.finish()
+        findNavController().navigate(R.id.action_global_navigation)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
             if (resultCode == Activity.RESULT_OK)
-                navigateBluetooth()
+                pairedDeviceList()
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 }

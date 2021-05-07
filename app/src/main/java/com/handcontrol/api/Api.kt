@@ -33,9 +33,9 @@ object Api {
      * getApiHandler - функция получения интерфейса обработчика запросов к протезу
      */
     fun getApiHandler(): IApiHandler {
-        if (handler == null) {
-            handler = BluetoothHandler(bluetoothAddress!!)
-        }
+//        if (handler == null) {
+//            handler = BluetoothHandler(bluetoothAddress!!)
+//        }
 
         return handler!!
     }

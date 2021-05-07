@@ -24,7 +24,7 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
      * isConnected - функция подтверждения соединения
      */
     fun isConnected() : Boolean {
-        if (bluetoothService.state != BluetoothService.State.CONNECTED) {
+        if (bluetoothService.state == BluetoothService.State.CONNECTED) {
             return true
         }
 
