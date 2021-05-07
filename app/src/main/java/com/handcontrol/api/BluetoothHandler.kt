@@ -33,6 +33,7 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
 
     fun close() = bluetoothService.close()
 
+    //TODO: переместить в BluetoothService
     private suspend fun request(request: Packet): Packet {
         if (isConnected()) {
             var response: Packet? = null
@@ -74,16 +75,19 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
     }
 
     override suspend fun getSettings(): Settings.GetSettings {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            Settings.GetSettings.parseFrom(request(Packet(Packet.Type.GET_SETTINGS, emptyList())).
+            payload.toByteArray())
+        }
     }
 
     override suspend fun setSettings(settings: Settings.SetSettings) {
-        TODO("Not yet implemented")
+        request(Packet(Packet.Type.SET_SETTINGS, settings.toByteArray().toList()))
     }
 
     override suspend fun getGestures(): MutableList<Gesture> {
         return withContext(Dispatchers.IO) {
-            val res = request(Packet(Packet.Type.GET_GESTURES, emptyList()))
+            val req = request(Packet(Packet.Type.GET_GESTURES,emptyList()))
 
             mutableListOf()
         }
@@ -91,11 +95,7 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
 
     override suspend fun saveGesture(gesture: Gesture) {
         return withContext(Dispatchers.IO) {
-            val byteArray: MutableList<Byte> = mutableListOf()
-            gesture.getProtoModel().toByteArray().forEach {
-                byteArray.add(it)
-            }
-            request(Packet(Packet.Type.SAVE_GESTURE, byteArray))
+            request(Packet(Packet.Type.SAVE_GESTURE, gesture.getProtoModel().toByteArray().toList()))
         }
     }
 
@@ -103,15 +103,23 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
         TODO("Not yet implemented")
     }
 
+    //TODO: Скорее всего не правильно реалзован
     override suspend fun performGestureId(gesture: Gesture) {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            request(Packet(Packet.Type.PERFORM_GESTURE_ID, gesture.getProtoModel().toByteArray().toList()))
+        }
     }
 
+    //TODO: Скорее всего не правильно реалзован
     override suspend fun performGestureRaw(gesture: Gesture) {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            request(Packet(Packet.Type.PERFORM_GESTURE_RAW, gesture.getProtoModel().toByteArray().toList()))
+        }
     }
 
     override suspend fun setPositions(action: Action) {
-        TODO("Not yet implemented")
+        return withContext(Dispatchers.IO) {
+            request(Packet(Packet.Type.SET_POSITIONS, action.getProtoModel().toByteArray().toList()))
+        }
     }
 }
