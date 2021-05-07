@@ -1,16 +1,14 @@
 package com.handcontrol.api
 
-import android.util.Log
 import com.handcontrol.bluetooth.*
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
+import com.handcontrol.server.protobuf.Gestures
 import com.handcontrol.server.protobuf.Settings
 import com.handcontrol.server.protobuf.Stream
 import com.handcontrol.server.protobuf.Uuid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.util.*
 
@@ -70,6 +68,7 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
         throw ConnectingFailedException()
     }
 
+    //Самая страшная хрень, непонятно как ее реализовывать
     override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
         TODO("Not yet implemented")
     }
@@ -87,9 +86,19 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
 
     override suspend fun getGestures(): MutableList<Gesture> {
         return withContext(Dispatchers.IO) {
-            val req = request(Packet(Packet.Type.GET_GESTURES,emptyList()))
+            val gestures: MutableList<Gesture> = mutableListOf<Gesture>()
 
-            mutableListOf()
+            for (gesture in Gestures.GetGestures.parseFrom(
+                request(
+                    Packet(
+                        Packet.Type.GET_GESTURES,
+                        emptyList()))
+                    .payload.toByteArray())
+                .gesturesList) {
+                gestures.add(Gesture(gesture))
+            }
+
+            gestures
         }
     }
 
@@ -99,8 +108,9 @@ class BluetoothHandler(private val macAddress: String) : IApiHandler {
         }
     }
 
+    //TODO: Скорее всего не правильно реалзован
     override suspend fun deleteGesture(gestureId: Uuid.UUID) {
-        TODO("Not yet implemented")
+        request(Packet(Packet.Type.DELETE_GESTURE, gestureId.toByteArray().toList()))
     }
 
     //TODO: Скорее всего не правильно реалзован
