@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -23,11 +22,15 @@ import android.widget.Button
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import com.handcontrol.adapter.ConnectionItemAdapter
+import com.handcontrol.bluetooth.BluetoothService
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 
 class ConnectionFragment : Fragment() {
     private val bluetoothAdapter: BluetoothAdapter? = BluetoothAdapter.getDefaultAdapter()
     private lateinit var mPairedDevices: Set<BluetoothDevice>
+    private var blocked = false
 
     companion object {
         private const val REQUEST_ENABLE_BLUETOOTH = 1
@@ -59,15 +62,18 @@ class ConnectionFragment : Fragment() {
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
         }
 
-        pairedDeviceList()
+        updateDeviceList()
 
         refreshButton.setOnClickListener {
             it.animation = animAlpha
-            pairedDeviceList()
+            updateDeviceList()
         }
     }
 
-    private fun pairedDeviceList() {
+    /**
+     * updateDeviceList - функция обновления списка Bluetooth устройст для возможного сопряжения
+     */
+    private fun updateDeviceList() {
         mPairedDevices = bluetoothAdapter!!.bondedDevices
         val listDevices : ArrayList<BluetoothDevice> = ArrayList()
         val listDevicesName : ArrayList<String> = ArrayList()
@@ -84,27 +90,53 @@ class ConnectionFragment : Fragment() {
 
         val devList: ListView = view?.findViewById(R.id.device_list) as ListView
         devList.divider = null
+        devList.isClickable = !blocked
         devList.adapter = ConnectionItemAdapter(this.requireContext(),listDevicesName)
         devList.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            choice(listDevices[position])
+            runBlocking {
+                conn(listDevices[position])
+            }
         }
     }
 
-    private fun choice(device: BluetoothDevice) {
-        val bluetoothHandler = BluetoothHandler(device.address)
+    /**
+     * conn - подключение к выбранному Bluetooth устройству
+     */
+    private suspend fun conn(device: BluetoothDevice) {
+        blocked = true
+        updateDeviceList()
 
-        while (!bluetoothHandler.isConnected()) {
-            print("Connecting")
+        Toast.makeText(context, "Соединение", Toast.LENGTH_SHORT).show()
+
+        var check = 0
+        val bluetoothService = BluetoothService(device.address).apply { start() }
+
+        while (!bluetoothService.isConnected()!!) {
+            if (check < 20) {
+                check += 1
+                delay(100)
+            } else {
+                Toast.makeText(context, "Не удалось подключиться", Toast.LENGTH_LONG).show()
+                bluetoothService.close()
+                blocked = false
+                updateDeviceList()
+                return
+            }
         }
 
         Api.setHandlingType(HandlingType.BLUETOOTH)
         Api.setBluetoothAddress(device.address)
-        Api.setApiHandler(bluetoothHandler)
+        Api.setApiHandler(BluetoothHandler(bluetoothService))
 
-        transfer()
+        Toast.makeText(context, "Устройство подключено", Toast.LENGTH_LONG).show()
+
+        transition()
     }
 
-    private fun transfer() {
+    /**
+     * transition - функция перехода на новый экран в новигации
+     */
+    private fun transition() {
         activity?.finish()
         findNavController().navigate(R.id.action_global_navigation)
     }
@@ -112,7 +144,7 @@ class ConnectionFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_ENABLE_BLUETOOTH) {
             if (resultCode == Activity.RESULT_OK)
-                pairedDeviceList()
+                updateDeviceList()
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 }

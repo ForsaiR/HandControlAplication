@@ -11,16 +11,15 @@ import java.io.OutputStream
 import java.util.*
 
 class BluetoothService(private val macAddress: String) : Closeable {
-    private var mBluetoothThread: BluetoothThread? = null
-    @Volatile private var mState = State.DISCONNECTED
-    val state get() = mState
-
-    val mTelemetry = BaseObservable<Packet?>(null)
-    val mReadPackets = ObservableList<Packet>()
-
     companion object {
         private val SERVICE_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb")
     }
+
+    private var mBluetoothThread: BluetoothThread? = null
+    @Volatile private var mState = State.DISCONNECTED
+
+    val mTelemetry = BaseObservable<Packet?>(null)
+    val mReadPackets = ObservableList<Packet>()
 
     /**
      * start - метод реализующий запуск соединения с Bluetooth устройством
@@ -35,20 +34,77 @@ class BluetoothService(private val macAddress: String) : Closeable {
     }
 
     /**
-     * write - метод отправки сообщения типа Packet протезу по Bluetooth
+     * isConnected - метод отображения состояния подключения
      */
-    fun write(packet: Packet) {
-        if (mState == State.CONNECTED) {
-            mBluetoothThread?.write(ProtocolParser.packetToRaw(packet))
-        }
-    }
+    fun isConnected() = mBluetoothThread?.isConnected()
 
     /**
      * close - метод закрывающий Bluetooth соединение
      */
     override fun close() {
-        closeConn()
+        mBluetoothThread?.let {
+            it.close()
+            mBluetoothThread = null
+        }
         mState = State.DISCONNECTED
+    }
+
+    /**
+     * request - запрос к устройству
+     */
+    suspend fun request(request: Packet): Packet {
+        if (mBluetoothThread?.isConnected() == true) {
+            var response: Packet? = null
+            val observer = object : Observer {
+                override fun update(p0: Observable?, list: Any?) {
+                    if (list is MutableList<*>) {
+                        list.forEach {
+                            if (it is Packet) {
+                                if (it.type == request.type) {
+                                    response = it
+                                    list.remove(it)
+                                    return
+                                } else if (it.type == Packet.Type.ERR) {
+                                    list.remove(it)
+                                    throw HandlingException()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            mReadPackets.addObserver(observer)
+            write(request)
+            response?.let { return it }
+            repeat(25) {
+                delay(200)
+                response?.let { return it }
+                if (mState == State.DISCONNECTED)
+                    throw DisconnectedException()
+            }
+            throw TimeoutException()
+        }
+
+        throw ConnectingFailedException()
+    }
+
+    /**
+     * write - метод отправки сообщения типа Packet протезу по Bluetooth
+     */
+    private fun write(packet: Packet) {
+        if (mState == State.CONNECTED) {
+            mBluetoothThread?.write(ProtocolParser.packetToRaw(packet))
+        }
+    }
+
+    //TODO: Переделать
+    private fun readPackets(packets: LinkedList<Packet>) = packets.forEach {
+        if (it.type == Packet.Type.TELEMETRY) {
+            mTelemetry.value = it
+        } else {
+            mReadPackets.value.add(it)
+            mReadPackets.notifyChanged()
+        }
     }
 
     /**
@@ -70,7 +126,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
      */
     private fun connectionError() {
         mState = State.FAIL
-        closeConn()
+        close()
     }
 
     /**
@@ -78,27 +134,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
      */
     private fun connectionLost() {
         mState = State.LOST
-        closeConn()
-    }
-
-    //TODO: Переделать
-    private fun readPackets(packets: LinkedList<Packet>) = packets.forEach {
-        if (it.type == Packet.Type.TELEMETRY) {
-            mTelemetry.value = it
-        } else {
-            mReadPackets.value.add(it)
-            mReadPackets.notifyChanged()
-        }
-    }
-
-    /**
-     * closeConn - метод производящий закрытие Bluetooth соединения
-     */
-    private fun closeConn() {
-        mBluetoothThread?.let {
-            it.close()
-            mBluetoothThread = null
-        }
+        close()
     }
 
     /**
@@ -179,7 +215,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
         }
 
         /**
-         * write - отправка сообщения по RfcommSocket
+         * write - отправка данных по RfcommSocket
          */
         fun write(data: ByteArray) {
             mmOutStream?.let { stream ->
@@ -189,6 +225,10 @@ class BluetoothService(private val macAddress: String) : Closeable {
                     e.printStackTrace()
                 }
             }
+        }
+
+        fun isConnected(): Boolean {
+            return connected
         }
 
         /**
