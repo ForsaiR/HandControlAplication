@@ -52,6 +52,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
     /**
      * request - запрос к устройству
      */
+    @Synchronized
     suspend fun request(request: Packet): Packet {
         if (mBluetoothThread?.isConnected() == true) {
             var response: Packet? = null
@@ -76,11 +77,14 @@ class BluetoothService(private val macAddress: String) : Closeable {
             mReadPackets.addObserver(observer)
             write(request)
             response?.let { return it }
-            repeat(25) {
+            var attempt = 0
+            while (attempt < 50)
+            {
                 delay(200)
                 response?.let { return it }
                 if (mState == State.DISCONNECTED)
                     throw DisconnectedException()
+                attempt += 1
             }
             throw TimeoutException()
         }
@@ -217,6 +221,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
         /**
          * write - отправка данных по RfcommSocket
          */
+        @Synchronized
         fun write(data: ByteArray) {
             mmOutStream?.let { stream ->
                 try {

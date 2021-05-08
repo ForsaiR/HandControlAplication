@@ -108,12 +108,12 @@ class ConnectionFragment : Fragment() {
 
         Toast.makeText(context, "Соединение", Toast.LENGTH_SHORT).show()
 
-        var check = 0
+        var attempt = 0
         val bluetoothService = BluetoothService(device.address).apply { start() }
 
         while (!bluetoothService.isConnected()!!) {
-            if (check < 20) {
-                check += 1
+            if (attempt < 50) {
+                attempt += 1
                 delay(100)
             } else {
                 Toast.makeText(context, "Не удалось подключиться", Toast.LENGTH_LONG).show()

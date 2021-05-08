@@ -17,8 +17,23 @@ import java.util.*
  */
 class BluetoothHandler(btService: BluetoothService) : IApiHandler {
     private val bluetoothService =  btService
+    private var occupied = false
 
     fun close() = bluetoothService.close()
+
+    private suspend fun control() {
+        if (occupied) {
+            var attempt = 0
+            while(attempt < 200) {
+                delay(25)
+                if (!occupied) {
+                    return
+                }
+                attempt += 1
+            }
+            throw TimeoutException()
+        }
+    }
 
     //TODO: Самая страшная хрень, непонятно как ее реализовывать
     override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
@@ -26,11 +41,13 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
     }
 
     override suspend fun getSettings(): Settings.GetSettings {
-        return withContext(Dispatchers.IO) {
-            Settings.GetSettings.parseFrom(bluetoothService.
-            request(Packet(Packet.Type.GET_SETTINGS, emptyList())).
-            payload.toByteArray())
-        }
+        control()
+        occupied = true
+        val resp = Settings.GetSettings.parseFrom(bluetoothService.
+        request(Packet(Packet.Type.GET_SETTINGS, emptyList())).
+        payload.toByteArray())
+        occupied = false
+        return resp
     }
 
     override suspend fun setSettings(settings: Settings.SetSettings) {
@@ -38,21 +55,21 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
     }
 
     override suspend fun getGestures(): MutableList<Gesture> {
-        return withContext(Dispatchers.IO) {
-            val gestures: MutableList<Gesture> = mutableListOf<Gesture>()
+        control()
+        occupied = true
+        val gestures: MutableList<Gesture> = mutableListOf<Gesture>()
 
-            for (gesture in Gestures.GetGestures.parseFrom(
-                bluetoothService.request(
-                    Packet(
-                        Packet.Type.GET_GESTURES,
-                        emptyList()))
-                    .payload.toByteArray())
-                .gesturesList) {
-                gestures.add(Gesture(gesture))
-            }
-
-            gestures
+        for (gesture in Gestures.GetGestures.parseFrom(
+            bluetoothService.request(
+                Packet(
+                    Packet.Type.GET_GESTURES,
+                    emptyList()))
+                .payload.toByteArray())
+            .gesturesList) {
+            gestures.add(Gesture(gesture))
         }
+        occupied = false
+        return gestures
     }
 
     override suspend fun saveGesture(gesture: Gesture) {
