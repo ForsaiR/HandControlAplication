@@ -102,10 +102,11 @@ class BluetoothService(private val macAddress: String) : Closeable {
     /**
      * stream - запрос с подпиской на получение данных
      */
-    @Synchronized
-    suspend fun stream(request: Packet, observer: Observer): Packet {
-        mTelemetry.addObserver(observer)
-        return request(request)
+    fun stream(request: Packet, observer: Observer) {
+        if (mBluetoothThread?.isConnected() == true) {
+            mTelemetry.addObserver(observer)
+            writePacket(request)
+        }
     }
 
     /**
