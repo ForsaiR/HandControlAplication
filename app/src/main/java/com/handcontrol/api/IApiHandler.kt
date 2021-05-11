@@ -2,14 +2,10 @@ package com.handcontrol.api
 
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
-import com.handcontrol.server.protobuf.Settings
-import com.handcontrol.server.protobuf.Stream
-import com.handcontrol.server.protobuf.Uuid
+import com.handcontrol.server.protobuf.*
+import java.util.*
 
 interface IApiHandler {
-
-    suspend fun getTelemetry(): Iterator<Stream.PubReply>
-
     suspend fun getSettings(): Settings.GetSettings
 
     suspend fun setSettings(settings: Settings.SetSettings)
@@ -25,4 +21,10 @@ interface IApiHandler {
     suspend fun performGestureRaw(gesture: Gesture)
 
     suspend fun setPositions(action: Action)
+
+    suspend fun getTelemetry(): TelemetryOuterClass.Telemetry
+
+    suspend fun startTelemetry(observer: Observer)
+
+    suspend fun stopTelemetry()
 }
