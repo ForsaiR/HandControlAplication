@@ -13,8 +13,10 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.handcontrol.R
+import com.handcontrol.api.Api
 import com.handcontrol.databinding.FragmentChartBinding
 import kotlinx.android.synthetic.main.fragment_chart.*
+import kotlinx.coroutines.runBlocking
 
 class ChartFragment : Fragment() {
     private var hideMenuItem = true
@@ -90,5 +92,8 @@ class ChartFragment : Fragment() {
         activity?.window?.decorView?.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
         (activity as AppCompatActivity?)?.supportActionBar?.show()
         activity?.findViewById<BottomNavigationView>(R.id.nav_view)?.visibility = View.VISIBLE
+        runBlocking {
+            Api.getApiHandler().stopTelemetry()
+        }
     }
 }

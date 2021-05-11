@@ -49,9 +49,7 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
                 motor.value = settings.enableDriver
                 gyroscope.value = settings.enableGyro
                 withContext(Dispatchers.IO) {
-                    val stream = api.getTelemetry()
-                    if (stream.hasNext())
-                        frequency.postValue(stream.next().telemetry.telemetryFrequency.toString())
+                    frequency.postValue(api.getTelemetry().telemetryFrequency.toString())
                 }
                 loading.value = false
             } catch (e: StatusRuntimeException) {
