@@ -3,10 +3,7 @@ package com.handcontrol.api
 import com.handcontrol.bluetooth.*
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
-import com.handcontrol.server.protobuf.Gestures
-import com.handcontrol.server.protobuf.Settings
-import com.handcontrol.server.protobuf.Stream
-import com.handcontrol.server.protobuf.Uuid
+import com.handcontrol.server.protobuf.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -33,11 +30,6 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
             }
             throw TimeoutException()
         }
-    }
-
-    //TODO: Самая страшная хрень, непонятно как ее реализовывать
-    override suspend fun getTelemetry(): Iterator<Stream.PubReply> {
-        TODO("Not yet implemented")
     }
 
     override suspend fun getSettings(): Settings.GetSettings {
@@ -79,12 +71,10 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
         }
     }
 
-    //TODO: Скорее всего не правильно реалзован
     override suspend fun deleteGesture(gestureId: Uuid.UUID) {
         bluetoothService.request(Packet(Packet.Type.DELETE_GESTURE, gestureId.toByteArray().toList()))
     }
 
-    //TODO: Скорее всего не правильно реалзован
     override suspend fun performGestureId(gesture: Gesture) {
         return withContext(Dispatchers.IO) {
             bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_ID, gesture.getProtoModel()
@@ -92,7 +82,6 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
         }
     }
 
-    //TODO: Скорее всего не правильно реалзован
     override suspend fun performGestureRaw(gesture: Gesture) {
         return withContext(Dispatchers.IO) {
             bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_RAW, gesture.getProtoModel()
@@ -105,5 +94,19 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
             bluetoothService.request(Packet(Packet.Type.SET_POSITIONS, action.getProtoModel()
                 .toByteArray().toList()))
         }
+    }
+
+    //TODO: Самая страшная хрень, непонятно как ее реализовывать
+    override suspend fun getTelemetry(): TelemetryOuterClass.Telemetry {
+        TODO("Not yet implemented")
+    }
+
+    //TODO: Еще более страшная хрень, непонятно как ее реализовывать вообще
+    override suspend fun startTelemetry(observer: Observer) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun stopTelemetry() {
+        TODO("Not yet implemented")
     }
 }
