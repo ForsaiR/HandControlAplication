@@ -2,6 +2,7 @@ package com.handcontrol.bluetooth
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
+import com.handcontrol.server.protobuf.Stream
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.Closeable
@@ -49,6 +50,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
         mState = State.DISCONNECTED
     }
 
+    //TODO: Убрать исключения при непредвиденных обстоятельсятвах
     /**
      * request - запрос к устройству
      */
@@ -61,7 +63,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
                     if (list is MutableList<*>) {
                         list.forEach {
                             if (it is Packet) {
-                                if (it.type == request.type) {
+                                if (it.type == request.type || it.type == Packet.Type.ACK) {
                                     response = it
                                     list.remove(it)
                                     return
@@ -75,39 +77,55 @@ class BluetoothService(private val macAddress: String) : Closeable {
                 }
             }
             mReadPackets.addObserver(observer)
-            write(request)
-            response?.let { return it }
+            writePacket(request)
+            response?.let {
+                mReadPackets.deleteObserver(observer)
+                return it
+            }
             var attempt = 0
             while (attempt < 50)
             {
                 delay(200)
-                response?.let { return it }
+                response?.let {
+                    mReadPackets.deleteObserver(observer)
+                    return it
+                }
                 if (mState == State.DISCONNECTED)
                     throw DisconnectedException()
                 attempt += 1
             }
             throw TimeoutException()
         }
-
         throw ConnectingFailedException()
     }
 
     /**
-     * write - метод отправки сообщения типа Packet протезу по Bluetooth
+     * stream - запрос с подпиской на получение данных
      */
-    private fun write(packet: Packet) {
-        if (mState == State.CONNECTED) {
-            mBluetoothThread?.write(ProtocolParser.packetToRaw(packet))
-        }
+    @Synchronized
+    suspend fun stream(request: Packet, observer: Observer): Packet {
+        mTelemetry.addObserver(observer)
+        return request(request)
     }
 
-    //TODO: Переделать
+    /**
+     * readPackets - метод отправки полученных сообщений observer
+     */
     private fun readPackets(packets: LinkedList<Packet>) = packets.forEach {
         if (it.type == Packet.Type.TELEMETRY) {
             mTelemetry.value = it
         } else {
             mReadPackets.value.add(it)
             mReadPackets.notifyChanged()
+        }
+    }
+
+    /**
+     * writePacket - метод отправки сообщения типа Packet протезу по Bluetooth
+     */
+    private fun writePacket(packet: Packet) {
+        if (mState == State.CONNECTED) {
+            mBluetoothThread?.write(ProtocolParser.packetToRaw(packet))
         }
     }
 
@@ -221,7 +239,6 @@ class BluetoothService(private val macAddress: String) : Closeable {
         /**
          * write - отправка данных по RfcommSocket
          */
-        @Synchronized
         fun write(data: ByteArray) {
             mmOutStream?.let { stream ->
                 try {
@@ -232,6 +249,9 @@ class BluetoothService(private val macAddress: String) : Closeable {
             }
         }
 
+        /**
+         * isConnected - метод отображающий состояние подключения
+         */
         fun isConnected(): Boolean {
             return connected
         }

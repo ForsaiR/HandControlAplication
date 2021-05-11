@@ -36,14 +36,16 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
         control()
         occupied = true
         val resp = Settings.GetSettings.parseFrom(bluetoothService.
-        request(Packet(Packet.Type.GET_SETTINGS, emptyList())).
-        payload.toByteArray())
+        request(Packet(Packet.Type.GET_SETTINGS, emptyList())).payload.toByteArray())
         occupied = false
         return resp
     }
 
     override suspend fun setSettings(settings: Settings.SetSettings) {
+        control()
+        occupied = true
         bluetoothService.request(Packet(Packet.Type.SET_SETTINGS, settings.toByteArray().toList()))
+        occupied = false
     }
 
     override suspend fun getGestures(): MutableList<Gesture> {
@@ -65,48 +67,64 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
     }
 
     override suspend fun saveGesture(gesture: Gesture) {
-        return withContext(Dispatchers.IO) {
+        control()
+        occupied = true
             bluetoothService.request(Packet(Packet.Type.SAVE_GESTURE, gesture.getProtoModel()
                 .toByteArray().toList()))
-        }
+        occupied = false
     }
 
     override suspend fun deleteGesture(gestureId: Uuid.UUID) {
+        control()
+        occupied = true
         bluetoothService.request(Packet(Packet.Type.DELETE_GESTURE, gestureId.toByteArray().toList()))
+        occupied = false
     }
 
     override suspend fun performGestureId(gesture: Gesture) {
-        return withContext(Dispatchers.IO) {
+        control()
+        occupied = true
             bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_ID, gesture.getProtoModel()
                 .toByteArray().toList()))
-        }
+        occupied = false
     }
 
     override suspend fun performGestureRaw(gesture: Gesture) {
-        return withContext(Dispatchers.IO) {
+        control()
+        occupied = true
             bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_RAW, gesture.getProtoModel()
                 .toByteArray().toList()))
-        }
+        occupied = false
     }
 
     override suspend fun setPositions(action: Action) {
-        return withContext(Dispatchers.IO) {
+        control()
+        occupied = true
             bluetoothService.request(Packet(Packet.Type.SET_POSITIONS, action.getProtoModel()
                 .toByteArray().toList()))
-        }
+        occupied = false
     }
 
-    //TODO: Самая страшная хрень, непонятно как ее реализовывать
     override suspend fun getTelemetry(): TelemetryOuterClass.Telemetry {
-        TODO("Not yet implemented")
+        control()
+        occupied = true
+        val resp = TelemetryOuterClass.Telemetry.parseFrom(bluetoothService.
+        request(Packet(Packet.Type.GET_TELEMETRY,emptyList())).payload.toByteArray())
+        occupied = false
+        return resp
     }
 
-    //TODO: Еще более страшная хрень, непонятно как ее реализовывать вообще
     override suspend fun startTelemetry(observer: Observer) {
-        TODO("Not yet implemented")
+        control()
+        occupied = true
+        bluetoothService.stream(Packet(Packet.Type.START_TELEMETRY,emptyList()),observer)
+        occupied = false
     }
 
     override suspend fun stopTelemetry() {
-        TODO("Not yet implemented")
+        control()
+        occupied = true
+        bluetoothService.request(Packet(Packet.Type.STOP_TELEMETRY,emptyList()))
+        occupied = false
     }
 }
