@@ -16,6 +16,12 @@ data class Packet(
         DELETE_GESTURE,
         PERFORM_GESTURE_ID,
         PERFORM_GESTURE_RAW,
-        SET_POSITIONS
+        SET_POSITIONS,
+        UPDATE_LAST_TIME_SYNC,
+        GET_TELEMETRY,
+        START_TELEMETRY,
+        STOP_TELEMETRY,
+        GET_MIO_PATTERNS,
+        SET_MIO_PATTERNS
     }
 }
