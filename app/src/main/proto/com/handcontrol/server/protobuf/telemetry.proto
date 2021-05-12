@@ -5,18 +5,25 @@ import "com/handcontrol/server/protobuf/enums.proto";
 import "com/handcontrol/server/protobuf/uuid.proto";
 
 message Telemetry {
-  int32 telemetry_frequency = 1;
-  com.handcontrol.server.protobuf.ModuleStatusType emg_status = 2;
-  com.handcontrol.server.protobuf.ModuleStatusType display_status = 3;
-  com.handcontrol.server.protobuf.ModuleStatusType gyro_status = 4;
-  com.handcontrol.server.protobuf.DriverStatusType driver_status = 5;
-  int64 last_time_sync = 6;
-  int32 emg = 7;
-  com.handcontrol.server.protobuf.UUID executable_gesture = 8;
-  int32 power = 9;
-  int32 pointer_finger_position = 10;
-  int32 middle_finger_position = 11;
-  int32 ring_finger_position = 12;
-  int32 little_finger_position = 13;
-  int32 thumb_finger_position = 14;
+  com.handcontrol.server.protobuf.ModuleStatusType emg_status = 1;
+  com.handcontrol.server.protobuf.ModuleStatusType display_status = 2;
+  com.handcontrol.server.protobuf.ModuleStatusType gyro_status = 3;
+  com.handcontrol.server.protobuf.DriverStatusType driver_status = 4;
+  int64 last_time_sync = 5;
+  int32 emg = 6;
+  com.handcontrol.server.protobuf.UUID executable_gesture = 7;
+  int32 power = 8;
+  int32 pointer_finger_position = 9;
+  int32 middle_finger_position = 10;
+  int32 ring_finger_position = 11;
+  int32 little_finger_position = 12;
+  int32 thumb_finger_position = 13;
+}
+
+message GetTelemetry {
+  Telemetry telemetry = 1;
+}
+
+message StartTelemetry {
+  int32 interval_ms = 1;
 }

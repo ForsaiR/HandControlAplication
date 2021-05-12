@@ -1,6 +1,5 @@
 package com.handcontrol.api
 
-import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.*
 import java.util.*
@@ -12,17 +11,17 @@ interface IApiHandler {
 
     suspend fun getGestures(): MutableList<Gesture>
 
-    suspend fun saveGesture(gesture: Gesture)
+    suspend fun saveGesture(saveGesture: Gestures.SaveGesture)
 
-    suspend fun deleteGesture(gestureId: Uuid.UUID)
+    suspend fun deleteGesture(deleteGesture: Gestures.DeleteGesture)
 
-    suspend fun performGestureId(gesture: Gesture)
+    suspend fun performGestureId(performGestureById: Gestures.PerformGestureById)
 
-    suspend fun performGestureRaw(gesture: Gesture)
+    suspend fun performGestureRaw(performGestureRaw: Gestures.PerformGestureRaw)
 
-    suspend fun setPositions(action: Action)
+    suspend fun setPositions(setPositions: Gestures.SetPositions)
 
-    suspend fun getTelemetry(): TelemetryOuterClass.Telemetry
+    suspend fun getTelemetry(): TelemetryOuterClass.GetTelemetry
 
     suspend fun startTelemetry(observer: Observer)
 

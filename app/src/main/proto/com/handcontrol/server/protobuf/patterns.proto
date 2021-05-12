@@ -1,0 +1,16 @@
+syntax="proto3";
+package com.handcontrol.server.protobuf;
+import "com/handcontrol/server/protobuf/uuid.proto";
+
+message MioPattern {
+  int64 pattern = 1;
+  com.handcontrol.server.protobuf.UUID gesture_id = 2;
+}
+
+message GetMioPatterns {
+  repeated MioPattern patterns = 1;
+}
+
+message SetMioPatterns {
+  repeated MioPattern patterns = 1;
+}

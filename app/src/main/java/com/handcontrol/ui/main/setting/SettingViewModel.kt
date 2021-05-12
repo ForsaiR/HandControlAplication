@@ -13,7 +13,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.handcontrol.R
 import com.handcontrol.api.Api
 import com.handcontrol.server.protobuf.Enums
-import com.handcontrol.server.protobuf.Enums.ModeType.*
 import com.handcontrol.server.protobuf.Settings
 import io.grpc.StatusRuntimeException
 import kotlinx.coroutines.Dispatchers
@@ -22,12 +21,9 @@ import kotlinx.coroutines.withContext
 
 class SettingViewModel(app: Application) : AndroidViewModel(app) {
     private val api = Api.getApiHandler()
-    private var typeWork: Enums.ModeType? = null
 
     val loading = MutableLiveData(true)
 
-    val mode = MutableLiveData<String>()
-    val frequency = MutableLiveData("1")
     val display = MutableLiveData<Boolean>()
     val emg = MutableLiveData<Boolean>()
     val motor = MutableLiveData<Boolean>()
@@ -37,37 +33,23 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             try {
                 val settings = api.getSettings()
-                typeWork = settings.typeWork
-                mode.value = when (settings.typeWork) {
-                    MODE_MIO -> getString(R.string.mode_mio)
-                    MODE_COMMANDS -> getString(R.string.mode_commands)
-                    MODE_AUTO -> getString(R.string.mode_auto)
-                    else -> ""
-                }
                 display.value = settings.enableDisplay
                 emg.value = settings.enableEmg
                 motor.value = settings.enableDriver
                 gyroscope.value = settings.enableGyro
-                withContext(Dispatchers.IO) {
-                    frequency.postValue(api.getTelemetry().telemetryFrequency.toString())
-                }
                 loading.value = false
             } catch (e: StatusRuntimeException) {
-                Toast.makeText(getApplication(), "error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(getApplication(), "Ошибка", Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
             }
         }
     }
 
     fun apply(view: View) {
-        if (frequency.value.isNullOrEmpty())
-            frequency.value = "1"
         viewModelScope.launch {
-            Snackbar.make(view, "wait...", Snackbar.LENGTH_INDEFINITE).show()
+            Toast.makeText(view.context, "Сохранение...", Toast.LENGTH_SHORT).show()
             try {
                 val settings = Settings.SetSettings.newBuilder()
-                    .setTypeWork(typeWork)
-                    .setTelemetryFrequency(frequency.value!!.toInt())
                     .setEnableDisplay(display.value!!)
                     .setEnableEmg(emg.value!!)
                     .setEnableDriver(motor.value!!)
@@ -75,9 +57,9 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
                     .setPowerOff(false)
                     .build()
                 api.setSettings(settings)
-                Snackbar.make(view, "Saved", Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(view.context, "Сохранено", Toast.LENGTH_SHORT).show()
             } catch (e: StatusRuntimeException) {
-                Snackbar.make(view, "error", Snackbar.LENGTH_SHORT).show()
+                Toast.makeText(view.context, "Ошибка", Toast.LENGTH_SHORT).show()
                 e.printStackTrace()
             }
         }
@@ -88,11 +70,9 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
             .setMessage(v.context.getString(R.string.power_off_confirmation))
             .setPositiveButton(v.context.getString(R.string.yes)) { _, _ ->
                 viewModelScope.launch {
-                    Snackbar.make(v, "wait...", Snackbar.LENGTH_INDEFINITE).show()
+                    Toast.makeText(v.context, "Выключение", Toast.LENGTH_SHORT).show()
                     try {
                         val settings = Settings.SetSettings.newBuilder()
-                            .setTypeWork(typeWork)
-                            .setTelemetryFrequency(frequency.value!!.toInt())
                             .setEnableDisplay(display.value!!)
                             .setEnableEmg(emg.value!!)
                             .setEnableDriver(motor.value!!)
@@ -102,7 +82,7 @@ class SettingViewModel(app: Application) : AndroidViewModel(app) {
                         api.setSettings(settings)
                         (v.context as Activity).finish()
                     } catch (e: StatusRuntimeException) {
-                        Snackbar.make(v, "error", Snackbar.LENGTH_SHORT).show()
+                        Toast.makeText(v.context, "Ошибка", Toast.LENGTH_SHORT).show()
                         e.printStackTrace()
                     }
                 }

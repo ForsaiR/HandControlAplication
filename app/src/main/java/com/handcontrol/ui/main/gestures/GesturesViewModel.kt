@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.handcontrol.api.Api
 import com.handcontrol.model.Gesture
+import com.handcontrol.server.protobuf.Gestures
 import com.handcontrol.server.protobuf.Uuid
 import io.grpc.StatusRuntimeException
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +22,10 @@ class GesturesViewModel : ViewModel() {
     fun performGesture(gesture: Gesture) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Api.getApiHandler().performGestureId(gesture)
+                Api.getApiHandler().performGestureId(Gestures.PerformGestureById.newBuilder()
+                    .setId(gesture.id)
+                    .build()
+                )
                 errorConnection.postValue(false)
             } catch (e: StatusRuntimeException) {
                 e.printStackTrace()
@@ -33,7 +37,9 @@ class GesturesViewModel : ViewModel() {
     fun deleteGesture(gestureId: Uuid.UUID) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Api.getApiHandler().deleteGesture(gestureId)
+                Api.getApiHandler().deleteGesture(Gestures.DeleteGesture.newBuilder()
+                    .setId(gestureId)
+                    .build())
                 updateGestures()
                 errorConnection.postValue(false)
             } catch (e: StatusRuntimeException) {

@@ -36,18 +36,6 @@ class SettingsFragment : Fragment() {
                 else -> Navigation.ENGLISH_LOCALE_TEXT
             }
         }
-        binding.frequencyValue.addTextChangedListener {
-            if (!it.isNullOrEmpty()) {
-                val value = it.toString().toInt()
-                if (value < 1) {
-                    it.clear()
-                    it.append("1")
-                } else if (value > MAX_VALUE) {
-                    it.clear()
-                    it.append(MAX_VALUE.toString())
-                }
-            }
-        }
     }
 
     companion object {

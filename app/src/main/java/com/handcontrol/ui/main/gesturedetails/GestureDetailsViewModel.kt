@@ -1,13 +1,21 @@
 package com.handcontrol.ui.main.gesturedetails
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.handcontrol.api.Api
 import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
 import com.handcontrol.repository.GestureRepository
+import com.handcontrol.server.protobuf.Gestures
 import io.grpc.StatusRuntimeException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.sql.Time
+import java.sql.Timestamp
+import java.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.seconds
 
 
 class GestureDetailsViewModel(var item: Gesture?) : ViewModel() {
@@ -45,15 +53,24 @@ class GestureDetailsViewModel(var item: Gesture?) : ViewModel() {
     fun saveGesture() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Api.getApiHandler().saveGesture(
-                    Gesture(
-                        id,
-                        name.value!!,
-                        false,
-                        isInfinity.value!!,
-                        repeatCount.value!!.toIntOrNull(),
-                        actions.value!!
-                    )
+                val gest = Gestures.Gesture.newBuilder()
+                    .setName(name.value)
+                    .setLastTimeSync(System.currentTimeMillis()/1000)
+                    .setIterable(isInfinity.value!!)
+                    .addAllActions(item?.actions?.map { it.getProtoModel() })
+
+                if (id != null) {
+                    gest.id = id
+                }
+
+                if (repeatCount.value.toString() != "∞") {
+                    gest.repetitions = repeatCount.value!!.toInt()
+                }
+
+                Api.getApiHandler().saveGesture( Gestures.SaveGesture.newBuilder()
+                    .setGesture(gest.build())
+                    .setTimeSync(System.currentTimeMillis()/1000)
+                    .build()
                 )
                 errorConnection.postValue(false)
             } catch (e: StatusRuntimeException) {
@@ -66,7 +83,13 @@ class GestureDetailsViewModel(var item: Gesture?) : ViewModel() {
     fun setPositions(action: Action) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Api.getApiHandler().setPositions(action)
+                Api.getApiHandler().setPositions(Gestures.SetPositions.newBuilder()
+                    .setThumbFingerPosition(action.thumbFinger)
+                    .setLittleFingerPosition(action.littleFinger)
+                    .setMiddleFingerPosition(action.middleFinger)
+                    .setPointerFingerPosition(action.pointerFinger)
+                    .setRingFingerPosition(action.ringFinger)
+                    .build())
                 errorConnection.postValue(false)
             } catch (e: StatusRuntimeException) {
                 e.printStackTrace()

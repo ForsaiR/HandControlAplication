@@ -50,3 +50,7 @@ message GestureAction {
   int32 thumb_finger_position = 5;
   int32 delay = 6;
 }
+
+message UpdateLastTimeSync {
+  int64 last_time_sync = 1;
+}

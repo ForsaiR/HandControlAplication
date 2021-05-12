@@ -22,6 +22,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.handcontrol.R
 import com.handcontrol.api.Api
 import com.handcontrol.api.BluetoothHandler
+import com.handcontrol.server.protobuf.Gestures
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -212,7 +213,9 @@ class Navigation : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     GlobalScope.launch {
-                        apiHandler.performGestureId(gesture)
+                        apiHandler.performGestureId(Gestures.PerformGestureById.newBuilder()
+                            .setId(gesture.id)
+                            .build())
                     }
                 }
             }

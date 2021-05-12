@@ -1,12 +1,9 @@
 package com.handcontrol.api
 
 import com.handcontrol.bluetooth.*
-import com.handcontrol.model.Action
 import com.handcontrol.model.Gesture
 import com.handcontrol.server.protobuf.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import java.util.*
 
 /**
@@ -66,49 +63,52 @@ class BluetoothHandler(btService: BluetoothService) : IApiHandler {
         return gestures
     }
 
-    override suspend fun saveGesture(gesture: Gesture) {
+    override suspend fun saveGesture(saveGesture: Gestures.SaveGesture) {
         control()
         occupied = true
-            bluetoothService.request(Packet(Packet.Type.SAVE_GESTURE, gesture.getProtoModel()
-                .toByteArray().toList()))
+            bluetoothService.request(Packet(Packet.Type.SAVE_GESTURE, saveGesture.toByteArray().toList()))
         occupied = false
     }
 
-    override suspend fun deleteGesture(gestureId: Uuid.UUID) {
+    override suspend fun deleteGesture(deleteGesture: Gestures.DeleteGesture) {
         control()
         occupied = true
-        bluetoothService.request(Packet(Packet.Type.DELETE_GESTURE, gestureId.toByteArray().toList()))
+        bluetoothService.request(Packet(Packet.Type.DELETE_GESTURE, deleteGesture.toByteArray()
+            .toList()))
         occupied = false
     }
 
-    override suspend fun performGestureId(gesture: Gesture) {
+    override suspend fun performGestureId(performGestureById: Gestures.PerformGestureById) {
         control()
         occupied = true
-            bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_ID, gesture.getProtoModel()
-                .toByteArray().toList()))
+            bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_ID, performGestureById
+                .toByteArray()
+                .toList()))
         occupied = false
     }
 
-    override suspend fun performGestureRaw(gesture: Gesture) {
+    override suspend fun performGestureRaw(performGestureRaw: Gestures.PerformGestureRaw) {
         control()
         occupied = true
-            bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_RAW, gesture.getProtoModel()
-                .toByteArray().toList()))
+            bluetoothService.request(Packet(Packet.Type.PERFORM_GESTURE_RAW, performGestureRaw
+                .toByteArray()
+                .toList()))
         occupied = false
     }
 
-    override suspend fun setPositions(action: Action) {
+    override suspend fun setPositions(setPositions: Gestures.SetPositions) {
         control()
         occupied = true
-            bluetoothService.request(Packet(Packet.Type.SET_POSITIONS, action.getProtoModel()
-                .toByteArray().toList()))
+            bluetoothService.request(Packet(Packet.Type.SET_POSITIONS, setPositions
+                .toByteArray()
+                .toList()))
         occupied = false
     }
 
-    override suspend fun getTelemetry(): TelemetryOuterClass.Telemetry {
+    override suspend fun getTelemetry(): TelemetryOuterClass.GetTelemetry {
         control()
         occupied = true
-        val resp = TelemetryOuterClass.Telemetry.parseFrom(bluetoothService.
+        val resp = TelemetryOuterClass.GetTelemetry.parseFrom(bluetoothService.
         request(Packet(Packet.Type.GET_TELEMETRY,emptyList())).payload.toByteArray())
         occupied = false
         return resp

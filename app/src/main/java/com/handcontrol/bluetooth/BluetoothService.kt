@@ -2,7 +2,6 @@ package com.handcontrol.bluetooth
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
-import com.handcontrol.server.protobuf.Stream
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import java.io.Closeable
@@ -76,6 +75,7 @@ class BluetoothService(private val macAddress: String) : Closeable {
                     }
                 }
             }
+
             mReadPackets.addObserver(observer)
             writePacket(request)
             response?.let {

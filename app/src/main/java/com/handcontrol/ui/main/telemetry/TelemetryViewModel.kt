@@ -13,7 +13,6 @@ class TelemetryViewModel : ViewModel() {
 
     val charge = MutableLiveData("")
     val gesture = MutableLiveData("")
-    val frequency = MutableLiveData("")
     val finger1 = MutableLiveData("")
     val finger2 = MutableLiveData("")
     val finger3 = MutableLiveData("")
@@ -29,21 +28,20 @@ class TelemetryViewModel : ViewModel() {
             val gestures = api.getGestures()
             val telemetry = api.getTelemetry()
 
-            frequency.postValue(telemetry.telemetryFrequency.toString())
-            emg.postValue(telemetry.emgStatus.name)
-            display.postValue(telemetry.displayStatus.name)
-            gyroscope.postValue(telemetry.gyroStatus.name)
-            motor.postValue(telemetry.driverStatus.name)
+            emg.postValue(telemetry.telemetry.emg.toString())
+            display.postValue(telemetry.telemetry.displayStatus.name)
+            gyroscope.postValue(telemetry.telemetry.gyroStatus.name)
+            motor.postValue(telemetry.telemetry.driverStatus.name)
             val executedGesture = gestures.find {
-                it.id == telemetry.executableGesture
+                it.id == telemetry.telemetry.executableGesture
             }
             gesture.postValue(executedGesture?.name ?: "")
-            charge.postValue(telemetry.power.toString())
-            finger1.postValue(telemetry.thumbFingerPosition.toString())
-            finger2.postValue(telemetry.pointerFingerPosition.toString())
-            finger3.postValue(telemetry.middleFingerPosition.toString())
-            finger4.postValue(telemetry.ringFingerPosition.toString())
-            finger5.postValue(telemetry.littleFingerPosition.toString())
+            charge.postValue(telemetry.telemetry.power.toString())
+            finger1.postValue(telemetry.telemetry.thumbFingerPosition.toString())
+            finger2.postValue(telemetry.telemetry.pointerFingerPosition.toString())
+            finger3.postValue(telemetry.telemetry.middleFingerPosition.toString())
+            finger4.postValue(telemetry.telemetry.ringFingerPosition.toString())
+            finger5.postValue(telemetry.telemetry.littleFingerPosition.toString())
         }
     }
 }
